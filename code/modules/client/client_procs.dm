@@ -172,6 +172,9 @@ GLOBAL_VAR_INIT(external_rsc_url, TRUE)
 	. = ..()	//calls mob.Login()
 	chatOutput.start() // Starts the chat
 
+	if(SSinput.initialized)
+		set_macros()
+
 	if(byond_version < 512)
 		to_chat(src, "<span class='userdanger'>Your version of byond is severely out of date.</span>")
 		to_chat(src, "<span class='danger'>Please download a new version of byond. If [byond_build] is the latest, you can go to <a href=\"https://secure.byond.com/download/build\">BYOND's website</a> to download other versions.</span>")

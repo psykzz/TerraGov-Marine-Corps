@@ -1,354 +1,32 @@
-macro "macro"
-	elem 
-		name = "Tab"
-		command = ".winset \"mainwindow.macro=hotkeymode hotkey_toggle.is-checked=true mapwindow.map.focus=true input.background-color=#f0f0f0\""
-	elem 
-		name = "Center+REP"
-		command = ".center"
-	elem 
-		name = "Space"
-		command = "unique-action"
-	elem 
-		name = "Northeast"
-		command = ".northeast"
-	elem 
-		name = "Southeast"
-		command = ".southeast"
-	elem 
-		name = "Southwest"
-		command = ".southwest"
-	elem 
-		name = "Northwest"
-		command = ".northwest"
-	elem 
-		name = "CTRL+West"
-		command = "westface"
-	elem 
-		name = "West+REP"
-		command = ".fastWest"
-	elem 
-		name = "CTRL+North"
-		command = "northface"
-	elem 
-		name = "North+REP"
-		command = ".fastNorth"
-	elem 
-		name = "CTRL+East"
-		command = "eastface"
-	elem 
-		name = "East+REP"
-		command = ".fastEast"
-	elem 
-		name = "CTRL+South"
-		command = "southface"
-	elem 
-		name = "South+REP"
-		command = ".fastSouth"
-	elem 
-		name = "Insert"
-		command = "a-intent right"
-	elem 
-		name = "Delete"
-		command = "delete-key-pressed"
-	elem 
-		name = "CTRL+1"
-		command = "a-intent help"
-	elem 
-		name = "CTRL+2"
-		command = "a-intent disarm"
-	elem 
-		name = "CTRL+3"
-		command = "a-intent grab"
-	elem 
-		name = "CTRL+4"
-		command = "a-intent hurt"
-	elem 
-		name = "CTRL+5"
-		command = "toggle-move-intent"
-	elem 
-		name = "CTRL+A+REP"
-		command = ".west"
-	elem 
-		name = "CTRL+D+REP"
-		command = ".east"
-	elem 
-		name = "CTRL+E"
-		command = "quick-equip"
-	elem 
-		name = "CTRL+O"
-		command = "ooc"
-	elem 
-		name = "CTRL+Q"
-		command = ".northwest"
-	elem 
-		name = "CTRL+R"
-		command = ".southwest"
-	elem 
-		name = "CTRL+S+REP"
-		command = ".south"
-	elem 
-		name = "CTRL+W+REP"
-		command = ".north"
-	elem 
-		name = "CTRL+X"
-		command = ".northeast"
-	elem 
-		name = "CTRL+Y"
-		command = "Activate-Held-Object"
-	elem 
-		name = "CTRL+Z"
-		command = "Activate-Held-Object"
-	elem 
-		name = "F1"
-		command = "choosehelp"
-	elem 
-		name = "CTRL+SHIFT+F1+REP"
-		command = ".options"
-	elem 
-		name = "F2"
-		command = ".screenshot auto"
-	elem 
-		name = "SHIFT+F2"
-		command = ".screenshot"
-	elem 
-		name = "F3"
-		command = "asay"
-	elem 
-		name = "F4"
-		command = "msay"
-	elem 
-		name = "F5"
-		command = "dsay"
-	elem 
-		name = "F12"
-		command = "F12"
-
-macro "hotkeymode"
-	elem 
-		name = "Tab"
-		command = ".winset \"mainwindow.macro=macro hotkey_toggle.is-checked=false input.focus=true input.background-color=#d3b5b5\""
-	elem 
-		name = "Center+REP"
-		command = ".center"
-	elem 
-		name = "Space"
-		command = "unique-action"
-	elem 
-		name = "Northeast"
-		command = ".northeast"
-	elem 
-		name = "Southeast"
-		command = ".southeast"
-	elem 
-		name = "Southwest"
-		command = ".southwest"
-	elem 
-		name = "Northwest"
-		command = ".northwest"
-	elem 
-		name = "CTRL+West"
-		command = "westface"
-	elem 
-		name = "West+REP"
-		command = ".west"
-	elem 
-		name = "CTRL+North"
-		command = "northface"
-	elem 
-		name = "North+REP"
-		command = ".north"
-	elem 
-		name = "CTRL+East"
-		command = "eastface"
-	elem 
-		name = "East+REP"
-		command = ".east"
-	elem 
-		name = "CTRL+South"
-		command = "southface"
-	elem 
-		name = "South+REP"
-		command = ".south"
-	elem 
-		name = "Insert"
-		command = "a-intent right"
-	elem 
-		name = "Delete"
-		command = "delete-key-pressed"
-	elem 
-		name = "1"
-		command = "a-intent help"
-	elem 
-		name = "CTRL+1"
-		command = "a-intent help"
-	elem 
-		name = "2"
-		command = "a-intent disarm"
-	elem 
-		name = "CTRL+2"
-		command = "a-intent disarm"
-	elem 
-		name = "3"
-		command = "a-intent grab"
-	elem 
-		name = "CTRL+3"
-		command = "a-intent grab"
-	elem 
-		name = "4"
-		command = "a-intent harm"
-	elem 
-		name = "CTRL+4"
-		command = "a-intent hurt"
-	elem 
-		name = "5"
-		command = "toggle-move-intent"
-	elem 
-		name = "A+REP"
-		command = ".west"
-	elem 
-		name = "CTRL+A+REP"
-		command = ".west"
-	elem 
-		name = "D+REP"
-		command = ".east"
-	elem 
-		name = "CTRL+D+REP"
-		command = ".east"
-	elem 
-		name = "E"
-		command = "quick-equip"
-	elem 
-		name = "CTRL+E"
-		command = "quick-equip"
-	elem 
-		name = "H"
-		command = "holster"
-	elem 
-		name = "CTRL+H"
-		command = "holster"
-	elem 
-		name = "M"
-		command = ".me"
-	elem 
-		name = "O"
-		command = "ooc"
-	elem 
-		name = "L"
-		command = "looc"
-	elem 
-		name = "Q"
-		command = ".northwest"
-	elem 
-		name = "CTRL+Q"
-		command = ".northwest"
-	elem 
-		name = "R"
-		command = ".southwest"
-	elem 
-		name = "CTRL+R"
-		command = ".southwest"
-	elem "s_key"
-		name = "S+REP"
-		command = ".south"
-	elem 
-		name = "CTRL+S+REP"
-		command = ".south"
-	elem 
-		name = "T"
-		command = ".say"
-	elem "w_key"
-		name = "W+REP"
-		command = ".north"
-	elem 
-		name = "CTRL+W+REP"
-		command = ".north"
-	elem 
-		name = "X"
-		command = ".northeast"
-	elem 
-		name = "CTRL+X"
-		command = ".northeast"
-	elem 
-		name = "Y"
-		command = "Activate-Held-Object"
-	elem 
-		name = "CTRL+Y"
-		command = "Activate-Held-Object"
-	elem 
-		name = "Z"
-		command = "Activate-Held-Object"
-	elem 
-		name = "CTRL+Z"
-		command = "Activate-Held-Object"
-	elem 
-		name = "Numpad1"
-		command = "a-select-zone \"rleg\""
-	elem 
-		name = "Numpad2"
-		command = "a-select-zone \"groin\""
-	elem 
-		name = "Numpad3"
-		command = "a-select-zone \"lleg\""
-	elem 
-		name = "Numpad4"
-		command = "a-select-zone \"rarm\""
-	elem 
-		name = "Numpad5"
-		command = "a-select-zone \"chest\""
-	elem 
-		name = "Numpad6"
-		command = "a-select-zone \"larm\""
-	elem 
-		name = "Numpad8"
-		command = "a-select-zone \"head\""
-	elem 
-		name = "F1"
-		command = "choosehelp"
-	elem 
-		name = "CTRL+SHIFT+F1+REP"
-		command = ".options"
-	elem 
-		name = "F2"
-		command = ".screenshot auto"
-	elem 
-		name = "SHIFT+F2"
-		command = ".screenshot"
-	elem 
-		name = "F3"
-		command = "asay"
-	elem 
-		name = "F4"
-		command = "msay"
-	elem 
-		name = "F5"
-		command = "dsay"
-	elem 
-		name = "F12"
-		command = "F12"
-
+macro "default"
 
 menu "menu"
-	elem 
+	elem
 		name = "&File"
 		command = ""
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Quick screenshot\tF2"
 		command = ".screenshot auto"
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Save screenshot as...\tShift+F2"
 		command = ".screenshot"
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = ""
 		command = ""
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
-		name = "&Quit"
+	elem "reconnectbutton"
+		name = "&Reconnect"
+		command = ".reconnect"
+		category = "&File"
+		saved-params = "is-checked"
+	elem
+		name = "&Quit\tAlt-F4"
 		command = ".quit"
 		category = "&File"
 		saved-params = "is-checked"
@@ -640,7 +318,7 @@ window "chemdispenser_reagents"
 window "mainwindow"
 	elem "mainwindow"
 		type = MAIN
-		pos = 281,0
+		pos = 0,0
 		size = 640x440
 		anchor1 = none
 		anchor2 = none
@@ -648,7 +326,7 @@ window "mainwindow"
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-maximized = true
 		icon = 'icons\\ss13_64.png'
-		macro = "macro"
+		macro = "default"
 		menu = "menu"
 	elem "hotkey_toggle"
 		type = BUTTON
@@ -658,16 +336,16 @@ window "mainwindow"
 		anchor2 = none
 		saved-params = ""
 		text = "Hotkey Toggle"
-		command = ".winset \"mainwindow.macro!=macro ? mainwindow.macro=macro hotkey_toggle.is-checked=false input.background-color=#d3b5b5 input.focus=true : mainwindow.macro=hotkeymode hotkey_toggle.is-checked=true input.background-color=#f0f0f0 mapwindow.map.focus=true\""
 		button-type = pushbox
-	elem "mainvsplit"
+	elem "split"
 		type = CHILD
 		pos = 3,0
 		size = 634x416
 		anchor1 = 0,0
 		anchor2 = 100,100
 		saved-params = "splitter"
-		right = "rpane"
+		left = "mapwindow"
+		right = "info"
 		is-vert = true
 	elem "input"
 		type = INPUT
@@ -723,8 +401,8 @@ window "mapwindow"
 		text-color = none
 		is-default = true
 		saved-params = "icon-size"
-		on-show = ".winset\"mainwindow.mainvsplit.left=mapwindow\""
-		on-hide = ".winset\"mainwindow.mainvsplit.left=\""
+		on-show = ".winset\"mainwindow.split.left=mapwindow\""
+		on-hide = ".winset\"mainwindow.split.left=\""
 
 window "outputwindow"
 	elem "outputwindow"
@@ -755,8 +433,8 @@ window "outputwindow"
 		is-default = true
 		saved-params = ""
 
-window "rpane"
-	elem "rpane"
+window "info"
+	elem "info"
 		type = MAIN
 		pos = 281,0
 		size = 859x480
@@ -764,7 +442,7 @@ window "rpane"
 		anchor2 = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
-	elem "rpanewindow"
+	elem "infowindow"
 		type = CHILD
 		pos = 0,0
 		size = 859x499
@@ -782,7 +460,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Webmap"
 		command = "webmap"
-		group = "rpanemode"
+		group = "infomode"
 	elem "submitbug"
 		type = BUTTON
 		pos = 580,0
@@ -792,7 +470,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Submit Bug"
 		command = "submit-bug"
-		group = "rpanemode"
+		group = "infomode"
 	elem "patreon"
 		type = BUTTON
 		pos = 660,0
@@ -803,7 +481,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Patreon"
 		command = "patreon"
-		group = "rpanemode"
+		group = "infomode"
 	elem "discord"
 		type = BUTTON
 		pos = 340,0
@@ -813,7 +491,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Discord"
 		command = "discord"
-		group = "rpanemode"
+		group = "infomode"
 	elem "rulesb"
 		type = BUTTON
 		pos = 260,0
@@ -823,7 +501,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Rules"
 		command = "rules"
-		group = "rpanemode"
+		group = "infomode"
 	elem "changelog"
 		type = BUTTON
 		pos = 180,0
@@ -833,7 +511,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Changelog"
 		command = "Changelog"
-		group = "rpanemode"
+		group = "infomode"
 	elem "forumb"
 		type = BUTTON
 		pos = 500,0
@@ -843,7 +521,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Forum"
 		command = "forum"
-		group = "rpanemode"
+		group = "infomode"
 	elem "wikib"
 		type = BUTTON
 		pos = 420,0
@@ -853,7 +531,7 @@ window "rpane"
 		saved-params = "is-checked"
 		text = "Wiki"
 		command = "wiki"
-		group = "rpanemode"
+		group = "infomode"
 	elem "textb"
 		type = BUTTON
 		pos = 0,0
@@ -863,9 +541,9 @@ window "rpane"
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
-		command = ".winset \"rpanewindow.left=;\""
+		command = ".winset \"infowindow.left=;\""
 		is-checked = true
-		group = "rpanemode"
+		group = "infomode"
 		button-type = pushbox
 	elem "infob"
 		type = BUTTON
@@ -876,8 +554,8 @@ window "rpane"
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
-		command = ".winset \"rpanewindow.left=infowindow\""
-		group = "rpanemode"
+		command = ".winset \"infowindow.left=infowindow\""
+		group = "infomode"
 		button-type = pushbox
 
 window "browserwindow"
@@ -899,8 +577,8 @@ window "browserwindow"
 		background-color = #ffffff
 		is-default = true
 		saved-params = ""
-		on-show = ".winset\"rpane.infob.is-visible=true?rpane.infob.pos=130,0;rpane.textb.is-visible=true;rpane.browseb.is-visible=true;rpane.browseb.is-checked=true;rpane.rpanewindow.pos=0,30;rpane.rpanewindow.size=0x0;rpane.rpanewindow.left=browserwindow\""
-		on-hide = ".winset\"rpane.infob.is-visible=true?rpane.infob.is-checked=true rpane.infob.pos=65,0 rpane.rpanewindow.left=infowindow:rpane.rpanewindow.left=textwindow rpane.textb.is-visible=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0\""
+		on-show = ".winset\"info.infob.is-visible=true?info.infob.pos=130,0;info.textb.is-visible=true;info.browseb.is-visible=true;info.browseb.is-checked=true;info.infowindow.pos=0,30;info.infowindow.size=0x0;info.infowindow.left=browserwindow\""
+		on-hide = ".winset\"info.infob.is-visible=true?info.infob.is-checked=true info.infob.pos=65,0 info.infowindow.left=infowindow:info.infowindow.left=textwindow info.textb.is-visible=true info.infowindow.pos=0,30 info.infowindow.size=0x0\""
 
 window "infowindow"
 	elem "infowindow"
@@ -922,8 +600,8 @@ window "infowindow"
 		saved-params = ""
 		highlight-color = #00aa00
 		allow-html = false
-		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
-		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
+		on-show = ".winset\"info.infob.is-visible=true;info.browseb.is-visible=true?info.infob.pos=130,0:info.infob.pos=65,0 info.textb.is-visible=true info.infob.is-checked=true info.infowindow.pos=0,30 info.infowindow.size=0x0 info.infowindow.left=infowindow\""
+		on-hide = ".winset\"info.infob.is-visible=false;info.browseb.is-visible=true?info.browseb.is-checked=true info.infowindow.left=browserwindow:info.textb.is-visible=true info.infowindow.pos=0,30 info.infowindow.size=0x0 info.infowindow.left=\""
 
 window "preferences_window"
 	elem "preferences_window"

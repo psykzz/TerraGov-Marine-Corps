@@ -618,7 +618,7 @@
 						/obj/item/explosive/plastique = 1,
 						/obj/item/explosive/grenade/smokebomb = 3,
 						/obj/item/binoculars/tactical = 1,
-						/obj/item/motiondetector = 1,
+						/obj/item/tracking/motiondetector = 1,
 						/obj/item/ammo_magazine/pistol/hp = 2,
 						/obj/item/ammo_magazine/pistol/ap = 1,
 						/obj/item/storage/backpack/marine/satchel = 2,

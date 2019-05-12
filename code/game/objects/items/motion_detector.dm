@@ -1,4 +1,4 @@
-
+/*
 #define MOTION_DETECTOR_LONG		0
 #define MOTION_DETECTOR_SHORT		1
 
@@ -329,3 +329,5 @@
 		icon_state = "minidetector_on_[detector_mode]"
 	else
 		icon_state = "minidetector_off"
+
+*/

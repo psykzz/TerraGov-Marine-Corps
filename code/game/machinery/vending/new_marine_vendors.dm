@@ -993,7 +993,7 @@ var/list/available_specialist_sets = list("Scout Set", "Sniper Set", "Demolition
 							list("Whistle", 5, /obj/item/whistle, null, "black"),
 							list("Station bounced radio", 1, /obj/item/radio, null, "black"),
 							list("Signaler (for detpacks)", 1, /obj/item/assembly/signaler, null, "black"),
-							list("Motion detector", 5, /obj/item/motiondetector, null, "black"),
+							list("Motion detector", 5, /obj/item/tracking/motiondetector, null, "black"),
 							list("Advanced firstaid kit", 10, /obj/item/storage/firstaid/adv, null, "orange"),
 							list("Ziptie box", 5, /obj/item/storage/box/zipcuffs, null, "black"),
 							list("V1 thermal-dampening tarp", 5, /obj/structure/closet/bodybag/tarp, null, "black"),
@@ -1125,7 +1125,7 @@ var/list/available_specialist_sets = list("Scout Set", "Sniper Set", "Demolition
 						/obj/item/squad_beacon/bomb,
 						/obj/item/whistle,
 						/obj/item/radio,
-						/obj/item/motiondetector,
+						/obj/item/tracking/motiondetector,
 						/obj/item/map/current_map,
 						/obj/item/binoculars/tactical,
 						/obj/item/storage/box/MRE

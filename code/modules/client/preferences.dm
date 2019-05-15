@@ -456,7 +456,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	HTML += "</body>"
 
 	winshow(user, "keybindings", TRUE)
-	var/datum/browser/popup = new(user, "keybindings", "<div align='center'>Keybindings</div>", 450, 600)
+	var/datum/browser/popup = new(user, "keybindings", "<div align='center'>Keybindings</div>", 500, 900)
 	popup.set_content(HTML)
 	popup.open(FALSE)
 	onclose(user, "keybindings", src)

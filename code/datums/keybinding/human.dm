@@ -5,15 +5,16 @@
 
 
     /*Human*/
-    /*/mob/living/carbon/human/down(_key, client/user, action)
-	switch(action)
-		if("quick-equip")
+    /*
+	/mob/living/carbon/human/key_down(_key, client/user)
+	switch(_key)
+		if("E")
 			quick_equip()
 			return
-		if("holster")
+		if("H")
 			holster()
 			return
-		if("unique-action")
+		if("Space")
 			unique_action()
 			return
 

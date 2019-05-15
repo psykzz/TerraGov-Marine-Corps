@@ -6,65 +6,63 @@
 
     /*mob*/ 
 
-    /*
-    // Technically the client argument is unncessary here since that SHOULD be src.client but let's not assume things
+    /*// Technically the client argument is unncessary here since that SHOULD be src.client but let's not assume things
 // All it takes is one badmin setting their focus to someone else's client to mess things up
 // Or we can have NPC's send actual keypresses and detect that by seeing no client
-/mob/key_down(_key, client/user, action)
-
-	switch(action)
-		if("stop-pulling")
+/mob/key_down(_key, client/user)
+	switch(_key)
+		if("Delete")
 			if(!pulling)
 				to_chat(src, "<span class='notice'>You are not pulling anything.</span>")
 			else
 				stop_pulling()
 			return
-		if("intent-right")
+		if("Home")
 			a_intent_change(INTENT_HOTKEY_RIGHT)
 			return
-		if("intent-left")
+		if("Insert")
 			a_intent_change(INTENT_HOTKEY_LEFT)
 			return
-		if("swap-hands") // Northeast is Page-up
+		if("X", "Northeast") // Northeast is Page-up
 			user.swap_hand()
 			return
-		if("attack-self")	// Southeast is Page-down
+		if("Y", "Z", "Southeast")	// Southeast is Page-down
 			mode()					// attack_self(). No idea who came up with "mode()"
 			return
-		if("drop-item") // Northwest is Home
+		if("Q", "Northwest") // Northwest is Home
 			var/obj/item/I = get_active_held_item()
 			if(!I)
 				to_chat(src, "<span class='warning'>You have nothing to drop in your hand!</span>")
 			else
 				dropItemToGround(I)
 			return
-		if("toggle-move-intent")
+		if("Alt")
 			toggle_move_intent()
 			return
 		//Bodypart selections
-		if("select-body-toggle_head")
+		if("Numpad8")
 			user.body_toggle_head()
 			return
-		if("select-body-r_arm")
+		if("Numpad4")
 			user.body_r_arm()
 			return
-		if("select-body-chest")
+		if("Numpad5")
 			user.body_chest()
 			return
-		if("select-body-l_arm")
+		if("Numpad6")
 			user.body_l_arm()
 			return
-		if("select-body-r_leg")
+		if("Numpad1")
 			user.body_r_leg()
 			return
-		if("select-body-groin")
+		if("Numpad2")
 			user.body_groin()
 			return
-		if("select-body-l_leg")
+		if("Numpad3")
 			user.body_l_leg()
 			return
 
-	if(client.keys_held["Shift"])
+	if(client.keys_held["Ctrl"])
 		switch(SSinput.movement_keys[_key])
 			if(NORTH)
 				northface()
@@ -81,9 +79,9 @@
 	return ..()
 
 
-/mob/key_up(_key, client/user, action)
-	switch(action)
-		if("toggle-move-intent")
+/mob/key_up(_key, client/user)
+	switch(_key)
+		if("Alt")
 			toggle_move_intent()
 			return
 	return ..()

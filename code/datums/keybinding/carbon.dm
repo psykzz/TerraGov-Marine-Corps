@@ -11,10 +11,8 @@
     category = CATEGORY_CARBON
     
 /datum/keybinding/carbon/toggle_throw_mode/down(client/user)
-    if (!iscarbon(user))
-        return FALSE
-
-    var/mob/living/carbon/C
+    to_chat(user, "throwing test")
+    var/mob/living/carbon/C = user
     C.toggle_throw_mode()
     return TRUE
 

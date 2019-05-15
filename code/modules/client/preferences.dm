@@ -431,16 +431,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		for (var/datum/keybinding/kb in key_bindings[key])
 			user_binds[kb] = key
 
-	var/HTML = "<style>label { display: inline-block; width: 200px; }</style><body><br>"
-
-	HTML += "<h3>Action: Keybinding</h3>"
+	var/list/kb_categories = list()
+	// Group keybinds by category
 	for (var/name in GLOB.keybindings_by_name)
-		var/datum/keybinding/keybinding = GLOB.keybindings_by_name[name]
-		var/bound_key = user_binds[keybinding]
-		bound_key = (bound_key) ? bound_key : "Unbound"
+		var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
+		if (!(kb.category in kb_categories))
+			kb_categories[kb.category] = list()
+		kb_categories[kb.category] += list(kb)
 
-		HTML += "<label>[keybinding.full_name]</label> <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[keybinding.name];old_key=[bound_key]'>[bound_key] Default: ( [keybinding.key] )</a>"
-		HTML += "<br>"
+	var/HTML = "<style>label { display: inline-block; width: 200px; }</style><body>"
+
+	for (var/category in kb_categories)
+		HTML += "<h3>[category]</h3>"
+		for (var/datum/keybinding/keybinding in kb_categories[category])
+			var/bound_key = user_binds[keybinding]
+			bound_key = (bound_key) ? bound_key : "Unbound"
+
+			HTML += "<label>[keybinding.full_name]</label> <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[keybinding.name];old_key=[bound_key]'>[bound_key] Default: ( [keybinding.key] )</a>"
+			HTML += "<br>"
 
 	HTML += "<br><br>"
 	HTML += "<a href ='?_src_=prefs;preference=keybindings_done'>\[Close\]</a>"

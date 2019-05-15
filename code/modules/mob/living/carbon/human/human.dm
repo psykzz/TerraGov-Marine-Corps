@@ -568,7 +568,7 @@
 			else
 				usr.visible_message("<span class='danger'>[usr] is trying to enable [src]'s internals.</span>", null, null, 3)
 
-			if(do_mob(usr, src, POCKET_STRIP_DELAY, BUSY_ICON_GENERIC, BUSY_ICON_GENERIC))
+			if(do_mob(usr, src, POCKET_STRIP_DELAY, BUSY_ICON_GENERIC))
 				if (internal)
 					internal.add_fingerprint(usr)
 					internal = null
@@ -607,7 +607,7 @@
 			if(count)
 				log_combat(usr, src, "attempted to remove splints")
 
-				if(do_mob(usr, src, HUMAN_STRIP_DELAY, BUSY_ICON_GENERIC, BUSY_ICON_GENERIC))
+				if(do_mob(usr, src, HUMAN_STRIP_DELAY, BUSY_ICON_FRIENDLY, BUSY_ICON_MEDICAL))
 					var/limbcount = 0
 					for(var/organ in list("l_leg","r_leg","l_arm","r_arm","r_hand","l_hand","r_foot","l_foot","chest","head","groin"))
 						var/datum/limb/o = get_limb(organ)
@@ -628,7 +628,7 @@
 						visible_message("<span class='danger'>[usr] tears off \the [U.hastie] from [src]'s [U]!</span>", null, null, 5)
 					else
 						visible_message("<span class='danger'>[usr] is trying to take off \a [U.hastie] from [src]'s [U]!</span>", null, null, 5)
-						if(do_mob(usr, src, HUMAN_STRIP_DELAY, BUSY_ICON_GENERIC, BUSY_ICON_GENERIC))
+						if(do_mob(usr, src, HUMAN_STRIP_DELAY, BUSY_ICON_HOSTILE))
 							if(U == w_uniform && U.hastie)
 								U.remove_accessory(usr)
 
@@ -1266,7 +1266,7 @@
 	to_chat(usr, "Don't move until counting is finished.")
 	var/time = world.time
 	sleep(60)
-	if(usr.l_move_time >= time)	//checks if our mob has moved during the sleep()
+	if(usr.last_move_time >= time)	//checks if our mob has moved during the sleep()
 		to_chat(usr, "You moved while counting. Try again.")
 	else
 		to_chat(usr, "<span class='notice'>[self ? "Your" : "[src]'s"] pulse is [src.get_pulse(GETPULSE_HAND)].</span>")

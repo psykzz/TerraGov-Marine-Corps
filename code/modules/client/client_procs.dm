@@ -261,7 +261,7 @@ GLOBAL_VAR_INIT(external_rsc_url, TRUE)
 	apply_clickcatcher()
 
 	if(prefs.lastchangelog != GLOB.changelog_hash) //bolds the changelog button on the interface so we know there are updates.
-		winset(src, "rpane.changelog", "background-color=#ED9F9B;font-style=bold")
+		winset(src, "infowindow.changelog", "background-color=#ED9F9B;font-style=bold")
 
 	if(ckey in GLOB.clientmessages)
 		for(var/message in GLOB.clientmessages[ckey])
@@ -276,6 +276,27 @@ GLOBAL_VAR_INIT(external_rsc_url, TRUE)
 			to_chat(src, get_message_output("memo"))
 		else if(holder.rank.rights & R_MENTOR)
 			message_staff("Mentor login: [key_name_admin(src)].")
+
+	var/list/topmenus = GLOB.menulist[/datum/verbs/menu]
+	for(var/thing in topmenus)
+		var/datum/verbs/menu/topmenu = thing
+		var/topmenuname = "[topmenu]"
+		if(topmenuname == "[topmenu.type]")
+			var/list/tree = splittext(topmenuname, "/")
+			topmenuname = tree[length(tree)]
+		winset(src, "[topmenu.type]", "parent=menu;name=[url_encode(topmenuname)]")
+		var/list/entries = topmenu.Generate_list(src)
+		for(var/child in entries)
+			winset(src, "[child]", "[entries[child]]")
+			if(!ispath(child, /datum/verbs/menu))
+				var/procpath/verbpath = child
+				if(copytext(verbpath.name, 1, 2) != "@")
+					new child(src)
+
+	for(var/thing in prefs.menuoptions)
+		var/datum/verbs/menu/menuitem = GLOB.menulist[thing]
+		if(menuitem)
+			menuitem.Load_checked(src)
 
 	winset(src, null, "mainwindow.title='[CONFIG_GET(string/title)]'")
 

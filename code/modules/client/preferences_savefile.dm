@@ -1,7 +1,5 @@
 #define SAVEFILE_VERSION_MIN	20
-#define SAVEFILE_VERSION_MAX	24
-
-
+#define SAVEFILE_VERSION_MAX	25
 
 //handles converting savefiles to new formats
 //MAKE SURE YOU KEEP THIS UP TO DATE!
@@ -22,11 +20,14 @@
 				break
 		return FALSE
 
-	if(savefile_version < 24)
+	if(savefile_version < 25)
 		S["key_bindings"] << deepCopyList(GLOB.keybinding_list_by_key)
 
+	if(savefile_version < 24)
+		S["menuoptions"]	<< list()
+
 	if(savefile_version < 23)
-		S["hotkeys"] << TRUE
+		S["hotkeys"]	<< TRUE
 
 	if(savefile_version < 22)
 		S["windowflashing"]	<< TRUE
@@ -78,6 +79,7 @@
 	S["show_typing"]		>> show_typing
 	S["ghost_hud"]			>> ghost_hud
 	S["windowflashing"]		>> windowflashing
+	S["menuoptions"]		>> menuoptions
 
 	// Custom hotkeys
 	S["key_bindings"]		>> key_bindings
@@ -140,6 +142,7 @@
 	S["show_typing"]		<< show_typing
 	S["ghost_hud"]			<< ghost_hud
 	S["windowflashing"]		<< windowflashing
+	S["menuoptions"]		<< menuoptions
 	S["key_bindings"]		<< key_bindings
 
 	return TRUE

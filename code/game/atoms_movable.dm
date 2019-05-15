@@ -1,11 +1,10 @@
 /atom/movable
 	layer = OBJ_LAYER
-	var/last_move_dir = null
+	var/last_move = null
+	var/last_move_time = 0
 	var/anchored = 0
-	// var/elevation = 2    - not used anywhere
 	var/move_speed = 10
 	var/drag_delay = 3 //delay (in deciseconds) added to mob's move_delay when pulling it.
-	var/l_move_time = 1
 	var/throwing = 0
 	var/thrower = null
 	var/turf/throw_source = null
@@ -47,19 +46,64 @@
 	. = ..()
 	loc = null //so we move into null space. Must be after ..() b/c atom's Dispose handles deleting our lighting stuff
 
-//===========================================================================
+
+
+////////////////////////////////////////
+// Here's where we rewrite how byond handles movement except slightly different
+// To be removed on step_ conversion
+// All this work to prevent a second bump
+/atom/movable/Move(atom/newloc, direct=0)
+	. = FALSE
+	if(!newloc || newloc == loc)
+		return
+
+	if(!direct)
+		direct = get_dir(src, newloc)
+	setDir(direct)
+
+	if(!loc.Exit(src, newloc))
+		return
+
+	if(!newloc.Enter(src, src.loc))
+		return
+
+	// Past this is the point of no return
+	SEND_SIGNAL(src, COMSIG_MOVABLE_PRE_MOVE, newloc)
+	var/atom/oldloc = loc
+	var/area/oldarea = get_area(oldloc)
+	var/area/newarea = get_area(newloc)
+	loc = newloc
+	. = TRUE
+	oldloc.Exited(src, newloc)
+	if(oldarea != newarea)
+		oldarea.Exited(src, newloc)
+
+	for(var/i in oldloc)
+		if(i == src) // Multi tile objects
+			continue
+		var/atom/movable/thing = i
+		thing.Uncrossed(src)
+
+	newloc.Entered(src, oldloc)
+	if(oldarea != newarea)
+		newarea.Entered(src, oldloc)
+
+	for(var/i in loc)
+		if(i == src) // Multi tile objects
+			continue
+		var/atom/movable/thing = i
+		thing.Crossed(src)
+//
+////////////////////////////////////////
 
 /atom/movable/Move(atom/newloc, direct)
-	var/atom/oldloc = loc
-	var/old_dir = dir
 	var/atom/movable/pullee = pulling
 	var/turf/T = loc
-
 	if(!moving_from_pull)
 		check_pulling()
-
 	if(!loc || !newloc)
 		return FALSE
+	var/atom/oldloc = loc
 
 	if(loc != newloc)
 		if(!(direct & (direct - 1))) //Cardinal move
@@ -115,14 +159,9 @@
 			moving_diagonally = 0
 			return
 
-	if(flags_atom & DIRLOCK)
-		setDir(old_dir)
-
-	move_speed = world.time - l_move_time
-	l_move_time = world.time
-
-	if((oldloc != loc && oldloc && oldloc.z == z))
-		last_move_dir = get_dir(oldloc, loc)
+	if(!loc || (loc == oldloc && oldloc != newloc))
+		last_move = 0
+		return
 
 	if(.)
 		Moved(oldloc, direct)
@@ -138,6 +177,10 @@
 				pulling.Move(T, get_dir(pulling, T)) //the pullee tries to reach our previous position
 				pulling.moving_from_pull = null
 			check_pulling()
+
+	last_move = direct
+	last_move_time = world.time
+	setDir(direct)
 
 
 /atom/movable/Bump(atom/A, yes) //yes arg is to distinguish our calls of this proc from the calls native from byond.
@@ -158,7 +201,8 @@
 	SEND_SIGNAL(src, COMSIG_MOVABLE_CROSSED, AM)
 
 
-/atom/movable/proc/Moved(atom/oldloc, direction)
+/atom/movable/proc/Moved(atom/oldloc, direction, Forced = FALSE)
+	SEND_SIGNAL(src, COMSIG_MOVABLE_MOVED, oldloc, direction, Forced)
 	if(isturf(loc))
 		if(opacity)
 			oldloc.UpdateAffectingLights()

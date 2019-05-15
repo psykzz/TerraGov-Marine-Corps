@@ -11,36 +11,12 @@
 
 	// Client-level keybindings are ones anyone should be able to do at any time
 	// Things like taking screenshots, hitting tab, and adminhelps.
-	// prefs.key_bindings[_key]?.activate(src)
 	for (var/datum/keybinding/kb in prefs.key_bindings[_key])
 		if (kb.down(src))
 			break
 
-	// switch(key_action)
-	// 	if("choose-help")
-	// 		choosehelp()
-	// 		return
-	// 	if("screenshot") // Screenshot. Hold shift to choose a name and location to save in
-	// 		winset(src, null, "command=.screenshot [!keys_held["shift"] ? "auto" : ""]")
-	// 		return
-	// 	if("admin-say")
-	// 		get_asay()
-	// 		return
-	// 	if("mentor-say")
-	// 		get_msay()
-	// 		return
-	// 	if("dead-say")
-	// 		get_dsay()
-	// 		return
-	// 	if("toggle-hud") // Toggles minimal HUD
-	// 		mob.button_pressed_F12()
-	// 		return
-
-	if(holder)
-		holder.key_down(_key, src)
-
-	if(mob.focus)
-		mob.focus.key_down(_key, src)
+	holder?.key_down(_key, src)
+	mob.focus?.key_down(_key, src)
 
 
 /client/verb/keyUp(_key as text)
@@ -56,15 +32,11 @@
 		if (kb.up(src))
 			break
 
-	if(holder)
-		holder.key_up(_key, src)
-	if(mob.focus)
-		mob.focus.key_up(_key, src)
+	holder?.key_up(_key, src)
+	mob.focus?.key_up(_key, src)
 
 
 // Called every game tick
 /client/keyLoop()
-	if(holder)
-		holder.keyLoop(src)
-	if(mob.focus)
-		mob.focus.keyLoop(src)
+	holder?.keyLoop(src)
+	mob.focus?.keyLoop(src)

@@ -6,45 +6,6 @@
 	return (!mover.density || !density || lying)
 
 
-/client/Northeast()
-	swap_hand()
-	return
-
-
-/client/Southeast()
-	attack_self()
-	return
-
-
-/client/Southwest()
-	if(iscarbon(usr))
-		var/mob/living/carbon/C = usr
-		C.toggle_throw_mode()
-	else
-		to_chat(usr, "<span class='warning'>This mob type cannot throw items.</span>")
-	return
-
-
-/client/Northwest()
-	if(iscarbon(usr))
-		var/mob/living/carbon/C = usr
-		if(!C.get_active_held_item())
-			to_chat(usr, "<span class='warning'>You have nothing to drop in your hand.</span>")
-			return
-		C.drop_held_item()
-	else
-		to_chat(usr, "<span class='warning'>This mob type cannot drop items.</span>")
-	return
-
-//This gets called when you press the delete button.
-/client/verb/delete_key_pressed()
-	set hidden = 1
-
-	if(!usr.pulling)
-		to_chat(usr, "<span class='notice'>You are not pulling anything.</span>")
-		return
-	usr.stop_pulling()
-
 /client/verb/swap_hand()
 	set hidden = 1
 	if(iscarbon(mob))
@@ -102,86 +63,83 @@
 
 
 /client/Move(n, direct)
-	if(mob.control_object)
-		next_move_dir_add = 0
-		next_move_dir_sub = 0
-		return Move_object(direct) //admins possessing object
-
-	if(isobserver(mob) || isAI(mob))
-		next_move_dir_add = 0
-		next_move_dir_sub = 0
-		return mob.Move(n, direct)
-
-	var/start_move_time = world.time
-	if(next_movement > world.time)
-		return
+	if(world.time < move_delay) //do not move anything ahead of this check please
+		return FALSE
 	else
 		next_move_dir_add = 0
 		next_move_dir_sub = 0
+
+	if(!mob?.loc)
+		return FALSE
+
+	if(!n || !direct)
+		return FALSE
+
+	if(mob.notransform)
+		return FALSE	//This is sota the goto stop mobs from moving var
+
+	if(!isliving(mob))
+		return mob.Move(n, direct)
+
+	if(mob.stat == DEAD)
+		mob.ghostize()
+		return FALSE
+
+	var/mob/living/L = mob  //Already checked for isliving earlier
 
 	var/double_delay = FALSE
 	if(direct in GLOB.diagonals)
 		double_delay = TRUE
 
-	if(mob.stat == DEAD)
-		return
-
-	// There should be a var/is_zoomed in mob code not this mess
-	if(isxeno(mob))
-		if(mob:is_zoomed)
-			mob:zoom_out()
-
 	//Check if you are being grabbed and if so attemps to break it
-	if(mob.pulledby)
-		if(mob.incapacitated(TRUE))
+	if(L.pulledby)
+		if(L.incapacitated(TRUE))
 			return
-		else if(mob.restrained(0))
-			next_movement = world.time + 20 //to reduce the spam
+		else if(L.restrained(TRUE))
+			move_delay = world.time + 10 //to reduce the spam
+			to_chat(src, "<span class='warning'>You're restrained! You can't move!</span>")
 			return
-		else if(!mob.resist_grab(TRUE))
-			return
+		else
+			return L.resist_grab(TRUE)
 
-	if(mob.buckled)
-		return mob.buckled.relaymove(mob, direct)
+	if(L.buckled)
+		return L.buckled.relaymove(L, direct)
 
-	if(!mob.canmove)
+	if(!L.canmove)
 		return
 
-	if(isobj(mob.loc) || ismob(mob.loc))//Inside an object, tell it we moved
-		var/atom/O = mob.loc
-		return O.relaymove(mob, direct)
+	if(isobj(L.loc) || ismob(L.loc))//Inside an object, tell it we moved
+		var/atom/O = L.loc
+		return O.relaymove(L, direct)
 
-	if(isturf(mob.loc))
-		if(double_delay && mob.cadecheck()) //Hacky
-			direct = get_cardinal_dir(n, mob.loc)
+	if(isturf(L.loc))
+		if(double_delay && L.cadecheck()) //Hacky
+			direct = get_cardinal_dir(n, L.loc)
 			direct = DIRFLIP(direct)
-			n = get_step(mob.loc, direct)
+			n = get_step(L.loc, direct)
 
-		mob.last_move_intent = world.time + 10
-		switch(mob.m_intent)
+		L.last_move_intent = world.time + 10
+		switch(L.m_intent)
 			if(MOVE_INTENT_RUN)
 				move_delay = 2 + CONFIG_GET(number/movedelay/run_delay)
 			if(MOVE_INTENT_WALK)
 				move_delay = 7 + CONFIG_GET(number/movedelay/walk_delay)
-		move_delay += mob.movement_delay()
+		move_delay += L.movement_delay(direct)
 		//We are now going to move
-		moving = 1
+		moving = TRUE
 		glide_size = 32 / max(move_delay, tick_lag) * tick_lag
 
-		var/mob/living/L = mob
 		if(L.confused)
 			step(L, pick(cardinal))
 		else
 			. = ..()
 
-		moving = 0
+		moving = FALSE
 		if(double_delay)
-			next_movement = start_move_time + (move_delay * SQRTWO)
+			move_delay = world.time + (move_delay * SQRTWO)
 		else
-			next_movement = start_move_time + move_delay
+			move_delay = world.time + move_delay
 		return .
-
-	return
 
 ///Process_Spacemove
 ///Called by /client/Move()
@@ -208,7 +166,6 @@
 	//Check to see if we slipped
 	if(prob(Process_Spaceslipping(5)))
 		to_chat(src, "<span class='boldnotice'>You slipped!</span>")
-		src.inertia_dir = src.last_move_dir
 		step(src, src.inertia_dir)
 		return 0
 	//If not then we can reset inertia and move

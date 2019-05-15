@@ -226,7 +226,7 @@
 	var/start_loc = W.loc
 	if(W.time_to_equip && !ignore_delay)
 		spawn(0)
-			if(!do_after(src, W.time_to_equip, TRUE, 5, BUSY_ICON_GENERIC))
+			if(!do_after(src, W.time_to_equip, TRUE, W, BUSY_ICON_FRIENDLY))
 				to_chat(src, "You stop putting on \the [W]")
 			else
 				equip_to_slot(W, slot, redraw_mob) //This proc should not ever fail.
@@ -456,7 +456,7 @@
 	if(prefs.lastchangelog != GLOB.changelog_hash)
 		prefs.lastchangelog = GLOB.changelog_hash
 		prefs.save_preferences()
-		winset(src, "rpane.changelog", "background-color=none;font-style=;")
+		winset(src, "infowindow.changelog", "background-color=none;font-style=;")
 
 /mob/Topic(href, href_list)
 	if(href_list["mach_close"])
@@ -481,7 +481,7 @@
 		if(isliving(src))
 			var/mob/living/L = src
 			L.language_menu()
-		
+
 
 
 /mob/MouseDrop(mob/M)
@@ -704,9 +704,7 @@ mob/proc/yank_out_object()
 			return FALSE
 		to_chat(U, "<span class='warning'>You attempt to get a good grip on [selection] in [S]'s body.</span>")
 
-	if(!do_after(U, 80, TRUE, 5, BUSY_ICON_FRIENDLY))
-		return
-	if(!selection || !S || !U || !istype(selection))
+	if(!do_after(U, 80, TRUE, S, BUSY_ICON_GENERIC) || !istype(selection))
 		return
 
 	if(self)

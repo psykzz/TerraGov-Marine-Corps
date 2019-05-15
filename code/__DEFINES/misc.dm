@@ -69,3 +69,8 @@ var/global/TAB = "&nbsp;&nbsp;&nbsp;&nbsp;"
 
 #define COLOR_INPUT_DISABLED "#F0F0F0"
 #define COLOR_INPUT_ENABLED "#D3B5B5"
+
+
+#define CHECKBOX_NONE 0
+#define CHECKBOX_GROUP 1
+#define CHECKBOX_TOGGLE 2

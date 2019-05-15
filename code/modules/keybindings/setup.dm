@@ -1,17 +1,9 @@
-/client
-	var/list/keys_held = list() // A list of any keys held currently
-	// These next two vars are to apply movement for keypresses and releases made while move delayed.
-	// Because discarding that input makes the game less responsive.
-	var/next_move_dir_add // On next move, add this dir to the move that would otherwise be done
-	var/next_move_dir_sub // On next move, subtract this dir from the move that would otherwise be done
-
 // Set a client's focus to an object and override these procs on that object to let it handle keypresses
-
-/datum/proc/key_down(key, client/user, action) // Called when a key is pressed down initially
+/datum/proc/key_down(key, client/user) // Called when a key is pressed down initially
 	return
 
 
-/datum/proc/key_up(key, client/user, action) // Called when a key is released
+/datum/proc/key_up(key, client/user) // Called when a key is released
 	return
 
 
@@ -23,10 +15,10 @@
 /client/proc/erase_all_macros()
 	var/list/macro_sets = params2list(winget(src, null, "macros"))
 	var/erase_output = ""
-	for(var/i in 1 to macro_sets.len)
+	for(var/i in 1 to length(macro_sets))
 		var/setname = macro_sets[i]
 		var/list/macro_set = params2list(winget(src, "[setname].*", "command")) // The third arg doesnt matter here as we're just removing them all
-		for(var/k in 1 to macro_set.len)
+		for(var/k in 1 to length(macro_set))
 			var/list/split_name = splittext(macro_set[k], ".")
 			var/macro_name = "[split_name[1]].[split_name[2]]" // [3] is "command"
 			erase_output = "[erase_output];[macro_name].parent=null"

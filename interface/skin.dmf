@@ -2,108 +2,47 @@ macro "default"
 
 
 menu "menu"
-	elem 
+	elem
 		name = "&File"
 		command = ""
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Quick screenshot\tF2"
 		command = ".screenshot auto"
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Save screenshot as...\tShift+F2"
 		command = ".screenshot"
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = ""
 		command = ""
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
-		name = "&Quit"
+	elem "reconnectbutton"
+		name = "&Reconnect"
+		command = ".reconnect"
+		category = "&File"
+		saved-params = "is-checked"
+	elem
+		name = "&Quit\tAlt-F4"
 		command = ".quit"
 		category = "&File"
 		saved-params = "is-checked"
-	elem 
-		name = "&Icons"
-		command = ""
-		saved-params = "is-checked"
-	elem "stretch"
-		name = "&Stretch to fit"
-		command = ".winset \"mapwindow.map.icon-size=0\""
-		category = "&Icons"
-		is-checked = true
-		can-check = true
-		group = "size"
-		saved-params = "is-checked"
-	elem "icon96"
-		name = "&96x96 (3x)"
-		command = ".winset \"mapwindow.map.icon-size=96\""
-		category = "&Icons"
-		can-check = true
-		group = "size"
-		saved-params = "is-checked"
-	elem "icon64"
-		name = "&64x64 (2x)"
-		command = ".winset \"mapwindow.map.icon-size=64\""
-		category = "&Icons"
-		can-check = true
-		group = "size"
-		saved-params = "is-checked"
-	elem "icon48"
-		name = "&48x48 (1.5x)"
-		command = ".winset \"mapwindow.map.icon-size=48\""
-		category = "&Icons"
-		can-check = true
-		group = "size"
-		saved-params = "is-checked"
-	elem "icon32"
-		name = "&32x32 (1x)"
-		command = ".winset \"mapwindow.map.icon-size=32\""
-		category = "&Icons"
-		can-check = true
-		group = "size"
-		saved-params = "is-checked"
-	elem 
-		name = "Scaling"
-		command = ""
-		saved-params = "is-checked"
-	elem "NN"
-		name = "Nearest Neighbor"
-		command = ".winset\"mapwindow.map.zoom-mode=distort\""
-		category = "Scaling"
-		can-check = true
-		group = "scaling"
-		saved-params = "is-checked"
-	elem "PS"
-		name = "Point Sampling"
-		command = ".winset\"mapwindow.map.zoom-mode=normal\""
-		category = "Scaling"
-		is-checked = true
-		can-check = true
-		group = "scaling"
-		saved-params = "is-checked"
-	elem "BL"
-		name = "Bilinear"
-		command = ".winset\"mapwindow.map.zoom-mode=blur\""
-		category = "Scaling"
-		can-check = true
-		group = "scaling"
-		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Help"
 		command = ""
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Request Help\tF1"
 		command = "choosehelp"
 		category = "&Help"
 		saved-params = "is-checked"
-	elem 
+	elem
 		name = "&Hotkeys"
-		command = "hotkeys-help"
+		command = "hotkeys"
 		category = "&Help"
 		saved-params = "is-checked"
 
@@ -111,24 +50,24 @@ menu "menu"
 window "mainwindow"
 	elem "mainwindow"
 		type = MAIN
-		pos = 281,0
+		pos = 0,0
 		size = 640x440
 		anchor1 = none
 		anchor2 = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
-		is-maximized = true
 		icon = 'icons\\ss13_64.png'
-		macro = "macro"
+		macro = "default"
 		menu = "menu"
-	elem "mainvsplit"
+	elem "split"
 		type = CHILD
 		pos = 3,0
-		size = 634x416
+		size = 634x417
 		anchor1 = 0,0
 		anchor2 = 100,100
 		saved-params = "splitter"
-		right = "rpane"
+		left = "mapwindow"
+		right = "infowindow"
 		is-vert = true
 	elem "input"
 		type = INPUT
@@ -183,16 +122,11 @@ window "mainwindow"
 window "mapwindow"
 	elem "mapwindow"
 		type = MAIN
-		pos = 281,0
+		pos = 0,0
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
 		saved-params = "pos;size;is-minimized;is-maximized"
-		titlebar = false
-		statusbar = false
-		can-close = false
-		can-minimize = false
-		can-resize = false
 		is-pane = true
 	elem "map"
 		type = MAP
@@ -200,13 +134,87 @@ window "mapwindow"
 		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
-		font-family = "Arial Rounded MT Bold,Arial Black,Arial,sans-serif"
+		font-family = "Arial"
 		font-size = 7
 		text-color = none
 		is-default = true
 		saved-params = "icon-size"
-		on-show = ".winset\"mainwindow.mainvsplit.left=mapwindow\""
-		on-hide = ".winset\"mainwindow.mainvsplit.left=\""
+		zoom-mode = distort
+
+
+window "infowindow"
+	elem "infowindow"
+		type = MAIN
+		pos = 0,0
+		size = 640x480
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		is-pane = true
+	elem "info"
+		type = CHILD
+		pos = 0,30
+		size = 640x445
+		anchor1 = 0,0
+		anchor2 = 100,100
+		saved-params = "splitter"
+		left = "statwindow"
+		right = "outputwindow"
+		is-vert = false
+	elem "changelog"
+		type = BUTTON
+		pos = 16,5
+		size = 104x20
+		anchor1 = 3,0
+		anchor2 = 19,0
+		saved-params = "is-checked"
+		text = "Changelog"
+		command = "changelog"
+	elem "rules"
+		type = BUTTON
+		pos = 120,5
+		size = 100x20
+		anchor1 = 19,0
+		anchor2 = 34,0
+		saved-params = "is-checked"
+		text = "Rules"
+		command = "rules"
+	elem "wiki"
+		type = BUTTON
+		pos = 220,5
+		size = 100x20
+		anchor1 = 34,0
+		anchor2 = 50,0
+		saved-params = "is-checked"
+		text = "Wiki"
+		command = "wiki"
+	elem "forum"
+		type = BUTTON
+		pos = 320,5
+		size = 100x20
+		anchor1 = 50,0
+		anchor2 = 66,0
+		saved-params = "is-checked"
+		text = "Forum"
+		command = "forum"
+	elem "github"
+		type = BUTTON
+		pos = 420,5
+		size = 100x20
+		anchor1 = 66,0
+		anchor2 = 81,0
+		saved-params = "is-checked"
+		text = "Github"
+		command = "github"
+	elem "webmap"
+		type = BUTTON
+		pos = 520,5
+		size = 100x20
+		anchor1 = 81,0
+		anchor2 = 97,0
+		saved-params = "is-checked"
+		text = "Webmap"
+		command = "webmap"
 
 
 window "outputwindow"
@@ -239,184 +247,12 @@ window "outputwindow"
 		saved-params = ""
 
 
-window "rpane"
-	elem "rpane"
-		type = MAIN
-		pos = 281,0
-		size = 859x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
-		is-pane = true
-	elem "rpanewindow"
-		type = CHILD
-		pos = 0,0
-		size = 859x499
-		anchor1 = 0,0
-		anchor2 = 100,100
-		saved-params = "splitter"
-		right = "outputwindow"
-		is-vert = false
-	elem "webmap"
-		type = BUTTON
-		pos = 740,0
-		size = 80x20
-		anchor1 = 105,0
-		anchor2 = 117,0
-		saved-params = "is-checked"
-		text = "Webmap"
-		command = "webmap"
-		group = "rpanemode"
-	elem "submitbug"
-		type = BUTTON
-		pos = 580,0
-		size = 80x20
-		anchor1 = 79,0
-		anchor2 = 92,0
-		saved-params = "is-checked"
-		text = "Submit Bug"
-		command = "submit-bug"
-		group = "rpanemode"
-	elem "patreon"
-		type = BUTTON
-		pos = 660,0
-		size = 80x20
-		anchor1 = 92,0
-		anchor2 = 105,0
-		background-color = #ff8040
-		saved-params = "is-checked"
-		text = "Patreon"
-		command = "patreon"
-		group = "rpanemode"
-	elem "discord"
-		type = BUTTON
-		pos = 340,0
-		size = 80x20
-		anchor1 = 42,0
-		anchor2 = 55,0
-		saved-params = "is-checked"
-		text = "Discord"
-		command = "discord"
-		group = "rpanemode"
-	elem "rulesb"
-		type = BUTTON
-		pos = 260,0
-		size = 80x20
-		anchor1 = 30,0
-		anchor2 = 42,0
-		saved-params = "is-checked"
-		text = "Rules"
-		command = "rules"
-		group = "rpanemode"
-	elem "changelog"
-		type = BUTTON
-		pos = 180,0
-		size = 80x20
-		anchor1 = 18,0
-		anchor2 = 31,0
-		saved-params = "is-checked"
-		text = "Changelog"
-		command = "Changelog"
-		group = "rpanemode"
-	elem "forumb"
-		type = BUTTON
-		pos = 500,0
-		size = 80x20
-		anchor1 = 67,0
-		anchor2 = 80,0
-		saved-params = "is-checked"
-		text = "Forum"
-		command = "forum"
-		group = "rpanemode"
-	elem "wikib"
-		type = BUTTON
-		pos = 420,0
-		size = 80x20
-		anchor1 = 55,0
-		anchor2 = 68,0
-		saved-params = "is-checked"
-		text = "Wiki"
-		command = "wiki"
-		group = "rpanemode"
-	elem "textb"
-		type = BUTTON
-		pos = 0,0
-		size = 67x20
-		anchor1 = 0,0
-		anchor2 = 8,0
-		is-visible = false
-		saved-params = "is-checked"
-		text = "Text"
-		command = ".winset \"rpanewindow.left=;\""
-		is-checked = true
-		group = "rpanemode"
-		button-type = pushbox
-	elem "infob"
-		type = BUTTON
-		pos = 64,0
-		size = 70x20
-		anchor1 = 8,0
-		anchor2 = 15,0
-		is-visible = false
-		saved-params = "is-checked"
-		text = "Info"
-		command = ".winset \"rpanewindow.left=infowindow\""
-		group = "rpanemode"
-		button-type = pushbox
-
-
-window "browserwindow"
-	elem "browserwindow"
-		type = MAIN
-		pos = 281,0
-		size = 640x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
-		title = "Browser"
-		is-pane = true
-	elem "browser"
-		type = BROWSER
-		pos = 0,0
-		size = 640x499
-		anchor1 = 0,0
-		anchor2 = 100,100
-		background-color = #ffffff
-		is-default = true
-		saved-params = ""
-		on-show = ".winset\"rpane.infob.is-visible=true?rpane.infob.pos=130,0;rpane.textb.is-visible=true;rpane.browseb.is-visible=true;rpane.browseb.is-checked=true;rpane.rpanewindow.pos=0,30;rpane.rpanewindow.size=0x0;rpane.rpanewindow.left=browserwindow\""
-		on-hide = ".winset\"rpane.infob.is-visible=true?rpane.infob.is-checked=true rpane.infob.pos=65,0 rpane.rpanewindow.left=infowindow:rpane.rpanewindow.left=textwindow rpane.textb.is-visible=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0\""
-
-
-window "infowindow"
-	elem "infowindow"
-		type = MAIN
-		pos = 281,0
-		size = 640x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
-		title = "Info"
-		is-pane = true
-	elem "info"
-		type = INFO
-		pos = 0,0
-		size = 638x475
-		anchor1 = 0,0
-		anchor2 = 100,100
-		is-default = true
-		saved-params = ""
-		highlight-color = #00aa00
-		allow-html = false
-		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
-		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
-
 
 window "preferences_window"
 	elem "preferences_window"
 		type = MAIN
 		pos = 372,0
-		size = 1120x1000
+		size = 1280x1000
 		anchor1 = none
 		anchor2 = none
 		background-color = none
@@ -425,17 +261,36 @@ window "preferences_window"
 		statusbar = false
 	elem "preferences_browser"
 		type = BROWSER
-		pos = -8,-8
-		size = 896x1008
+		pos = 0,0
+		size = 960x1000
 		anchor1 = 0,0
-		anchor2 = 90,100
+		anchor2 = 75,100
 		background-color = none
 		saved-params = ""
 	elem "character_preview_map"
 		type = MAP
-		pos = 887,0
-		size = 313x1000
-		anchor1 = 90,0
+		pos = 960,0
+		size = 320x1000
+		anchor1 = 75,0
 		anchor2 = 100,100
 		right-click = true
 		saved-params = "zoom;letterbox;zoom-mode"
+
+
+window "statwindow"
+	elem "statwindow"
+		type = MAIN
+		pos = 0,0
+		size = 640x480
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		is-pane = true
+	elem "stat"
+		type = INFO
+		pos = 0,0
+		size = 640x480
+		anchor1 = 0,0
+		anchor2 = 100,100
+		is-default = true
+		saved-params = ""

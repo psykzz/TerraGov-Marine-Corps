@@ -100,6 +100,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/icon/preview_icon_side = null
 
 	var/list/exp = list()
+	var/list/menuoptions
 
 
 /datum/preferences/New(client/C)
@@ -118,6 +119,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	real_name = S.random_name(gender)
 	age = rand(18, 36)
 	h_style = pick("Crewcut", "Bald", "Short Hair")
+	menuoptions = list()
 
 
 /datum/preferences/proc/ShowChoices(mob/user)

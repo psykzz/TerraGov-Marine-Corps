@@ -240,18 +240,17 @@
 	return (health <= get_crit_threshold() && stat == UNCONSCIOUS)
 
 
-/mob/living/Move(NewLoc, direct)
-	if (buckled && buckled.loc != NewLoc) //not updating position
-		if (!buckled.anchored)
-			return buckled.Move(NewLoc, direct)
+/mob/living/Move(atom/newloc, direct)
+	if(buckled && buckled.loc != newloc) //not updating position
+		if(!buckled.anchored)
+			return buckled.Move(newloc, direct)
 		else
-			return 0
+			return FALSE
 
 	. = ..()
 
 	if(pulledby && moving_diagonally != FIRST_DIAG_STEP && get_dist(src, pulledby) > 1 && (pulledby != moving_from_pull))//separated from our puller and not in the middle of a diagonal move.
 		pulledby.stop_pulling()
-
 
 	if(s_active && !(s_active in contents) && !CanReach(s_active))
 		s_active.close(src)
@@ -278,13 +277,28 @@
 			return TRUE
 		if(moving_resist && client) //we resisted by trying to move
 			visible_message("<span class='danger'>[src] struggles to break free of [pulledby]'s grip!</span>", null, null, 5)
-			client.next_movement = world.time + (10*pulledby.grab_level) + client.move_delay
+			client.move_delay = world.time + (10*pulledby.grab_level) + client.move_delay
 	else
 		grab_resist_level = 0 //zero it out.
 		pulledby.stop_pulling()
 		return TRUE
 
 /mob/living/stop_pulling()
+	if(ismob(pulling))
+		var/mob/M = pulling
+		grab_level = 0
+		if(M.client)
+			//resist_grab uses long movement cooldown durations to prevent message spam
+			//so we must undo it here so the victim can move right away
+			M.client.move_delay = world.time
+		M.update_canmove()
+
+	if(isliving(pulling))
+		var/mob/living/L = pulling
+		L.grab_resist_level = 0 //zero it out
+
+	. = ..()
+
 	if(istype(r_hand, /obj/item/grab))
 		temporarilyRemoveItemFromInventory(r_hand)
 	else if(istype(l_hand, /obj/item/grab))
@@ -293,20 +307,6 @@
 	if(hud_used?.pull_icon)
 		hud_used.pull_icon.icon_state = "pull0"
 
-	if(ismob(pulling))
-		var/mob/M = pulling
-		grab_level = 0
-		if(M.client)
-			//resist_grab uses long movement cooldown durations to prevent message spam
-			//so we must undo it here so the victim can move right away
-			M.client.next_movement = world.time
-		M.update_canmove()
-
-	if(isliving(pulling))
-		var/mob/living/L = pulling
-		L.grab_resist_level = 0 //zero it out
-
-	return ..()
 
 /mob/living/movement_delay()
 
@@ -319,20 +319,14 @@
 	if (drowsyness > 0)
 		. += 6
 
-	if(pulling && pulling.drag_delay && !ignore_pull_delay())	//Dragging stuff can slow you down a bit.
+	if(pulling?.drag_delay)	//Dragging stuff can slow you down a bit.
 		var/pull_delay = pulling.drag_delay
 		if(ismob(pulling))
 			var/mob/M = pulling
 			if(M.buckled) //if the pulled mob is buckled to an object, we use that object's drag_delay.
 				pull_delay = M.buckled.drag_delay
-		. += max(pull_speed + pull_delay + 3*grab_level, 0) //harder grab makes you slower
+		. += max(pull_speed + pull_delay + 3 * grab_level, 0) //harder grab makes you slower
 
-//whether we are slowed when dragging things
-/mob/living/proc/ignore_pull_delay()
-	return FALSE
-
-/mob/living/carbon/human/ignore_pull_delay()
-	return FALSE
 
 /mob/living/is_injectable(allowmobs = TRUE)
 	return (allowmobs && can_inject())

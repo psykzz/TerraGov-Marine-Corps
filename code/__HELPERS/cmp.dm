@@ -28,6 +28,19 @@
 /proc/cmp_keybinding_dsc(datum/keybinding/a, datum/keybinding/b)
 	return cmp_numeric_dsc(a.weight, b.weight)
 
+// Datum cmp with vars is always slower than a specialist cmp proc, use your judgement.
+/proc/cmp_datum_numeric_asc(datum/a, datum/b, variable)
+	return cmp_numeric_asc(a.vars[variable], b.vars[variable])
+
+/proc/cmp_datum_numeric_dsc(datum/a, datum/b, variable)
+	return cmp_numeric_dsc(a.vars[variable], b.vars[variable])
+
+/proc/cmp_datum_text_asc(datum/a, datum/b, variable)
+	return sorttext(b.vars[variable], a.vars[variable])
+
+/proc/cmp_datum_text_dsc(datum/a, datum/b, variable)
+	return sorttext(a.vars[variable], b.vars[variable])
+
 /proc/cmp_records_asc(datum/data/record/a, datum/data/record/b, sortkey)
 	return sorttext(b.fields[sortkey], a.fields[sortkey])
 

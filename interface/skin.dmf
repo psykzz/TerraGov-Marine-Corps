@@ -247,7 +247,6 @@ window "outputwindow"
 		saved-params = ""
 
 
-
 window "preferences_window"
 	elem "preferences_window"
 		type = MAIN

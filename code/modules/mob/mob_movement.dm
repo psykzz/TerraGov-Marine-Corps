@@ -10,10 +10,6 @@
 	set hidden = 1
 	if(iscarbon(mob))
 		mob:swap_hand()
-	if(istype(mob,/mob/living/silicon/robot))
-		var/mob/living/silicon/robot/R = mob
-		R.cycle_modules()
-	return
 
 
 
@@ -36,8 +32,7 @@
 
 /client/verb/drop_item()
 	set hidden = 1
-	if(!iscyborg(mob))
-		mob.drop_item_v()
+	mob.drop_item_v()
 	return
 
 

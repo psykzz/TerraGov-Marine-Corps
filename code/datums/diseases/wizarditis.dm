@@ -41,7 +41,6 @@ STI KALY - blind
 				to_chat(affected_mob, "<span class='warning'>You feel [pick("the magic bubbling in your veins","that this location gives you a +1 to INT","an urge to summon familiar.")].</span>")
 
 		if(4)
-
 			if(prob(1))
 				affected_mob.say(pick("NEC CANTIO!","AULIE OXIN FIERA!","STI KALY!","EI NATH!"))
 				return

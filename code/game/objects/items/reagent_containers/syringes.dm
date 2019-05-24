@@ -94,12 +94,13 @@
 				if(iscarbon(target))//maybe just add a blood reagent to all mobs. Then you can suck them dry...With hundreds of syringes. Jolly good idea.
 					var/amount = src.reagents.maximum_volume - src.reagents.total_volume
 					var/mob/living/carbon/T = target
-					if(T.get_blood_id() && reagents.has_reagent(T.get_blood_id()))
+					var/blood_id = T.get_blood_id()
+					if(blood_id && reagents.has_reagent(blood_id))
 						to_chat(user, "<span class='warning'>There is already a blood sample in this syringe.</span>")
 						return
-					if(!T.dna)
-						to_chat(user, "<span class='warning'>You are unable to locate any blood.</span>")
-						return
+					// if(!T.dna)
+					// 	to_chat(user, "<span class='warning'>You are unable to locate any blood.</span>")
+					// 	return
 					if(NOCLONE in T.mutations) //target done been et, no more blood in him
 						to_chat(user, "<span class='warning'>You are unable to locate any blood.</span>")
 						return

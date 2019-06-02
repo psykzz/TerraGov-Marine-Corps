@@ -185,6 +185,7 @@
 #include "code\datums\datacore.dm"
 #include "code\datums\datum.dm"
 #include "code\datums\emotes.dm"
+#include "code\datums\faction.dm"
 #include "code\datums\fluff_emails.dm"
 #include "code\datums\holocall.dm"
 #include "code\datums\map_config.dm"

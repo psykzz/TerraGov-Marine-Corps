@@ -7,6 +7,7 @@ SUBSYSTEM_DEF(job)
 	var/list/name_occupations = list()	//Dict of all jobs, keys are titles.
 	var/list/type_occupations = list()	//Dict of all jobs, keys are types.
 
+// TODO: Faction refactor
 	var/list/squads = list()			//List of squads.
 
 	var/list/unassigned = list()		//Players who need jobs.
@@ -26,8 +27,10 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/SetupOccupations()
 	occupations = list()
+// TODO: Faction refactor
 	squads = list()
 	var/list/all_jobs = subtypesof(/datum/job)
+// TODO: Faction refactor
 	var/list/all_squads = subtypesof(/datum/squad)
 	if(!length(all_jobs))
 		to_chat(world, "<span class='boldnotice'>Error setting up jobs, no job datums found</span>")
@@ -41,6 +44,7 @@ SUBSYSTEM_DEF(job)
 		name_occupations[job.title] = job
 		type_occupations[J] = job
 
+// TODO: Faction refactor
 	for(var/S in all_squads)
 		var/datum/squad/squad = new S()
 		if(!squad)
@@ -81,6 +85,7 @@ SUBSYSTEM_DEF(job)
 			JobDebug("AR player not old enough, Player: [player], Job:[job.title]")
 			return FALSE
 		if(rank in JOBS_MARINES)
+// TODO: Faction refactor
 			if(handle_squad(player, rank, latejoin))
 				JobDebug("Successfuly assigned marine role to a squad. Player: [player.key] Rank: [rank]")
 			else
@@ -263,7 +268,7 @@ SUBSYSTEM_DEF(job)
 			to_chat(M, "<span clas='danger'>You are playing a job that is important for game progression. If you have to disconnect, please head to hypersleep, if you can't make it there, notify the admins via adminhelp.</span>")
 		if(CONFIG_GET(number/minimal_access_threshold))
 			to_chat(M, "<span class='notice'><b>As this ship was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "skeleton crew, additional access may" : "full crew, only your job's necessities"] have been added to your ID card.</b></span>")
-	
+
 	if(job && L)
 		job.after_spawn(L, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 

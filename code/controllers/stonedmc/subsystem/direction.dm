@@ -92,7 +92,7 @@ SUBSYSTEM_DEF(direction)
 /datum/controller/subsystem/direction/proc/clear_leader(squad_id)
 	leader_mapping[squad_id] = null
 
-/datum/controller/subsystem/direction/proc/init_squad(/datum/squad/S, mob/L = null)
+/datum/controller/subsystem/direction/proc/init_faction(/datum/faction/S, mob/L = null)
 	var/new_squad_id = "faction_[last_faction_id++]"
 	processing_mobs.Add(new_squad_id)
 	processing_mobs[new_squad_id] = list()

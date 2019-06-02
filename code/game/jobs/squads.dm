@@ -39,6 +39,14 @@
 	var/list/squad_laser_targets = list()
 
 
+/datum/squad/general
+	name = "General"
+	id = 0
+	color = "#ffffff" // rgb(255,255,255)
+	usable = TRUE
+	radio_freq = FREQ_ALPHA
+
+
 /datum/squad/alpha
 	name = "Alpha"
 	id = ALPHA_SQUAD
@@ -53,7 +61,7 @@
 	id = BRAVO_SQUAD
 	color = "#ffc32d" // rgb(255,195,45)
 	access = list(ACCESS_MARINE_BRAVO)
-	usable = 1
+	usable = TRUE
 	radio_freq = FREQ_BRAVO
 
 
@@ -94,7 +102,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 	GLOB.helmetmarkings[type] = helmet
 	GLOB.helmetmarkings_sl[type] = helmetsl
 
-	tracking_id = SSdirection.init_squad(src)
+	tracking_id = SSdirection.init_faction(src)
 
 /datum/squad/proc/get_all_members()
 	return marines_list

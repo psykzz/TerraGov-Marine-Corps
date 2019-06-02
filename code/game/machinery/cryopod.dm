@@ -292,15 +292,8 @@
 
 /mob/living/carbon/human/despawn(obj/machinery/cryopod/pod, dept_console = CRYO_REQ)
 	if(assigned_squad)
-		switch(assigned_squad.id)
-			if(ALPHA_SQUAD)
-				dept_console = CRYO_ALPHA
-			if(BRAVO_SQUAD)
-				dept_console = CRYO_BRAVO
-			if(CHARLIE_SQUAD)
-				dept_console = CRYO_CHARLIE
-			if(DELTA_SQUAD)
-				dept_console = CRYO_DELTA
+		dept_console = "[assigned_squad.name] Squad"
+
 		if(job)
 			var/datum/job/J = SSjob.name_occupations[job]
 			if(J.flag & SQUAD_SPECIALIST && specset && !available_specialist_sets.Find(specset))

@@ -3,6 +3,10 @@
 
 	var/resize = RESIZE_DEFAULT_SIZE //Badminnery resize
 
+
+	var/datum/faction/faction
+
+
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
 	var/health = 100 	//A mob's health

@@ -7,9 +7,6 @@ SUBSYSTEM_DEF(job)
 	var/list/name_occupations = list()	//Dict of all jobs, keys are titles.
 	var/list/type_occupations = list()	//Dict of all jobs, keys are types.
 
-// TODO: Faction refactor
-	var/list/squads = list()			//List of squads.
-
 	var/list/unassigned = list()		//Players who need jobs.
 	var/initial_players_to_assign = 0 	//Used for checking against population caps.
 
@@ -27,11 +24,8 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/SetupOccupations()
 	occupations = list()
-// TODO: Faction refactor
-	squads = list()
+
 	var/list/all_jobs = subtypesof(/datum/job)
-// TODO: Faction refactor
-	var/list/all_squads = subtypesof(/datum/squad)
 	if(!length(all_jobs))
 		to_chat(world, "<span class='boldnotice'>Error setting up jobs, no job datums found</span>")
 		return FALSE
@@ -44,12 +38,6 @@ SUBSYSTEM_DEF(job)
 		name_occupations[job.title] = job
 		type_occupations[J] = job
 
-// TODO: Faction refactor
-	for(var/S in all_squads)
-		var/datum/squad/squad = new S()
-		if(!squad)
-			continue
-		squads[squad.name] = squad
 	return TRUE
 
 
@@ -86,7 +74,7 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		if(rank in JOBS_MARINES)
 // TODO: Faction refactor
-			if(handle_squad(player, rank, latejoin))
+			if(SSfaction.assign_faction(player, rank, latejoin))
 				JobDebug("Successfuly assigned marine role to a squad. Player: [player.key] Rank: [rank]")
 			else
 				JobDebug("Failed to assign marine role to a squad. Player: [player.key] Rank: [rank]")
@@ -240,12 +228,12 @@ SUBSYSTEM_DEF(job)
 				N.new_character = L
 			else
 				M = L
-		if(rank in JOBS_MARINES)
-			if(L.mind.assigned_squad)
-				var/datum/squad/S = L.mind.assigned_squad
-				S.put_marine_in_squad(L)
-			else
-				JobDebug("Failed to put marine role in squad. Player: [L.key] Rank: [rank]")
+		// if(rank in JOBS_MARINES)
+		// 	if(L.mind.assigned_squad)
+		// 		var/datum/faction/F = L.mind.assigned_squad
+		// 		F.add_member(L)
+		// 	else
+		// 		JobDebug("Failed to put marine role in squad. Player: [L.key] Rank: [rank]")
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		//Give them an account in the database.
@@ -327,4 +315,5 @@ SUBSYSTEM_DEF(job)
 
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
+	to_chat(world, message)
 	log_manifest(message)

@@ -2,7 +2,6 @@
 	access = ALL_MARINE_ACCESS
 	minimal_access = ALL_MARINE_ACCESS
 	skills_type = /datum/skills/pfc/pmc
-	faction = "Nanotrasen"
 
 
 //PMC Standard

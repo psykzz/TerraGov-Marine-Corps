@@ -291,25 +291,26 @@
 	qdel(src)
 
 /mob/living/carbon/human/despawn(obj/machinery/cryopod/pod, dept_console = CRYO_REQ)
-	if(assigned_squad)
-		dept_console = "[assigned_squad.name] Squad"
+	if(assigned_faction)
+		dept_console = "[assigned_faction.name] Squad"
 
 		if(job)
 			var/datum/job/J = SSjob.name_occupations[job]
 			if(istype(J, /datum/job/marine/specialist) && specset && !available_specialist_sets.Find(specset))
 				available_specialist_sets += specset //we make the set this specialist took if any available again
-			if(istype(J, /datum/job/marine/engineer))
-				assigned_squad.num_engineers--
-			if(istype(J, /datum/job/marine/corpsman))
-				assigned_squad.num_medics--
-			if(istype(J, /datum/job/marine/specialist))
-				assigned_squad.num_specialists--
-			if(istype(J, /datum/job/marine/smartgunner))
-				assigned_squad.num_smartgun--
-			if(istype(J, /datum/job/marine/leader))
-				assigned_squad.num_leaders--
-		assigned_squad.count--
-		assigned_squad.clean_marine_from_squad(src, TRUE) //Remove from squad recods, if any.
+			if(istype(assinged_faction, /datum/faction/marine))
+				if(istype(J, /datum/job/marine/engineer))
+					assigned_faction.num_engineers--
+				if(istype(J, /datum/job/marine/corpsman))
+					assigned_faction.num_medics--
+				if(istype(J, /datum/job/marine/specialist))
+					assigned_faction.num_specialists--
+				if(istype(J, /datum/job/marine/smartgunner))
+					assigned_faction.num_smartgun--
+				if(istype(J, /datum/job/marine/leader))
+					assigned_faction.num_leaders--
+				assigned_faction.count--
+				assigned_faction.clean_marine_from_squad(src, TRUE) //Remove from squad recods, if any.
 
 	. = ..()
 

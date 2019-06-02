@@ -29,7 +29,6 @@ GLOBAL_PROTECT(exp_specialmap)
 	var/department_head = list()
 
 	var/list/head_announce = null
-	var/faction = "None"
 
 	var/total_positions = 0
 	var/current_positions = 0
@@ -84,7 +83,6 @@ GLOBAL_PROTECT(exp_specialmap)
 		H.mind.comm_title = comm_title
 
 	H.job = title
-	H.faction = faction
 
 	if(outfit_override || outfit)
 		H.equipOutfit(outfit_override ? outfit_override : outfit, visualsOnly)

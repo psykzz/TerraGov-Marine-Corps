@@ -117,7 +117,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 		return FALSE
 	if(!H.mind?.assigned_role)
 		return FALSE
-	if(H.assigned_squad)
+	if(H.assigned_faction)
 		return FALSE
 
 	var/obj/item/card/id/C = null
@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 	log_game("[key_name(H)] has been assigned as [name] [H.mind.assigned_role]")
 
 	marines_list += H
-	H.assigned_squad = src //Add them to the squad
+	H.assigned_faction = src //Add them to the squad
 
 	if(istype(H.wear_ear, /obj/item/radio/headset/almayer)) // they've been transferred
 		var/obj/item/radio/headset/almayer/headset = H.wear_ear
@@ -170,7 +170,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 	if(!H.mind)
 		return FALSE
 
-	if(!H.assigned_squad)
+	if(!H.assigned_faction)
 		return FALSE
 
 	var/obj/item/card/id/C
@@ -186,14 +186,14 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 
 	SSdirection.stop_tracking(tracking_id, H) // covers squad transfers
 
-	if(H.assigned_squad.squad_leader == H)
+	if(H.assigned_faction.leader == H)
 		if(H.mind.assigned_role != "Squad Leader") //a field promoted SL, not a real one
 			demote_squad_leader()
 		else
-			H.assigned_squad.squad_leader = null
+			H.assigned_faction.leader = null
 			SSdirection.clear_leader(tracking_id)
 
-	H.assigned_squad = null
+	H.assigned_faction = null
 
 	switch(H.mind.assigned_role)
 		if("Squad Engineer")
@@ -210,7 +210,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 
 //proc used by human dispose to clean the mob from squad lists
 /datum/squad/proc/clean_marine_from_squad(mob/living/carbon/human/H, wipe)
-	if(!H.assigned_squad || !(H in marines_list))
+	if(!H.assigned_faction || !(H in marines_list))
 		return FALSE
 	SSdirection.stop_tracking(tracking_id, H)// failsafe
 	marines_list -= src
@@ -222,7 +222,7 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 	if(squad_leader == src)
 		squad_leader = null
 		SSdirection.clear_leader(tracking_id)
-	H.assigned_squad = null
+	H.assigned_faction = null
 	return TRUE
 
 
@@ -321,132 +321,33 @@ GLOBAL_LIST_EMPTY(helmetmarkings_sl)
 		return FALSE
 	switch(rank)
 		if("Squad Marine")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			return TRUE
 		if("Squad Engineer")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			if(!latejoin)
 				num_engineers++
 			return TRUE
 		if("Squad Corpsman")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			if(!latejoin)
 				num_medics++
 			return TRUE
 		if("Squad Smartgunner")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			if(!latejoin)
 				num_smartgun++
 			return TRUE
 		if("Squad Specialist")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			if(!latejoin)
 				num_specialists++
 			return TRUE
 		if("Squad Leader")
-			M.mind.assigned_squad = src
+			M.mind.assigned_faction = src
 			if(!latejoin)
 				num_leaders++
 			return TRUE
 		else
 			return FALSE
 
-
-/proc/handle_squad(mob/M, rank, latejoin = FALSE)
-	var/strict = FALSE
-	var/datum/squad/P = SSjob.squads[M.client.prefs.preferred_squad]
-	var/datum/squad/R = SSjob.squads[pick(SSjob.squads)]
-	if(M.client?.prefs?.be_special && (M.client.prefs.be_special & BE_SQUAD_STRICT))
-		strict = TRUE
-	switch(rank)
-		if("Squad Marine")
-			if(P && P.assign(M, rank))
-				return TRUE
-			else if(R.assign(M, rank))
-				return TRUE
-		if("Squad Engineer")
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				if(P && P == S && S.assign(M, rank, latejoin))
-					return TRUE
-			if(strict && !latejoin)
-				return FALSE
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				else if(S.assign(M, rank, latejoin))
-					return TRUE
-		if("Squad Corpsman")
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				if(P && P == S && S.assign(M, rank, latejoin))
-					return TRUE
-			if(strict && !latejoin)
-				return FALSE
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				else if(S.assign(M, rank, latejoin))
-					return TRUE
-		if("Squad Smartgunner")
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				if(P && P == S && S.assign(M, rank, latejoin))
-					return TRUE
-			if(strict && !latejoin)
-				return FALSE
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank, latejoin))
-					continue
-				else if(S.assign(M, rank, latejoin))
-					return TRUE
-		if("Squad Specialist")
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				if(P && P == S && S.assign(M, rank, latejoin))
-					return TRUE
-			if(strict && !latejoin)
-				return FALSE
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				else if(S.assign(M, rank, latejoin))
-					return TRUE
-		if("Squad Leader")
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				if(P && P == S && S.assign(M, rank, latejoin))
-					return TRUE
-			if(strict && !latejoin)
-				return FALSE
-			for(var/i in shuffle(SSjob.squads))
-				var/datum/squad/S = SSjob.squads[i]
-				if(!S.check_entry(rank))
-					continue
-				else if(S.assign(M, rank, latejoin))
-					return TRUE
-	return FALSE
-
-
-/proc/reset_squads()
-	for(var/i in SSjob.squads)
-		var/datum/squad/S = SSjob.squads[i]
-		S.num_engineers = 0
-		S.num_medics = 0
-		S.num_smartgun = 0
-		S.num_specialists = 0
-		S.num_leaders = 0

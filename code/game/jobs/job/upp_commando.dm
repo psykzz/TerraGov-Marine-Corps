@@ -2,8 +2,6 @@
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
 	skills_type = /datum/skills/commando
-	faction = "Union of Progressive People"
-
 
 //UPP Commando Standard
 /datum/job/upp/commando/standard

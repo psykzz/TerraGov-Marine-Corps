@@ -1,5 +1,4 @@
 /mob/living/simple_animal/hostile
-	faction = "hostile"
 	var/stance = HOSTILE_STANCE_IDLE	//Used to determine behavior
 	var/mob/living/target_mob
 	var/attack_same = 0

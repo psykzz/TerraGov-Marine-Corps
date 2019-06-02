@@ -182,7 +182,7 @@
 				to_chat(H, "<span class='warning'>Not enough points.</span>")
 				return
 
-			if(!H.assigned_squad || (squad_tag && H.assigned_squad.name != squad_tag))
+			if(!H.assigned_faction || (squad_tag && H.assigned_faction.name != squad_tag))
 				to_chat(H, "<span class='warning'>This machine isn't for your squad.</span>")
 				return
 

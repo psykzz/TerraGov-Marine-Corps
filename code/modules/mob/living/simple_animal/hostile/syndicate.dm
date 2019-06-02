@@ -32,7 +32,6 @@
 	max_n2 = 0
 	unsuitable_atoms_damage = 15
 	wall_smash = 1
-	faction = "syndicate"
 	status_flags = CANPUSH
 
 /mob/living/simple_animal/hostile/syndicate/death()
@@ -131,7 +130,6 @@
 	melee_damage_upper = 15
 	attacktext = "cuts"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
-	faction = "syndicate"
 	min_oxy = 0
 	max_oxy = 0
 	min_tox = 0

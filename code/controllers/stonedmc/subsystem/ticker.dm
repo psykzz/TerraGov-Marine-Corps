@@ -119,7 +119,7 @@ SUBSYSTEM_DEF(ticker)
 	CHECK_TICK
 	var/can_continue = mode.pre_setup()
 	CHECK_TICK
-	SSjob.DivideOccupations() 
+	SSjob.DivideOccupations()
 	CHECK_TICK
 
 	if(!GLOB.Debug2)
@@ -142,7 +142,7 @@ SUBSYSTEM_DEF(ticker)
 	GLOB.start_landmarks_list = shuffle(GLOB.start_landmarks_list) //Shuffle the order of spawn points so they dont always predictably spawn bottom-up and right-to-left
 	create_characters() //Create player characters
 	collect_minds()
-	reset_squads()
+	SSfaction.reset()
 	equip_characters()
 
 	transfer_characters()	//transfer keys to the new mobs

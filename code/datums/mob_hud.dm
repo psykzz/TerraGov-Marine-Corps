@@ -117,9 +117,9 @@ var/datum/mob_hud/huds = list(
 
 /datum/mob_hud/squad
 	hud_icons = list(SQUAD_HUD)
-	
+
 /datum/mob_hud/order
-	hud_icons = list(ORDER_HUD)	
+	hud_icons = list(ORDER_HUD)
 
 
 
@@ -457,34 +457,37 @@ var/datum/mob_hud/huds = list(
 	var/image/holder = hud_list[SQUAD_HUD]
 	holder.icon_state = "hudblank"
 	holder.overlays.Cut()
-	if(assigned_squad)
-		var/squad_clr = assigned_squad.color
-		var/marine_rk
-		var/obj/item/card/id/I = get_idcard()
-		var/_role
-		if(mind)
-			_role = mind.assigned_role
-		else if(I)
-			_role = I.rank
-		switch(_role)
-			if("Squad Engineer") marine_rk = "engi"
-			if("Squad Specialist") marine_rk = "spec"
-			if("Squad Corpsman") marine_rk = "med"
-			if("Squad Smartgunner") marine_rk = "gun"
-		if(assigned_squad.squad_leader == src)
-			marine_rk = "leader"
-		if(marine_rk)
-			var/image/IMG = image('icons/mob/hud.dmi',src, "hudmarinesquad")
-			IMG.color = squad_clr
-			holder.overlays += IMG
-			holder.overlays += image('icons/mob/hud.dmi',src, "hudmarinesquad[marine_rk]")
-		if(I && I.assigned_fireteam)
-			var/image/IMG2 = image('icons/mob/hud.dmi',src, "hudmarinesquadft[I.assigned_fireteam]")
-			IMG2.color = squad_clr
-			holder.overlays += IMG2
+
+	if(!faction)
+		return
+
+	var/squad_clr = faction.color
+	var/marine_rk
+	var/obj/item/card/id/I = get_idcard()
+	var/_role
+	if(mind)
+		_role = mind.assigned_role
+	else if(I)
+		_role = I.rank
+	switch(_role)
+		if("Squad Engineer") marine_rk = "engi"
+		if("Squad Specialist") marine_rk = "spec"
+		if("Squad Corpsman") marine_rk = "med"
+		if("Squad Smartgunner") marine_rk = "gun"
+	if(faction.leader == src)
+		marine_rk = "leader"
+	if(marine_rk)
+		var/image/IMG = image('icons/mob/hud.dmi',src, "hudmarinesquad")
+		IMG.color = squad_clr
+		holder.overlays += IMG
+		holder.overlays += image('icons/mob/hud.dmi',src, "hudmarinesquad[marine_rk]")
+	if(I && I.assigned_fireteam)
+		var/image/IMG2 = image('icons/mob/hud.dmi',src, "hudmarinesquadft[I.assigned_fireteam]")
+		IMG2.color = squad_clr
+		holder.overlays += IMG2
 	hud_list[SQUAD_HUD] = holder
-	
-	
+
+
 //Order HUD
 
 /mob/living/carbon/human/proc/hud_set_order()
@@ -510,7 +513,7 @@ var/datum/mob_hud/huds = list(
 			if("focus")
 				holder.overlays += image('icons/mob/hud.dmi',src, "hudfocusaura")
 
-	hud_list[ORDER_HUD] = holder	
+	hud_list[ORDER_HUD] = holder
 
 
 /datum/atom_hud

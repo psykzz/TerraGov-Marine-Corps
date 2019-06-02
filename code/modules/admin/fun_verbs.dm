@@ -428,7 +428,7 @@
 	for(var/i in GLOB.clients)
 		var/client/C = i
 		if(!C?.chatOutput.loaded || C.chatOutput.broken)
-			continue	
+			continue
 		C.chatOutput.stopMusic()
 
 
@@ -714,24 +714,24 @@
 	message_admins("[ADMIN_TPMONTY(usr)] changed the equipment of [ADMIN_TPMONTY(H)] to [istype(O) ? O.name : dresscode].")
 
 
-/datum/admins/proc/change_squad(mob/living/carbon/human/H in GLOB.human_mob_list)
-	set category = "Fun"
-	set name = "Change Squad"
+// /datum/admins/proc/change_squad(mob/living/carbon/human/H in GLOB.human_mob_list)
+// 	set category = "Fun"
+// 	set name = "Change Squad"
 
-	if(!check_rights(R_FUN))
-		return
+// 	if(!check_rights(R_FUN))
+// 		return
 
-	if(!istype(H) || !(H.job in JOBS_MARINES))
-		return
+// 	if(!istype(H) || !(H.job in JOBS_MARINES))
+// 		return
 
-	var/squad = input("Choose the marine's new squad.", "Change Squad") as null|anything in SSjob.squads
-	if(!squad || !istype(H) || !(H.job in JOBS_MARINES))
-		return
+// 	var/squad = input("Choose the marine's new squad.", "Change Squad") as null|anything in SSjob.squads
+// 	if(!squad || !istype(H) || !(H.job in JOBS_MARINES))
+// 		return
 
-	H.change_squad(squad)
+// 	H.change_squad(squad)
 
-	log_admin("[key_name(src)] has changed the squad of [key_name(H)] to [squad].")
-	message_admins("[ADMIN_TPMONTY(usr)] has changed the squad of [ADMIN_TPMONTY(H)] to [squad].")
+// 	log_admin("[key_name(src)] has changed the squad of [key_name(H)] to [squad].")
+// 	message_admins("[ADMIN_TPMONTY(usr)] has changed the squad of [ADMIN_TPMONTY(H)] to [squad].")
 
 
 /datum/admins/proc/create_outfit()
@@ -903,7 +903,7 @@
 		if(alert("This mob has a player inside, are you sure you want to proceed?", "Offer Mob", "Yes", "No") != "Yes")
 			return
 		L.ghostize(FALSE)
-		
+
 	else if(L in GLOB.offered_mob_list)
 		switch(alert("This mob has been offered, do you want to re-announce it?", "Offer Mob", "Yes", "Remove", "Cancel"))
 			if("Cancel")

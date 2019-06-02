@@ -2,7 +2,6 @@
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
 	skills_type = /datum/skills/pfc/crafty
-	faction = "Union of Progressive People"
 
 
 //UPP Standard

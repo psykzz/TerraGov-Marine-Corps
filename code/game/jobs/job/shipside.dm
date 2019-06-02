@@ -1,7 +1,6 @@
 /datum/job/command
 	selection_color = "#ddddff"
 	supervisors = "the acting captain"
-	faction = "Marine"
 	total_positions = 1
 
 
@@ -284,7 +283,6 @@ In addition, you are tasked with the security of high-ranking personnel, includi
 /datum/job/logistics
 	supervisors = "the acting captain"
 	total_positions = 1
-	faction = "Marine"
 
 
 //Chief Ship Engineer
@@ -444,7 +442,6 @@ Listen to the radio in case someone requests a supply drop via the overwatch sys
 
 
 /datum/job/medical
-	faction = "Marine"
 
 
 /datum/job/medical/professor
@@ -574,7 +571,6 @@ While the Corporate Liaison is not your boss, it would be wise to consult them o
 
 /datum/job/civilian
 	total_positions = 1
-	faction = "Marine"
 
 
 //Liaison

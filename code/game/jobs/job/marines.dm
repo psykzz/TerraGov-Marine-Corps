@@ -2,16 +2,15 @@
 	supervisors = "the acting squad leader"
 	selection_color = "#ffeeee"
 	skills_type = /datum/skills/pfc
-	faction = "Marine"
 
 
 /datum/job/marine/after_spawn(mob/living/carbon/C, mob/M, latejoin = FALSE)
 	. = ..()
 	C.hud_set_squad()
 	C.nutrition = rand(60,250)
-	if(!C.mind?.assigned_squad)
+	if(!C.mind?.assigned_faction)
 		return
-	var/datum/squad/S = C.mind.assigned_squad
+	var/datum/faction/S = C.mind.assigned_faction
 	to_chat(M, {"\nYou have been assigned to: <b><font size=3 color=[S.color]>[lowertext(S.name)] squad</font></b>.
 Make your way to the cafeteria for some post-cryosleep chow, and then get equipped in your squad's prep room."})
 

@@ -355,7 +355,7 @@ GLOBAL_PROTECT(admin_verbs_varedit)
 	return list(
 	/datum/admins/proc/edit_rank,
 	/datum/admins/proc/select_equipment,
-	/datum/admins/proc/change_squad,
+	// /datum/admins/proc/change_squad,
 	/datum/admins/proc/set_view_range,
 	/datum/admins/proc/emp,
 	/datum/admins/proc/queen_report,

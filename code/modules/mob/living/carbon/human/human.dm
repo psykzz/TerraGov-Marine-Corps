@@ -67,9 +67,9 @@
 
 
 /mob/living/carbon/human/Destroy()
-	if(assigned_squad)
-		SSdirection.stop_tracking(assigned_squad.tracking_id, src) // failsafe to ensure they're definite not in the list
-	assigned_squad?.clean_marine_from_squad(src,FALSE)
+	if(assigned_faction)
+		SSdirection.stop_tracking(assigned_faction.tracking_id, src) // failsafe to ensure they're definite not in the list
+	assigned_faction?.clean_marine_from_squad(src,FALSE)
 	remove_from_all_mob_huds()
 	GLOB.human_mob_list -= src
 	GLOB.alive_human_list -= src
@@ -89,11 +89,11 @@
 			stat("Tank Pressure", internal.pressure)
 			stat("Distribution Pressure", internal.distribute_pressure)
 
-		if(assigned_squad)
-			if(assigned_squad.primary_objective)
-				stat("Primary Objective: ", assigned_squad.primary_objective)
-			if(assigned_squad.secondary_objective)
-				stat("Secondary Objective: ", assigned_squad.secondary_objective)
+		if(assigned_faction)
+			if(assigned_faction.primary_objective)
+				stat("Primary Objective: ", assigned_faction.primary_objective)
+			if(assigned_faction.secondary_objective)
+				stat("Secondary Objective: ", assigned_faction.secondary_objective)
 
 		if(mobility_aura)
 			stat(null, "You are affected by a MOVE order.")
@@ -549,12 +549,12 @@
 			if(mind)
 				var/obj/item/card/id/ID = get_idcard()
 				if(ID && (ID.rank in JOBS_MARINES))//still a marine, with an ID.
-					if(assigned_squad == H.assigned_squad) //still same squad
+					if(assigned_faction == H.assigned_faction) //still same squad
 						var/newfireteam = input(usr, "Assign this marine to a fireteam.", "Fire Team Assignment") as null|anything in list("None", "Fire Team 1", "Fire Team 2", "Fire Team 3")
 						if(H.incapacitated() || get_dist(H, src) > 7 || !hasHUD(H,"squadleader")) return
 						ID = get_idcard()
 						if(ID && ID.rank in JOBS_MARINES)//still a marine with an ID
-							if(assigned_squad == H.assigned_squad) //still same squad
+							if(assigned_faction == H.assigned_faction) //still same squad
 								switch(newfireteam)
 									if("None") ID.assigned_fireteam = 0
 									if("Fire Team 1") ID.assigned_fireteam = 1
@@ -920,7 +920,7 @@
 		I.damage = 0
 
 	undefibbable = FALSE
-	
+
 	return ..()
 
 /mob/living/carbon/human/proc/is_lung_ruptured()
@@ -1452,7 +1452,6 @@
 		qdel(wear_id)
 
 	job = rank
-	faction = J.faction
 
 	equip_to_slot_or_del(I, SLOT_WEAR_ID)
 
@@ -1461,8 +1460,8 @@
 
 	GLOB.datacore.manifest_update(real_name, real_name, job)
 
-	if(assigned_squad)
-		change_squad(assigned_squad.name)
+	if(assigned_faction)
+		change_squad(assigned_faction.name)
 
 	return TRUE
 
@@ -1507,29 +1506,29 @@
 
 	set_rank(job)
 
-	if(assigned_squad)
-		change_squad(assigned_squad.name)
+	if(assigned_faction)
+		change_squad(assigned_faction.name)
 
 
 /mob/living/carbon/human/proc/change_squad(squad)
 	if(!squad || !(job in JOBS_MARINES))
 		return FALSE
 
-	var/datum/squad/S = SSjob.squads[squad]
+	var/datum/faction/marine/S = faction[squad]
 
 	if(!mind)
-		assigned_squad = S
+		assigned_faction = S
 		return FALSE
 
-	else if(assigned_squad)
-		assigned_squad.clean_marine_from_squad(src)
-		assigned_squad = null
+	else if(assigned_faction)
+		assigned_faction.clean_marine_from_squad(src)
+		assigned_faction = null
 
 	var/datum/job/J = SSjob.GetJob(mind.assigned_role)
 	var/datum/outfit/job/O = new J.outfit
 	O.handle_id(src)
 
-	S.put_marine_in_squad(src)
+	S.add_member(src)
 
 	//Crew manifest
 	for(var/i in GLOB.datacore.general)

@@ -189,8 +189,8 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 		if(wearer.wear_ear == src)
 			squadhud.remove_hud_from(wearer)
 			wearer.SL_directional = null
-			if(wearer.assigned_squad)
-				SSdirection.stop_tracking(wearer.assigned_squad.tracking_id, wearer)
+			if(wearer.assigned_faction)
+				SSdirection.stop_tracking(wearer.assigned_faction.tracking_id, wearer)
 			wearer = null
 	squadhud = null
 	headset_hud_on = FALSE
@@ -209,7 +209,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	else
 		squadhud.add_hud_to(user)
 		headset_hud_on = TRUE
-		if(user.mind && user.assigned_squad)
+		if(user.mind && user.assigned_faction)
 			if(!sl_direction)
 				toggle_sl_direction(user)
 		to_chat(user, "<span class='notice'>You toggle the Squad HUD on.</span>")
@@ -222,16 +222,16 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 		return
 
 	if(sl_direction)
-		if(user.mind && user.assigned_squad && user.hud_used?.SL_locator)
+		if(user.mind && user.assigned_faction && user.hud_used?.SL_locator)
 			user.hud_used.SL_locator.alpha = 0
-			SSdirection.stop_tracking(user.assigned_squad.tracking_id, user)
+			SSdirection.stop_tracking(user.assigned_faction.tracking_id, user)
 		sl_direction = FALSE
 		to_chat(user, "<span class='notice'>You toggle the SL directional display off.</span>")
 		playsound(loc, 'sound/machines/click.ogg', 15, 0, 1)
 	else
-		if(user.mind && user.assigned_squad && user.hud_used?.SL_locator)
+		if(user.mind && user.assigned_faction && user.hud_used?.SL_locator)
 			user.hud_used.SL_locator.alpha = 128
-			SSdirection.start_tracking(user.assigned_squad.tracking_id, user)
+			SSdirection.start_tracking(user.assigned_faction.tracking_id, user)
 		sl_direction = TRUE
 		to_chat(user, "<span class='notice'>You toggle the SL directional display on.</span>")
 		playsound(loc, 'sound/machines/click.ogg', 15, 0, 1)

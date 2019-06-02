@@ -30,7 +30,6 @@
 	min_n2 = 0
 	max_n2 = 0
 	unsuitable_atoms_damage = 15
-	faction = "russian"
 	status_flags = CANPUSH
 
 
@@ -77,7 +76,6 @@
 	min_n2 = 0
 	max_n2 = 0
 	unsuitable_atoms_damage = 15
-	faction = "russian"
 	status_flags = CANPUSH
 
 

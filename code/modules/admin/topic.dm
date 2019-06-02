@@ -31,7 +31,7 @@
 			to_chat(usr, "<span class='warning'>Ticket [ahelp_ref] has been deleted!</span>")
 			return
 
-		AH.Action(href_list["ahelp_action"])		
+		AH.Action(href_list["ahelp_action"])
 
 
 	else if(href_list["ahelp_tickets"])
@@ -1567,17 +1567,17 @@ Status: [status ? status : "Unknown"] | Damage: [health ? health : "None"]
 		message_admins("[ADMIN_TPMONTY(usr)] has limited the [slot] job.")
 
 
-	else if(href_list["setsquad"])
-		if(!check_rights(R_FUN))
-			return
+	// else if(href_list["setsquad"])
+	// 	if(!check_rights(R_FUN))
+	// 		return
 
-		var/mob/living/carbon/human/H = locate(href_list["setsquad"])
+	// 	var/mob/living/carbon/human/H = locate(href_list["setsquad"])
 
-		if(!istype(H))
-			to_chat(usr, "<span class='warning'>Target is no longer valid.</span>")
-			return
+	// 	if(!istype(H))
+	// 		to_chat(usr, "<span class='warning'>Target is no longer valid.</span>")
+	// 		return
 
-		usr.client.holder.change_squad(H)
+	// 	usr.client.holder.change_squad(H)
 
 
 	else if(href_list["setrank"])

@@ -95,7 +95,7 @@
 
 	var/job //Living
 
-	var/faction = "Neutral"
+	var/datum/faction/faction
 
 //Monkey/infected mode
 

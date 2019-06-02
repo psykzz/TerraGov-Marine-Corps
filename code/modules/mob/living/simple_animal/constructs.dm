@@ -23,7 +23,6 @@
 	min_n2 = 0
 	max_n2 = 0
 	minbodytemp = 0
-	faction = "cult"
 	var/list/construct_spells = list()
 
 /mob/living/simple_animal/construct/Initialize()

@@ -506,7 +506,9 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 		if(M.real_name && M.real_name != M.name)
 			name += " as ([M.real_name])"
 		if(issynth(M))
-			name += " - Synth"
+			name += "\[Synth\]"
+		else
+			name += M.job ? "\[[M.job]\]" : "\[no job\]"
 		if(admin)
 			if(M.client && M.client.is_afk())
 				name += " (AFK)"

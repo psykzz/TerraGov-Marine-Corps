@@ -183,7 +183,7 @@
 	var/node_range = NODERANGE
 	max_integrity = 15
 
-	var/node_turfs = list() // list of all potential turfs that we can expand to
+	var/list/node_turfs // list of all potential turfs that we can expand to
 
 
 /obj/effect/alien/weeds/node/update_icon()
@@ -204,6 +204,7 @@
 	SSweeds.add_node(src)
 
 /obj/effect/alien/weeds/node/proc/generate_weed_graph()
+/*
 	var/list/turfs_to_check = list()
 	turfs_to_check += get_turf(src)
 	var/node_size = node_range
@@ -224,5 +225,43 @@
 
 				turfs_to_check += AdjT
 				node_turfs += AdjT
+*/
+
+	node_turfs = list()
+
+	for(var/direction in GLOB.alldirs) //First pass to get the adjacent ones.
+		var/turf/adjacent_turf = get_step(src, direction)
+		if(adjacent_turf.density || LinkBlocked(src, adjacent_turf) || TurfBlockedNonWindow(adjacent_turf))
+			continue
+		node_turfs += adjacent_turf
+		node_turfs[adjacent_turf] = direction
+	to_chat(world, "first len: [length(node_turfs)]")
+
+	var/list/next_iteration = node_turfs.Copy()
+	var/list/turfs_to_check
+	for(var/node_size in 1 to node_range) //Second to get the rest, one square at a time.
+		turfs_to_check = next_iteration
+		next_iteration = list()
+		for(var/neighbor in turfs_to_check)
+			var/turf/current_turf = neighbor
+			var/expansion_dir = turfs_to_check[current_turf]
+			switch(expansion_dir)
+				if(NORTH, SOUTH, WEST, EAST) //These only check the next step in their direction.
+					var/turf/next_turf = get_step(current_turf, expansion_dir)
+					if(!next_turf.density && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf))
+						next_iteration += next_turf
+						next_iteration[next_turf] = expansion_dir
+						to_chat(world, "new turf - [expansion_dir]")
+				if(NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST) //These are corner cases and check both their direction and their cardinal cases, three in total.
+					for(var/next_direction in list(expansion_dir, expansion_dir & NORTH|SOUTH, expansion_dir & WEST|EAST))
+						var/turf/next_turf = get_step(current_turf, next_direction)
+						if(!next_turf.density && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf) && !(next_turf in turfs_to_check))
+							next_iteration += next_turf
+							next_iteration[next_turf] = next_direction
+							to_chat(world, "new turf - [next_direction] (diag)")
+			turfs_to_check -= current_turf
+		node_turfs += next_iteration
+
+	to_chat(world, "last len: [length(node_turfs)]")
 
 #undef NODERANGE

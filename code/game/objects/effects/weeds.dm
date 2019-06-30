@@ -10,7 +10,7 @@
 	density = 0
 	plane = FLOOR_PLANE
 	layer = TURF_LAYER
-	var/parent_node
+	var/obj/effect/alien/weeds/node/parent_node
 	max_integrity = 4
 
 /obj/effect/alien/weeds/healthcheck()
@@ -28,9 +28,11 @@
 
 
 /obj/effect/alien/weeds/Destroy()
-	SSweeds.add_weed(src)
-
-	var/oldloc = loc
+	var/turf/oldloc = loc
+	if(oldloc.is_weedable())  //If the turf hasn't been changed, let's queue to rebuild it.
+		SSweeds.add_weed(src)
+	else	//Else let's just remove our tile to stop wasting processing.
+		parent_node.remove_turfs_from_node(oldloc)
 	. = ..()
 	update_neighbours(oldloc)
 
@@ -183,12 +185,13 @@
 	var/node_range = NODERANGE
 	max_integrity = 15
 
-	var/list/node_turfs // list of all potential turfs that we can expand to
+	var/list/node_turfs[][][] // Potential turfs that we can expand to. Ordered this way: node_turfs[distance to node][turf reference][expansion direction]
 
 
 /obj/effect/alien/weeds/node/update_icon()
 	overlays.Cut()
 	overlays += "weednode"
+
 
 /obj/effect/alien/weeds/node/Initialize(mapload, obj/effect/alien/weeds/node/node, mob/living/carbon/xenomorph/X)
 	for(var/obj/effect/alien/weeds/W in loc)
@@ -203,43 +206,21 @@
 	generate_weed_graph()
 	SSweeds.add_node(src)
 
+
 /obj/effect/alien/weeds/node/proc/generate_weed_graph()
-/*
-	var/list/turfs_to_check = list()
-	turfs_to_check += get_turf(src)
-	var/node_size = node_range
-	while (node_size > 0)
-		node_size--
-		for(var/X in turfs_to_check)
-			var/turf/T = X
-			for(var/direction in GLOB.alldirs)
-				var/turf/AdjT = get_step(T, direction)
-				if (AdjT == src) // Ignore the node
-					continue
-				if (AdjT in node_turfs) // Ignore existing weeds
-					continue
-				if(AdjT.density || LinkBlocked(T, AdjT) || TurfBlockedNonWindow(AdjT))
-					// Finish here, but add it to expand weeds into
-					node_turfs += AdjT
-					continue
-
-				turfs_to_check += AdjT
-				node_turfs += AdjT
-*/
-
-	node_turfs = list()
-
+	node_turfs =  new/list(node_range, null, null)
 	for(var/direction in GLOB.alldirs) //First pass to get the adjacent ones.
 		var/turf/adjacent_turf = get_step(src, direction)
-		if(adjacent_turf.density || LinkBlocked(src, adjacent_turf) || TurfBlockedNonWindow(adjacent_turf))
+		if(!adjacent_turf.is_weedable() || LinkBlocked(src, adjacent_turf) || TurfBlockedNonWindow(adjacent_turf))
 			continue
-		node_turfs += adjacent_turf
-		node_turfs[adjacent_turf] = direction
+		to_chat(world, "Name of turf: [adjacent_turf]")
+		node_turfs[1] += adjacent_turf
+		node_turfs[1][adjacent_turf] = direction
 	to_chat(world, "first len: [length(node_turfs)]")
 
-	var/list/next_iteration = node_turfs.Copy()
+	var/list/next_iteration = node_turfs[1].Copy()
 	var/list/turfs_to_check
-	for(var/node_size in 1 to node_range) //Second to get the rest, one square at a time.
+	for(var/weed_to_node_dist in 2 to node_range) //Second to get the rest, one square at a time.
 		turfs_to_check = next_iteration
 		next_iteration = list()
 		for(var/neighbor in turfs_to_check)
@@ -248,20 +229,40 @@
 			switch(expansion_dir)
 				if(NORTH, SOUTH, WEST, EAST) //These only check the next step in their direction.
 					var/turf/next_turf = get_step(current_turf, expansion_dir)
-					if(!next_turf.density && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf))
+					if(next_turf.is_weedable() && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf))
 						next_iteration += next_turf
 						next_iteration[next_turf] = expansion_dir
 						to_chat(world, "new turf - [expansion_dir]")
 				if(NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST) //These are corner cases and check both their direction and their cardinal cases, three in total.
 					for(var/next_direction in list(expansion_dir, expansion_dir & NORTH|SOUTH, expansion_dir & WEST|EAST))
 						var/turf/next_turf = get_step(current_turf, next_direction)
-						if(!next_turf.density && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf) && !(next_turf in turfs_to_check))
+						if(next_turf.is_weedable() && !LinkBlocked(current_turf, next_turf) && !TurfBlockedNonWindow(next_turf))
 							next_iteration += next_turf
 							next_iteration[next_turf] = next_direction
 							to_chat(world, "new turf - [next_direction] (diag)")
 			turfs_to_check -= current_turf
-		node_turfs += next_iteration
+		node_turfs[weed_to_node_dist] += next_iteration
 
 	to_chat(world, "last len: [length(node_turfs)]")
+
+
+/obj/effect/alien/weeds/node/proc/remove_turfs_from_node(turf/weedloc)
+	var/distance = get_dist(weedloc, src)
+	node_turfs[distance] -= weedloc
+	var/direction = get_dir(src, weedloc)
+	var/turf/next_orphaned_turf = get_step(weedloc, direction)
+	for(var/i in ++distance to node_range)
+		node_turfs[distance] -= next_orphaned_turf
+		next_orphaned_turf = get_step(next_orphaned_turf, direction)
+
+
+/obj/effect/alien/weeds/node/proc/check_link_weed_to_node(turf/weedloc)
+	if(isnull(loc))
+		return FALSE
+	var/turf/list/weed_to_node = getline(weedloc, src)
+	for(var/i in weed_to_node)
+		if(!(locate(/obj/effect/alien/weeds) in i) && !(locate(/obj/effect/alien/weeds/node) in i))
+			return FALSE
+	return TRUE
 
 #undef NODERANGE

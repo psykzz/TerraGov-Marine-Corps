@@ -6,7 +6,7 @@ SUBSYSTEM_DEF(weeds)
 
 	// This is a list of nodes on the map.
 	var/list/creating = list()
-	var/list/pending = list()
+	var/list/pending = list()	//The list of nodes to process. It's referenced this way: pending[node to process][distances from weeds to node][turfs of said weeds]
 	var/list/currentrun
 
 /datum/controller/subsystem/weeds/stat_entry()
@@ -17,45 +17,46 @@ SUBSYSTEM_DEF(weeds)
 		currentrun = pending.Copy()
 		creating = list()
 
-	for(var/A in currentrun)
-		var/obj/effect/alien/weeds/node/N = currentrun[A]
-		currentrun -= A
-		var/turf/T = A
+	for(var/i in currentrun)
+		var/obj/effect/alien/weeds/node/N = currentrun[i]
+		currentrun -= N
 
-		if(QDELETED(N) || QDELETED(T))
-			pending -= T
+		if(QDELETED(N)) //Node no more, these weeds no longer process.
+			pending -= N
 			continue
 
-		if ((locate(/obj/effect/alien/weeds) in T) || (locate(/obj/effect/alien/weeds/node) in T))
-			pending -= T
-			continue
-
-		if (!T.is_weedable() || istype(T.loc, /area/arrival))
-			pending -= T
-			continue
-
-		for(var/direction in GLOB.cardinals) 
-			var/turf/AdjT = get_step(T, direction)
-			if (!(AdjT in N.node_turfs)) // only count our weed graph as eligble
-				continue
-			if (!(locate(/obj/effect/alien/weeds) in AdjT))
-				continue
-
-			creating[T] = N
-			break
+		var/found_something_to_process = FALSE
+		for(var/j in 1 to N.node_range) //Let's check one radius-step at a time.
+			for(var/k in N.node_turfs[j]) //If there's something to process.
+				var/turf/turf_to_check = k
+				if((locate(/obj/effect/alien/weeds) in turf_to_check) || (locate(/obj/effect/alien/weeds/node) in turf_to_check))
+					N.remove_turfs_from_node(turf_to_check) //This place has been hijacked. It no longer belongs to us.
+					continue
+				if(!turf_to_check.is_weedable())
+					N.remove_turfs_from_node(turf_to_check) //No longer safe to grow. We won't return here.
+					continue
+				if(!N.check_link_weed_to_node(turf_to_check))
+					N.remove_turfs_from_node(turf_to_check) //We have been orphaned. The route home is no longer safe. We won't regrow.
+					continue
+				creating[turf_to_check] = N //A valid was found!
+				found_something_to_process = TRUE //Since we found something, we'll leave the next radius-step for the next iteration.
+			if(found_something_to_process)
+				break
+		if(!found_something_to_process)
+			pending -= N //We'll rest until duty calls us again.
 
 		if(MC_TICK_CHECK)
 			return
 
 	// We create weeds outside of the loop to not influence new weeds within the loop
-	for(var/A in creating)
-		var/turf/T = A
-		creating -= T
+	for(var/i in creating)
+		var/turf/turf_to_weed = i
 
-		var/obj/effect/alien/weeds/node/N = creating[T]
+		var/obj/effect/alien/weeds/node/parent_node = creating[turf_to_weed]
 		// Adds a bit of jitter to the spawning weeds.
-		addtimer(CALLBACK(src, .proc/create_weed, T, N), rand(0,10))
-		pending -= T
+		addtimer(CALLBACK(src, .proc/create_weed, turf_to_weed, parent_node), rand(0, 1 SECONDS))
+
+		creating -= turf_to_weed
 
 		if(MC_TICK_CHECK)
 			return
@@ -63,25 +64,20 @@ SUBSYSTEM_DEF(weeds)
 
 /datum/controller/subsystem/weeds/proc/add_node(obj/effect/alien/weeds/node/N)
 	if(!N)
-		stack_trace("SSweed.add_node called with a null obj")
-		return FALSE
+		CRASH("SSweed.add_node called with a null obj")
 
-	for(var/X in N.node_turfs)
-		var/turf/T = X
+	pending += N
 
-		// Skip if there is a node there
-		if(locate(/obj/effect/alien/weeds/node) in T)
-			continue
-
-		pending[T] = N
 
 /datum/controller/subsystem/weeds/proc/add_weed(obj/effect/alien/weeds/W)
 	if(!W)
-		stack_trace("SSweed.add_turf called with a null obj")
-		return FALSE
+		CRASH("SSweed.add_turf called with a null obj")
 
-	var/turf/T = get_turf(W)
-	pending[T] = W.parent_node
+	var/turf/weed_turf = get_turf(W)
+	W.parent_node.node_turfs[get_dist(W, W.parent_node)] = weed_turf
+	if(W.parent_node in pending)
+		return
+	pending += W.parent_node
 
 
 /datum/controller/subsystem/weeds/proc/create_weed(turf/T, obj/effect/alien/weeds/node/N)

@@ -55,6 +55,9 @@
 		if(Q.ovipositor)
 			can_overwatch = TRUE
 
+	if(isobserver(user))
+		can_overwatch = TRUE
+
 	xenoinfo += xeno_status_output(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/queen], FALSE, TRUE)
 
 	xenoinfo += xeno_status_output(hive.xeno_leader_list, can_overwatch, FALSE, user)

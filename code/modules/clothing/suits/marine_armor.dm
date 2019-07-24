@@ -456,7 +456,7 @@
 
 	handle_interface(usr)
 
-/obj/item/clothing/suit/storage/marine/specialist/proc/handle_interface(mob/living/carbon/human/user, flag1)
+/obj/item/clothing/suit/storage/marine/specialist/proc/handle_interface(mob/living/carbon/human/user)
 	user.set_interaction(src)
 	var/dat = {"<TT>
 	<A href='?src=\ref[src];B18_automed_on=1'>Turn Automed System: [B18_automed_on ? "Off" : "On"]</A><BR>

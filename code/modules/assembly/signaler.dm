@@ -37,7 +37,7 @@
 		holder.update_icon()
 
 
-/obj/item/assembly/signaler/ui_interact(mob/user, flag1)
+/obj/item/assembly/signaler/ui_interact(mob/user)
 	. = ..()
 	if(is_secured(user))
 		var/t1 = "-------"

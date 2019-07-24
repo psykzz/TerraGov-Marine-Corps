@@ -193,7 +193,7 @@
 		usr << browse(null, "window=radio")
 
 
-/obj/item/radio/detpack/attack_self(mob/user as mob, flag1)
+/obj/item/radio/detpack/attack_self(mob/user as mob)
 
 	if(!ishuman(user))
 		return

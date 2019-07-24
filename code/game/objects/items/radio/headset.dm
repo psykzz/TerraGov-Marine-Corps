@@ -264,7 +264,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	handle_interface(usr)
 
 
-/obj/item/radio/headset/almayer/proc/handle_interface(mob/living/carbon/human/user, flag1)
+/obj/item/radio/headset/almayer/proc/handle_interface(mob/living/carbon/human/user)
 	user.set_interaction(src)
 	var/dat = {"<TT>
 	<b><A href='?src=\ref[src];headset_hud_on=1'>Squad HUD: [headset_hud_on ? "On" : "Off"]</A></b><BR>

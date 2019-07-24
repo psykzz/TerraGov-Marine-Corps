@@ -182,7 +182,7 @@
 	init_reagent_flags = REFILLABLE|DRAINABLE
 	liquifier = TRUE
 
-/obj/item/reagent_container/hypospray/proc/handle_interface(mob/user, flag1)
+/obj/item/reagent_container/hypospray/proc/handle_interface(mob/user)
 	user.set_interaction(src)
 	var/dat = {"<TT>
 	<B><A href='?src=\ref[src];autolabeler=1'>Activate Autolabeler</A></B><BR>
@@ -201,7 +201,7 @@
 	onclose(user, "radio")
 	return
 
-/obj/item/reagent_container/hypospray/advanced/handle_interface(mob/user, flag1)
+/obj/item/reagent_container/hypospray/advanced/handle_interface(mob/user)
 	user.set_interaction(src)
 	var/dat = {"<TT>
 	<B><A href='?src=\ref[src];autolabeler=1'>Activate Autolabeler</A></B><BR>

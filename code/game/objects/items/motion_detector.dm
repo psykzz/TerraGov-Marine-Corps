@@ -292,7 +292,7 @@
 		usr << browse(null, "window=radio")
 
 
-/obj/item/motiondetector/attack_self(mob/user as mob, flag1)
+/obj/item/motiondetector/attack_self(mob/user as mob)
 	if(!ishuman(user))
 		return
 	user.set_interaction(src)

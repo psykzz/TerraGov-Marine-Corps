@@ -17,7 +17,7 @@
 	var/offset_per_turfs = 10 //Number of turfs to offset from target by 1
 	var/dial_x = 0 //Dial adjustment from target
 	var/dial_y = 0
-	var/travel_time = 45 //Constant, assuming perfect parabolic trajectory. ONLY THE DELAY BEFORE INCOMING WARNING WHICH ADDS 45 TICKS
+	var/travel_time_per_tile = 0.25 SECONDS // with an additional 45 ticks before explosions
 	var/busy = 0
 	var/firing = 0 //Used for deconstruction and aiming sanity
 	var/fixed = 0 //If set to 1, can't unanchor and move the mortar, used for map spawns and WO
@@ -29,7 +29,7 @@
 	if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_ENGI)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to use [src].</span>")
-		var/fumbling_time = 50 * ( SKILL_ENGINEER_ENGI - user.mind.cm_skills.engineer )
+		var/fumbling_time = 5 SECONDS - (1 SECONDS * user.mind.cm_skills.engineer)
 		if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 			return
 	if(busy)
@@ -39,73 +39,39 @@
 		to_chat(user, "<span class='warning'>[src]'s barrel is still steaming hot. Wait a few seconds and stop firing it.</span>")
 		return
 
-	var/choice = alert(user, "Would you like to set the mortar's target coordinates, or dial the mortar? Setting coordinates will make you lose your fire adjustment.", "Mortar Dialing", "Target", "Dial", "Cancel")
-	if(choice == "Cancel")
+	var/degree = input(user, "Set a firing angle (between 0 and 360)", "Mortar") as num
+	degree = round(CLAMP(degree, 0, 360), 1)
+	var/range = input(user, "Enter a distance (0 to cancel)", "Mortar") as num
+	if(!range)
 		return
-	if(choice == "Target")
-		var/temp_targ_x = input("Set longitude of strike from 0 to [world.maxx].") as num
-		if(dial_x + temp_targ_x > world.maxx || dial_x + temp_targ_x < 0)
-			to_chat(user, "<span class='warning'>You cannot aim at this coordinate, it is outside of the area of operations.</span>")
-			return
-		var/temp_targ_y = input("Set latitude of strike from 0 to [world.maxy].") as num
-		if(dial_y + temp_targ_y > world.maxy || dial_y + temp_targ_y < 0)
-			to_chat(user, "<span class='warning'>You cannot aim at this coordinate, it is outside of the area of operations.</span>")
-			return
-		var/turf/T = locate(temp_targ_x + dial_x, temp_targ_y + dial_y, z)
-		if(get_dist(loc, T) < 10)
-			to_chat(user, "<span class='warning'>You cannot aim at this coordinate, it is too close to your mortar.</span>")
-			return
-		if(busy)
-			to_chat(user, "<span class='warning'>Someone else is currently using this mortar.</span>")
-			return
-		user.visible_message("<span class='notice'>[user] starts adjusting [src]'s firing angle and distance.</span>",
-		"<span class='notice'>You start adjusting [src]'s firing angle and distance to match the new coordinates.</span>")
-		busy = 1
-		playsound(loc, 'sound/items/ratchet.ogg', 25, 1)
-		if(do_after(user, 30, TRUE, src, BUSY_ICON_GENERIC))
-			user.visible_message("<span class='notice'>[user] finishes adjusting [src]'s firing angle and distance.</span>",
-			"<span class='notice'>You finish adjusting [src]'s firing angle and distance to match the new coordinates.</span>")
-			busy = 0
-			targ_x = temp_targ_x
-			targ_y = temp_targ_y
-			var/offset_x_max = round(abs((targ_x + dial_x) - x)/offset_per_turfs) //Offset of mortar shot, grows by 1 every 10 tiles travelled
-			var/offset_y_max = round(abs((targ_y + dial_y) - y)/offset_per_turfs)
-			offset_x = rand(-offset_x_max, offset_x_max)
-			offset_y = rand(-offset_y_max, offset_y_max)
-		else busy = 0
-	if(choice == "Dial")
-		var/temp_dial_x = input("Set longitude adjustement from -10 to 10.") as num
-		if(temp_dial_x + targ_x > world.maxx || temp_dial_x + targ_x < 0)
-			to_chat(user, "<span class='warning'>You cannot dial to this coordinate, it is outside of the area of operations.</span>")
-			return
-		if(temp_dial_x < -10 || temp_dial_x > 10)
-			to_chat(user, "<span class='warning'>You cannot dial to this coordinate, it is too far away. You need to set [src] up instead.</span>")
-			return
-		var/temp_dial_y = input("Set latitude adjustement from -10 to 10.") as num
-		if(temp_dial_y + targ_y > world.maxy || temp_dial_y + targ_y < 0)
-			to_chat(user, "<span class='warning'>You cannot dial to this coordinate, it is outside of the area of operations.</span>")
-			return
-		var/turf/T = locate(targ_x + temp_dial_x, targ_y + temp_dial_y, z)
-		if(get_dist(loc, T) < 10)
-			to_chat(user, "<span class='warning'>You cannot dial to this coordinate, it is too close to your mortar.</span>")
-			return
-		if(temp_dial_y < -10 || temp_dial_y > 10)
-			to_chat(user, "<span class='warning'>You cannot dial to this coordinate, it is too far away. You need to set [src] up instead.</span>")
-			return
-		if(busy)
-			to_chat(user, "<span class='warning'>Someone else is currently using this mortar.</span>")
-			return
-		user.visible_message("<span class='notice'>[user] starts dialing [src]'s firing angle and distance.</span>",
-		"<span class='notice'>You start dialing [src]'s firing angle and distance to match the new coordinates.</span>")
-		busy = 1
-		playsound(loc, 'sound/items/ratchet.ogg', 25, 1)
-		if(do_after(user, 15, TRUE, src, BUSY_ICON_GENERIC))
-			user.visible_message("<span class='notice'>[user] finishes dialing [src]'s firing angle and distance.</span>",
-			"<span class='notice'>You finish dialing [src]'s firing angle and distance to match the new coordinates.</span>")
-			busy = 0
-			dial_x = temp_dial_x
-			dial_y = temp_dial_y
-		else busy = 0
+
+	dial_x = sin(degree) * range
+	dial_y = cos(degree) * range
+	var/turf/T = locate(x + dial_x, y + dial_y, z)
+
+	if(get_dist(loc, T) < 10)
+		to_chat(user, "<span class='warning'>You cannot aim at this coordinate, it is too close to your mortar.</span>")
+		return
+	if(busy)
+		to_chat(user, "<span class='warning'>Someone else is currently using this mortar.</span>")
+		return
+
+	user.visible_message("<span class='notice'>[user] starts adjusting [src]'s firing angle and distance.</span>",
+	"<span class='notice'>You start adjusting [src]'s firing angle and distance to match the new coordinates.</span>")
+	busy = 1
+	playsound(loc, 'sound/items/ratchet.ogg', 25, 1)
+	if(!do_after(user, 30, TRUE, src, BUSY_ICON_GENERIC))
+		busy = 0
+		return
+	user.visible_message("<span class='notice'>[user] finishes adjusting [src]'s firing angle and distance.</span>",
+	"<span class='notice'>You finish adjusting [src]'s firing angle and distance to match the new coordinates.</span>")
+	
+	var/offset_x_max = round(abs(dial_x)/offset_per_turfs, 1) //Offset of mortar shot, grows by 1 every 10 tiles travelled
+	var/offset_y_max = round(abs(dial_y)/offset_per_turfs, 1)
+	offset_x = rand(-offset_x_max, offset_x_max)
+	offset_y = rand(-offset_y_max, offset_y_max)
+
+	busy = 0
 
 /obj/structure/mortar/attackby(obj/item/I, mob/user, params)
 	. = ..()
@@ -132,11 +98,11 @@
 			to_chat(user, "<span class='warning'>You cannot fire [src] here.</span>")
 			return
 
-		if(targ_x == 0 && targ_y == 0) //Mortar wasn't set
+		if(dial_x == 0 && dial_y == 0) //Mortar wasn't set
 			to_chat(user, "<span class='warning'>[src] needs to be aimed first.</span>")
 			return
 
-		var/turf/T = locate(targ_x + dial_x + offset_x, targ_y + dial_y + offset_y, z)
+		var/turf/T = locate(x + dial_x + offset_x, y + dial_y + offset_y, z)
 		if(!isturf(T))
 			to_chat(user, "<span class='warning'>You cannot fire [src] to this target.</span>")
 			return
@@ -169,7 +135,10 @@
 
 		for(var/mob/M in range(7))
 			shake_camera(M, 3, 1)
-		spawn(travel_time) //What goes up
+
+		var/distance = cheap_pythag(T.x - x, T.y - y)
+		message_admins("disatnace is :[distance]")
+		spawn(travel_time_per_tile * distance) //What goes up
 			playsound(T, 'sound/weapons/guns/misc/mortar_travel.ogg', 50, 1)
 			spawn(45) //Must go down //This should always be 45 ticks!
 				T.ceiling_debris_check(2)

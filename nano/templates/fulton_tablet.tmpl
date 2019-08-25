@@ -1,0 +1,70 @@
+<style>
+	.clearfix::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+	.info-panel {
+		float: right;
+		display: block;
+	}
+	.screen-selector {
+		float: left;
+		display: block;
+	}
+	.points {
+		font-weight: 800;
+	}
+</style>
+
+<div>
+	<div class='info-panel'>
+		Points available: <span class='points'>{{:data.availabe_points}}</span>
+		<div class='request-status'>Order processing...</div>
+	</div>
+	<div class='screen-selector'>
+		<h2><div unselectable="on" class="linkActive noIcon link">VIEW</div></h2> /
+		<h2><div unselectable="on" class="_linkActive noIcon link">ORDER</div></h2>
+	</div>
+	<div class='clearfix'></div>
+
+	<div id='order-screen'>
+		<pre>
+			Data
+			{{:data.available_products}}
+			{{props data.available_products}}
+				{{:key}} - {{:value}}
+				{{:key.name}} {{:key.amount}}}
+				{{:value.name}} {{:value.amount}}}
+			{{/props}}
+		</pre>
+		<hr />
+		<pre>
+			Data
+			{{:data.current_orders}}
+			{{props data.current_orders}}
+				{{:key}} - {{:value}}
+				{{:key.name}} {{:key.amount}}}
+				{{:value.name}} {{:value.amount}}}
+			{{/props}}
+		</pre>
+	</div>
+	<div id='view-screen'>
+		
+		<h2>Current Requests</h2>
+		<table>
+			<thead>
+				<td>Order</td>
+				<td>Title</td>
+				<td>Requestor</td>
+				<td>Status</td>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>

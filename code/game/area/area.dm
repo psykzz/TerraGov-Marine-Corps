@@ -92,6 +92,7 @@
 
 /area/LateInitialize()
 	power_change()		// all machines set to current power level, also updates icon
+	RegisterSignal(src, COMSIG_AREA_MACHINE_INIT, .proc/on_machine_change)
 
 
 
@@ -339,3 +340,7 @@
 
 /area/return_gas()
 	return gas_type
+
+
+/area/proc/on_machine_change(datum/source, obj/machinery/new_machine)
+	to_chat(world, "NewMachine: [new_machine]")

@@ -51,6 +51,8 @@
 		'sound/ambience/ambigen14.ogg')
 
 
+	var/list/obj/machinery_list
+
 
 /area/New()
 	// This interacts with the map loader, so it needs to be set immediately
@@ -87,13 +89,16 @@
 
 	reg_in_areas_in_z()
 
+	RegisterSignal(src, COMSIG_AREA_MACHINE_ADD, .proc/on_machine_add)
+	RegisterSignal(src, COMSIG_AREA_MACHINE_REMOVE, .proc/on_machine_remove)
+	RegisterSignal(src, COMSIG_AREA_MACHINE_UPDATED, .proc/on_machine_change)
+	machinery_list = list()
+	
 	return INITIALIZE_HINT_LATELOAD
 
 
 /area/LateInitialize()
 	power_change()		// all machines set to current power level, also updates icon
-	RegisterSignal(src, COMSIG_AREA_MACHINE_INIT, .proc/on_machine_change)
-
 
 
 /area/Destroy()
@@ -342,5 +347,16 @@
 	return gas_type
 
 
-/area/proc/on_machine_change(datum/source, obj/machinery/new_machine)
+/area/proc/on_machine_change(datum/source, obj/machinery/changed_machine)
+	var/total_power_usage = 0
+	var/total_light_usage = 0
+	var/total_eviron_usage = 0
+	to_chat(world, "ChangeMachine: [changed_machine]")
+
+/area/proc/on_machine_add(datum/source, obj/machinery/new_machine)
+	machinery_list += new_machine
 	to_chat(world, "NewMachine: [new_machine]")
+
+/area/proc/on_machine_remove(datum/source, obj/machinery/removed_machine)
+	machinery_list += removed_machine
+	to_chat(world, "RemoveMachine: [removed_machine]")

@@ -98,8 +98,10 @@
 #define COMSIG_CLIENT_MOUSEDRAG "client_mousedrag"			//from base of client/MouseUp(): (/client, object, location, control, params)
 #define COMSIG_CLIENT_DISCONNECTED "client_disconnecred"	//from base of /client/Del(): (/client)
 
+
 // /area signals
 #define COMSIG_AREA_MACHINE_INIT "area_machine_init"
+#define COMSIG_AREA_MACHINE_UPDATED "area_machine_updated"
 
 
 // /atom signals

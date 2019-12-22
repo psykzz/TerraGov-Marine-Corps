@@ -119,6 +119,9 @@
 	else
 		machine_stat &= ~NOPOWER
 	update_icon()
+	var/area/myarea = get_area(src)
+	if(myarea)
+		SEND_SIGNAL(myarea, COMSIG_AREA_MACHINE_UPDATED, src)
 
 
 /obj/machinery/proc/auto_use_power()

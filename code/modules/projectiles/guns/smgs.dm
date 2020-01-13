@@ -79,6 +79,11 @@
 	aim_slowdown = 0.15
 	burst_amount = 2
 
+/obj/item/weapon/gun/smg/standard_smg/breacher
+	starting_attachment_types = list(/obj/item/attachable/stock/t19stock, /obj/item/attachable/magnetic_harness, /obj/item/attachable/gyro)
+
+/obj/item/weapon/gun/smg/standard_smg/nonstandard
+	starting_attachment_types = list(/obj/item/attachable/stock/t19stock, /obj/item/attachable/magnetic_harness, /obj/item/attachable/verticalgrip)
 
 //-------------------------------------------------------
 //M39 SMG

@@ -761,3 +761,11 @@ can cause issues with ammo types getting mixed up during the burst.
 	recoil = 2
 	recoil_unwielded = 4
 	pump_delay = 14
+
+//buckshot variants
+/obj/item/weapon/gun/shotgun/pump/t35/pointman
+	current_mag = /obj/item/ammo_magazine/internal/shotgun/pump/buckshot
+
+/obj/item/weapon/gun/shotgun/pump/t35/nonstandard
+	current_mag = /obj/item/ammo_magazine/internal/shotgun/pump/buckshot
+	starting_attachment_types = list(/obj/item/attachable/stock/t35stock, /obj/item/attachable/angledgrip, /obj/item/attachable/magnetic_harness)

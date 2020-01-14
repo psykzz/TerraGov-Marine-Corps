@@ -85,6 +85,9 @@
 /obj/item/weapon/gun/smg/standard_smg/nonstandard
 	starting_attachment_types = list(/obj/item/attachable/stock/t19stock, /obj/item/attachable/magnetic_harness, /obj/item/attachable/verticalgrip)
 
+/obj/item/weapon/gun/smg/standard_smg/smartgunner
+	starting_attachment_types = list(/obj/item/attachable/reddot, /obj/item/attachable/gyro)
+
 //-------------------------------------------------------
 //M39 SMG
 

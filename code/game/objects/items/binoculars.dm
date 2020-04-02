@@ -235,7 +235,7 @@
 					log_attack("[key_name(user)] fired an orbital bombardment in [AREACOORD(TU)].")
 					message_admins("[ADMIN_TPMONTY(user)] fired an orbital bombardment in [ADMIN_VERBOSEJMP(TU)].")
 
-				GLOB.marine_main_ship?.orbital_cannon?.fire_ob_cannon(TU,usr)
+				<span class="x x-first x-last">    </span>GLOB.marine_main_ship?.orbital_cannon?.fire_ob_cannon(TU,<span class="x x-first x-last"> user</span>)
 
 				
 

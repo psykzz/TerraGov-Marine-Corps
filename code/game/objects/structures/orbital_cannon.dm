@@ -532,6 +532,9 @@
 	if(!rail_gun_ammo?.ammo_count)
 		to_chat(user, "<span class='warning'>[src] has ran out of ammo.</span>")
 		return
+	if(rail_gun_ammo.ammo_count < rail_gun_ammo.ammo_used_per_firing)
+		to_chat(user, "<span class='warning'>[src] has insufficient ammo to fire.</span>")
+		return
 	flick("Railgun_firing",src)
 	cannon_busy = TRUE
 	last_firing = world.time

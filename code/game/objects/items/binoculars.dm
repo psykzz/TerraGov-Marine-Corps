@@ -268,7 +268,7 @@
 	name = "range-finder"
 	desc = "A pair of binoculars designed to find coordinates."
 	changable = 0
-	mode = 1
+	mode = MODE_RANGE_FINDER
 
 #undef MODE_CAS
 #undef MODE_RANGE_FINDER

@@ -12,6 +12,8 @@ jobs:
     - name: Install dmdocs
       run: |
          wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
+    - name: List init dir
+      run: ls .
     - name: Show version
       run: dmdoc --version
     - name: Build

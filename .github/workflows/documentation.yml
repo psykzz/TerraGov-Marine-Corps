@@ -1,0 +1,20 @@
+name: Generate Docs
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dmdocs
+      run: |
+         wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
+    - name: Show version
+      run: dmdoc --version
+    - name: Build
+      run: dmdoc
+    - name: List files
+      run: ls ./dmdoc

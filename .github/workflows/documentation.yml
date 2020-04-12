@@ -11,8 +11,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install dmdocs
       run: |
-		 wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
-		 sudo chmod +x ./dmdoc
+        wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
+        sudo chmod +x ./dmdoc
     - name: List init dir
       run: ls .
     - name: Show version

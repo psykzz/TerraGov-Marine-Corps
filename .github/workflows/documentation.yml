@@ -3,22 +3,21 @@ name: Generate Docs
 on: [push]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Install dmdocs
-      run: |
-        wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
-        sudo chmod +x ./dmdoc
-        sudo mkdir -p /tmp/dmdocs
-    - name: List init dir
-      run: ls .
-    - name: Show version
-      run: ./dmdoc --version
-    - name: Build 
-      run: ./dmdoc --output /tmp/dmdocs
-    - name: List files
-      run: ls /tmp/dmdocs
+        steps:
+            - uses: actions/checkout@v1
+            - name: Install dmdocs
+              run: |
+                  wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
+                  sudo chmod +x ./dmdoc
+                  sudo mkdir -p /tmp/dmdocs
+            - name: List init dir
+              run: ls .
+            - name: Show version
+              run: ./dmdoc --version
+            - name: Build
+              run: ./dmdoc --output /tmp/dmdocs
+            - name: List files
+              run: ls /tmp/dmdocs

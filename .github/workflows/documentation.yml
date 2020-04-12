@@ -12,17 +12,17 @@ jobs:
               run: |
                   wget https://github.com/SpaceManiac/SpacemanDMM/releases/download/suite-1.4/dmdoc
                   sudo chmod +x ./dmdoc
-                  mkdir -p /tmp/dmdocs
+                  mkdir -p ./tmp/dmdocs
             - name: List init dir
               run: ls .
             - name: Show version
               run: ./dmdoc --version
             - name: Build
-              run: ./dmdoc --output /tmp/dmdocs
+              run: ./dmdoc --output ./tmp/dmdocs
             - name: List files
-              run: ls /tmp/dmdocs
+              run: ls ./tmp/dmdocs
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: /tmp/dmdocs
+                  publish_dir: ./tmp/dmdocs

@@ -15,8 +15,8 @@ jobs:
     - name: List init dir
       run: ls .
     - name: Show version
-      run: dmdoc --version
+      run: ./dmdoc --version
     - name: Build
-      run: dmdoc
+      run: ./dmdoc
     - name: List files
       run: ls ./dmdoc

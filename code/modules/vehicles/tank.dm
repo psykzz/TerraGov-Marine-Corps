@@ -172,7 +172,32 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/allow_diagonal_movement = FALSE //For smaller vehicles like a jeep you may want this. This forbids / allows you to move diagonally in these vehicles
 	var/has_underlay = FALSE //For larger vehicles that need seperately overlaying parts.
 	var/obj/effect/underlay = null
+/////////////////////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	var/hitbox_type = /obj/vehicle/multitile/hitbox
+	var/list/linked_objs = list()
 
+/obj/vehicle/multitile/hitbox
+	name = "hitbox"
+	desc = "Generic multitile vehicle hitbox"
+	density = TRUE
+	var/obj/vehicle/tank/root = null
+	//invisibility = INVISIBILITY_MAXIMUM
+	bound_width = 96
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
+	max_integrity = 1000
+
+/obj/vehicle/multitile/hitbox/bullet_act(obj/projectile/P)
+	. = ..()
+	root.bullet_act(P)
+
+/obj/vehicle/multitile/hitbox/take_damage(amount)
+	. = ..()
+	root.take_damage(amount)
+	obj_integrity = 1000
+
+//////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 /obj/vehicle/tank/tiny //SQUEEEE
 	name = "Mk-4 'shortstreet' tank"
 	desc = "An adorable chunk of metal with an alarming amount of firepower designed to crush, immolate, destroy and maim anything that nanotrasen wants it to. This model contains advanced bluespace technology which allows a tardis like amount of room on the inside"
@@ -255,7 +280,16 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		secondary_weapon = new secondary_weapon_type(src)
 		secondary_weapon.owner = src
 	GLOB.tank_list += src
+	/////////////////////AAAAAAAAAAAAAAAAAAA
+	linked_objs += new /obj/vehicle/multitile/hitbox(src.loc)
+	for(var/i in linked_objs)
+		to_chat(world, "var i is [i]")
+		var/obj/vehicle/multitile/hitbox/hitbox = i
+		to_chat(world, "hitbox is [hitbox.bound_width] and src is [src.pixel_x]")
+		hitbox.root = src
+		to_chat(world, "hitbox linked to [hitbox.root]")
 
+	////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 /obj/vehicle/tank/Destroy()
 	obj_integrity = 10000 //Prevents this from being called over and over and over while we chuck the mobs out
 	remove_mobs()
@@ -280,6 +314,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 /obj/vehicle/tank/Move()
 	. = ..()
 	update_icon()
+	////////////////////////////7AAAAAAAAAAAAAAAAAAAAA
+	for(var/i in linked_objs)
+		var/obj/vehicle/multitile/A = i
+		A.loc = src.loc
+	//////////////////////7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	if(world.time < last_drive_sound + 2 SECONDS)
 		return
 	last_drive_sound = world.time
@@ -384,7 +423,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(passengers.len >= max_passengers && position == POSITION_PASSENGER) //We have a few slots for people to enter as passengers without gunning / driving.
 		to_chat(user, "[src] is full! There isn't enough space for you")
 		return
-	if(!can_enter(user, position)) //OWO can they enter us????
+	if(!can_enter(user, position)) //OWO can they enter us????	//what the fuck kmc
 		return 
 	to_chat(user, "You climb into [src] as a [position]!")
 	enter(user, position) //Yeah i could do this with a define, but this way we're not using multiple things
@@ -428,8 +467,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 /obj/vehicle/tank/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	if(!istype(L))
 		return
-
-	var/turf/T = get_step(L, turn(src.dir, 180))
+	
+	var/turf/T = get_step_away(get_step(L, turn(src.dir, 180)), L, 5)
 	if(!T.CanPass(L, T))
 		to_chat(L, "<span class='warning'>You can't exit right now, there is something blocking the exit.</span>")
 		return
@@ -445,7 +484,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		operators -= L
 
 	L.forceMove(T)
-	to_chat(L, "<span class='notice'>You hop out of [L] and slam its hatch shut behind you.</span>")
+	to_chat(L, "<span class='notice'>You hop out of [src] and slam its hatch shut behind you.</span>")
 
 /obj/vehicle/tank/relaymove(mob/user, direction)
 	if(world.time < last_move_time + move_delay)

@@ -44,7 +44,7 @@
 		target_dir = turn(veh.dir, 180)
 		T = get_step(T, target_dir)
 		face_atom(T)
-		throw_at(T, 4, 2, veh, 1)
+		throw_at(T, 3, 2, veh, 1)
 		apply_damage(rand(5, 7.5), BRUTE)
 		return
 
@@ -52,9 +52,9 @@
 	T = temp
 	T = get_step(T, pick(GLOB.cardinals))
 	if(mob_size == MOB_SIZE_BIG)
-		throw_at(T, 4, 2, veh, 0)
+		throw_at(T, 3, 2, veh, 0)
 	else
-		throw_at(T, 4, 2, veh, 1)
+		throw_at(T, 3, 2, veh, 1)
 	if(!IsKnockdown())
 		Knockdown(1)
 	apply_damage(rand(10, 15), BRUTE)

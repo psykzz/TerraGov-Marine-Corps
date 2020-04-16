@@ -1,5 +1,5 @@
 /*
-tankS BY KMC
+Tanks by Tivi, Psykzz and KMC
 THIS IS LIKE REGULAR CM tank BUT IT'S LESS SHIT
 WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 */
@@ -54,38 +54,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 
 	AddComponent(/datum/component/automatic_fire, 3, 1, 3, GUN_FIREMODE_AUTOMATIC, owner)
 
-/obj/item/tank_weapon/secondary_weapon/proc/on_autofire_start(mob/living/shooter)
-	if(!can_fire())
-		return FALSE
-	return TRUE
-
-/obj/item/tank_weapon/secondary_weapon/proc/on_autofire_stop(shots_fired)
-	return
-
-/obj/item/tank_weapon/secondary_weapon/proc/autofire_bypass_check(datum/source, client/clicker, atom/target, turf/location, control, params)
-	if(clicker.mob.get_active_held_item() != src)
-		return COMPONENT_AUTOFIRE_ONMOUSEDOWN_BYPASS
-
-/obj/item/tank_weapon/secondary_weapon/proc/do_autofire(datum/source, atom/target, mob/living/shooter, params, shots_fired)
-	to_chat(world, "[source], [target], [shooter], [params], [shots_fired]")
-	SEND_SIGNAL(src, COMSIG_GUN_AUTOFIRE, target, shooter)
-	if(!can_fire())
-		return NONE
-	var/obj/projectile/P = new
-
-	var/list/mouse_control = params2list(params)
-	if(mouse_control["icon-x"])
-		P.p_x = text2num(mouse_control["icon-x"])
-	if(mouse_control["icon-y"])
-		P.p_y = text2num(mouse_control["icon-y"])
-
-	log_combat(shooter, target, "fired the [src].")
-	P.generate_bullet(new ammo.default_ammo)
-	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-	lastfired = world.time
-	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
-	ammo.current_rounds--
-	return COMPONENT_AUTOFIRE_SHOT_SUCCESS
 
 /obj/item/tank_weapon/apc_cannon
 	name = "MKV-7 utility payload launcher"
@@ -117,6 +85,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		return FALSE
 	if(ammo.current_rounds <= 0)
 		playsound(get_turf(src), 'sound/weapons/guns/fire/empty.ogg', 100, 1)
+		to_chat(owner.gunner, "<span class='warning'> [src]'s ammo is depleted!</span>")
 		return FALSE
 	if(istype(T) && get_dist(T, src) <= range_safety_check)
 		to_chat(owner.gunner, "<span class='warning'>Firing [src] here would damage your vehicle!</span>")
@@ -177,8 +146,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/list/linked_objs = list()
 
 /obj/vehicle/multitile/hitbox
-	name = "hitbox"
-	desc = "Generic multitile vehicle hitbox"
 	density = TRUE
 	var/obj/vehicle/tank/root = null
 	//invisibility = INVISIBILITY_MAXIMUM
@@ -187,6 +154,14 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	bound_x = -32
 	bound_y = -32
 	max_integrity = 1000
+
+/obj/vehicle/multitile/hitbox/projectile_hit(obj/projectile/proj)
+	to_chat(world, "prjfirer is [proj.firer]")
+	if(proj.firer == root) //Don't hit ourself.
+		to_chat(world, "returning false")
+		return FALSE
+	else 
+		return TRUE
 
 /obj/vehicle/multitile/hitbox/bullet_act(obj/projectile/P)
 	. = ..()
@@ -285,9 +260,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	for(var/i in linked_objs)
 		to_chat(world, "var i is [i]")
 		var/obj/vehicle/multitile/hitbox/hitbox = i
-		to_chat(world, "hitbox is [hitbox.bound_width] and src is [src.pixel_x]")
 		hitbox.root = src
-		to_chat(world, "hitbox linked to [hitbox.root]")
 
 	////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 /obj/vehicle/tank/Destroy()
@@ -296,7 +269,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	QDEL_NULL(turret_overlay)
 	QDEL_NULL(primary_weapon)
 	QDEL_NULL(secondary_weapon)
+	for(var/k in linked_objs)
+		QDEL_NULL(k)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_cannon1.ogg', 100, 1) //Explosion sound
+	GLOB.tank_list -= src
 	return ..()
 
 /obj/vehicle/tank/proc/remove_mobs()
@@ -317,7 +293,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	////////////////////////////7AAAAAAAAAAAAAAAAAAAAA
 	for(var/i in linked_objs)
 		var/obj/vehicle/multitile/A = i
-		A.loc = src.loc
+		A.forceMove(src.loc)
 	//////////////////////7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	if(world.time < last_drive_sound + 2 SECONDS)
 		return
@@ -401,7 +377,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		if(!do_after(user, time, TRUE, src, BUSY_ICON_BUILD))
 			return
 		exit_tank(L)
-		L.SpinAnimation(1,1)
+		//L.SpinAnimation(1,1)
 		L.throw_at(user, 3)
 		// Applying STUN, WEAKEN and STUTTER
 		L.apply_effects(6, 6, 0, 0, 6, 0, 0, 0, 0)
@@ -495,7 +471,21 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(user.incapacitated() || user != pilot)
 		to_chat(user, "<span class ='notice'>You can't reach the gas pedal from down here, maybe try manning the driver's seat?</span>")
 		return FALSE
-	. = step(src, direction)
+	////////////AAAAAAAAAAAAAAAAAAAAAAA
+	var/list/enterturfs = list()
+	var/turf/centerturf = get_step_away(get_step(user, direction), user, 2)
+	var/canstep = TRUE
+	enterturfs += centerturf
+	enterturfs += get_step(centerturf, turn(direction, 90))
+	enterturfs += get_step(centerturf, turn(direction, -90))
+	for(var/i in enterturfs)
+		var/turf/T= i
+		if(T.Enter(src) == FALSE)	//Call Enter and then check if one of the turfs is blocking
+			canstep = FALSE
+	if(canstep == TRUE)
+		. = step(src, direction)
+	canstep = TRUE
+	////////////////AAAAAAAAAAAAAAAAAA
 	update_icon()
 
 /obj/vehicle/tank/Bump(atom/A, yes)
@@ -515,10 +505,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(modifiers["shift"])
 		return
 	if(modifiers["ctrl"])
-		to_chat(world, "handling mainfire")
-		handle_fire_main(A) //CTRL click to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
+	to_chat(world, "after mods")
 	if(modifiers["middle"])
+		to_chat(world, "handling mainfire")
+		handle_fire_main(A) //MMB to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
 	if(modifiers["alt"])
 		return
@@ -542,7 +533,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	swivel_gun(A) //Special FX, makes the tank cannon visibly swivel round to aim at the target.
 	firing_target = A
 	firing_primary_weapon = TRUE
-	to_chat(world, "started processing mainfire")
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/vehicle/tank/proc/swivel_gun(atom/A)

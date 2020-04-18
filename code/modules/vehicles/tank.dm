@@ -1,5 +1,5 @@
 /*
-tankS BY KMC
+Armored vehicles BY Tivi, Psykzz and KMC
 THIS IS LIKE REGULAR CM tank BUT IT'S LESS SHIT
 WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 */
@@ -39,7 +39,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	desc = "A much better gun that shits out bullets at ridiculous speeds, don't get in its way!"
 	icon_state = "m56_cupola"
 	fire_sounds = list('sound/weapons/guns/fire/tank_minigun_loop.ogg')
-	default_ammo = /obj/item/ammo_magazine/tank/ltaaap_minigun
+	default_ammo = /obj/item/ammo_magazine/tank/ltaap_minigun
 	accepted_ammo = list(
 		/obj/item/ammo_magazine/tank/towlauncher,
 		/obj/item/ammo_magazine/tank/m56_cupola,
@@ -63,8 +63,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	return
 
 /obj/item/tank_weapon/secondary_weapon/proc/autofire_bypass_check(datum/source, client/clicker, atom/target, turf/location, control, params)
-	if(clicker.mob.get_active_held_item() != src)
-		return COMPONENT_AUTOFIRE_ONMOUSEDOWN_BYPASS
+	return
 
 /obj/item/tank_weapon/secondary_weapon/proc/do_autofire(datum/source, atom/target, mob/living/shooter, params, shots_fired)
 	to_chat(world, "[source], [target], [shooter], [params], [shots_fired]")
@@ -82,6 +81,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	log_combat(shooter, target, "fired the [src].")
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
+	playsound(src, pick(fire_sounds, 50))	//yatatatatata
 	lastfired = world.time
 	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
 	ammo.current_rounds--
@@ -115,8 +115,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 /obj/item/tank_weapon/proc/can_fire(turf/T = null)
 	if(world.time < lastfired + cooldown)
 		return FALSE
+	if(!owner.gunner)
+		return FALSE
 	if(ammo.current_rounds <= 0)
 		playsound(get_turf(src), 'sound/weapons/guns/fire/empty.ogg', 100, 1)
+		to_chat(owner.gunner, "<span class='warning'>[src] has no ammo left!</span>")
 		return FALSE
 	if(istype(T) && get_dist(T, src) <= range_safety_check)
 		to_chat(owner.gunner, "<span class='warning'>Firing [src] here would damage your vehicle!</span>")
@@ -177,8 +180,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/list/linked_objs = list()
 
 /obj/vehicle/multitile/hitbox
-	name = "hitbox"
-	desc = "Generic multitile vehicle hitbox"
 	density = TRUE
 	var/obj/vehicle/tank/root = null
 	//invisibility = INVISIBILITY_MAXIMUM
@@ -188,6 +189,16 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	bound_y = -32
 	max_integrity = 1000
 
+/obj/effect/doorpoint
+	//invisibility = INVISIBILITY_MAXIMUM
+	var/obj/vehicle/tank/root = null
+
+/obj/vehicle/multitile/hitbox/projectile_hit(obj/projectile/proj)
+	. = ..()
+	if(proj.firer == root)
+		return FALSE
+
+
 /obj/vehicle/multitile/hitbox/bullet_act(obj/projectile/P)
 	. = ..()
 	root.bullet_act(P)
@@ -195,7 +206,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 /obj/vehicle/multitile/hitbox/take_damage(amount)
 	. = ..()
 	root.take_damage(amount)
-	obj_integrity = 1000
+	obj_integrity = 1000	//Keep us at max health
 
 //////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 /obj/vehicle/tank/tiny //SQUEEEE
@@ -282,13 +293,13 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	GLOB.tank_list += src
 	/////////////////////AAAAAAAAAAAAAAAAAAA
 	linked_objs += new /obj/vehicle/multitile/hitbox(src.loc)
-	for(var/i in linked_objs)
-		to_chat(world, "var i is [i]")
+	linked_objs += new /obj/effect/doorpoint(get_step_away(get_step(src,turn(src.dir, 180) ), src, 2))
+	for(var/obj/vehicle/multitile/hitbox/i in linked_objs)	//We can have multiple different sized hitboxes if we wanna be funky
 		var/obj/vehicle/multitile/hitbox/hitbox = i
-		to_chat(world, "hitbox is [hitbox.bound_width] and src is [src.pixel_x]")
 		hitbox.root = src
-		to_chat(world, "hitbox linked to [hitbox.root]")
-
+	for(var/obj/effect/doorpoint/i in linked_objs)	//Drake? Where are the doors?
+		var/obj/effect/doorpoint/door = i
+		door.root = src
 	////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 /obj/vehicle/tank/Destroy()
 	obj_integrity = 10000 //Prevents this from being called over and over and over while we chuck the mobs out
@@ -296,7 +307,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	QDEL_NULL(turret_overlay)
 	QDEL_NULL(primary_weapon)
 	QDEL_NULL(secondary_weapon)
+	for(var/o in linked_objs)
+		QDEL_NULL(o)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_cannon1.ogg', 100, 1) //Explosion sound
+	GLOB.tank_list -= src
 	return ..()
 
 /obj/vehicle/tank/proc/remove_mobs()
@@ -315,9 +329,12 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	. = ..()
 	update_icon()
 	////////////////////////////7AAAAAAAAAAAAAAAAAAAAA
-	for(var/i in linked_objs)
+	for(var/obj/vehicle/multitile/i in linked_objs)
 		var/obj/vehicle/multitile/A = i
-		A.loc = src.loc
+		A.forceMove(src.loc)
+	for(var/obj/effect/doorpoint/k in linked_objs)
+		var/obj/effect/doorpoint/B = k
+		B.forceMove(get_step_away(get_step(src, turn(src.dir, 180)), src, 5))
 	//////////////////////7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	if(world.time < last_drive_sound + 2 SECONDS)
 		return
@@ -424,12 +441,13 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		to_chat(user, "[src] is full! There isn't enough space for you")
 		return
 	if(!can_enter(user, position)) //OWO can they enter us????	//what the fuck kmc
+		to_chat(world, "returning canenter flse")
 		return 
 	to_chat(user, "You climb into [src] as a [position]!")
 	enter(user, position) //Yeah i could do this with a define, but this way we're not using multiple things
 
 /obj/vehicle/tank/proc/can_enter(mob/living/carbon/M, position) //NO BENOS ALLOWED
-	if(!istype(M) || !in_range(src, M))
+	if(!istype(M))
 		return
 	if(!M.dextrous)
 		to_chat(M, "<span class='warning'>You don't have the dexterity to drive [src]!</span>")
@@ -455,8 +473,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	switch(position)
 		if(POSITION_DRIVER)
 			pilot = user
+			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
 		if(POSITION_GUNNER)
 			gunner = user
+			to_chat(world, "signal sent to component with [src.secondary_weapon] and user [user.client]")
+			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 		if(POSITION_PASSENGER)
 			passengers += user
 
@@ -477,6 +498,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		pilot = null
 		operators -= L
 	else if(L == gunner)
+		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
 		gunner = null
 		operators -= L
 	else if(L in passengers)
@@ -495,9 +517,22 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(user.incapacitated() || user != pilot)
 		to_chat(user, "<span class ='notice'>You can't reach the gas pedal from down here, maybe try manning the driver's seat?</span>")
 		return FALSE
-	. = step(src, direction)
+	//////AALARM_MODE_CYCL
+	var/canstep = TRUE
+	var/list/enteringturfs = list()
+	var/turf/centerturf = get_step(get_step(src, direction), direction)
+	enteringturfs += centerturf
+	enteringturfs += get_step(centerturf, turn(direction, 90))
+	enteringturfs += get_step(centerturf, turn(direction, -90))
+	for(var/i in enteringturfs)	//No break because we want to crush all the turfs before we start trying to move
+		var/turf/T = i
+		if(T.Enter(src) == FALSE)
+			canstep = FALSE
+	if(canstep == TRUE)
+		. = step(src, direction)
+	
 	update_icon()
-
+	///aaaaaaaaaa
 /obj/vehicle/tank/Bump(atom/A, yes)
 	. = ..()
 	var/facing = get_dir(src, A)
@@ -515,10 +550,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(modifiers["shift"])
 		return
 	if(modifiers["ctrl"])
-		to_chat(world, "handling mainfire")
-		handle_fire_main(A) //CTRL click to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
 	if(modifiers["middle"])
+		to_chat(world, "handling mainfire")
+		handle_fire_main(A) //MMB to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
 	if(modifiers["alt"])
 		return

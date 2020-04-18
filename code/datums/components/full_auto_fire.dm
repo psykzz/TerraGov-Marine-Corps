@@ -27,6 +27,9 @@
 	RegisterSignal(parent, COMSIG_GUN_BURSTDELAY_MODIFIED, .proc/modify_burst_delay)
 	RegisterSignal(parent, COMSIG_GUN_BURSTAMOUNT_MODIFIED, .proc/modify_burst_amount)
 
+	RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/wake_up)
+	RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/sleep_up)
+
 	src.autofire_shot_delay = autofire_shot_delay
 	src.burstfire_shot_delay = burstfire_shot_delay
 	src.shots_to_fire = shots_to_fire
@@ -46,34 +49,49 @@
 
 
 /datum/component/automatic_fire/proc/wake_up(datum/source, fire_mode, client/usercli)
-	switch(fire_mode)
-		if(GUN_FIREMODE_AUTOMATIC, GUN_FIREMODE_AUTOBURST)
-			component_fire_mode = fire_mode
-		else
-			if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
-				sleep_up()
-			return //No need for autofire on other modes.
-
+	if(!istankweapon(parent))
+		switch(fire_mode)
+			if(GUN_FIREMODE_AUTOMATIC, GUN_FIREMODE_AUTOBURST)
+				component_fire_mode = fire_mode
+			else
+				if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
+					sleep_up()
+				return //No need for autofire on other modes.
+	component_fire_mode = fire_mode //goyim code
+	to_chat(world, "autofire stat is [autofire_stat]")
 	if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT))
 		return //We've updated the firemode. No need for more.
 	if(autofire_stat & AUTOFIRE_STAT_FIRING)
 		stop_autofiring() //Let's stop shooting to avoid issues.
 		return
 
-	autofire_stat = AUTOFIRE_STAT_IDLE
+	//autofire_stat = AUTOFIRE_STAT_IDLE	//goyim uncomment
 
-	RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
+	//RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
+	//RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
 
-	if(usercli)
-		var/obj/item/weapon/gun/shoota = parent
-		if(shoota.loc == usercli.mob)
-			var/mob/shooter = usercli.mob
-			if(shooter.l_hand == parent || shooter.r_hand == parent)
-				autofire_on(usercli)
+	to_chat(world, "usecli is [usercli] in wakeup")
+	to_chat(world, "parent is [parent] in wakeup")
+	if(usercli)	//goyim remove this shitcode
+		autofire_stat = AUTOFIRE_STAT_IDLE
+		if(!istankweapon(parent))
+			var/obj/item/weapon/gun/shoota = parent
+			if(shoota.loc == usercli.mob)
+				var/mob/shooter = usercli.mob
+				if(shooter.l_hand == parent || shooter.r_hand == parent)
+					autofire_on(usercli)
+					RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
+					RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
+					to_chat(world, "autofire on with [usercli]")
+		if(istankweapon(parent))
+			autofire_on(usercli)
+			RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
+			RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
+			to_chat(world, "autofire on with [usercli]")
 
 
 /datum/component/automatic_fire/proc/sleep_up()
+	to_chat(world, "sleeping up")
 	if(autofire_stat & AUTOFIRE_STAT_SLEEPING)
 		return //Already asleep
 
@@ -86,16 +104,25 @@
 
 // There is a gun and there is a user wielding it. The component now waits for the mouse click.
 /datum/component/automatic_fire/proc/autofire_on(client/usercli)
+	to_chat(world, "autofire on")
 	if(autofire_stat & (AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
+		to_chat(world, "returning in autofire on")
 		return
 	autofire_stat = AUTOFIRE_STAT_ALERT
 	clicker = usercli
 	shooter = clicker.mob
+	to_chat(world, "autofon cli is [usercli] and parent is [parent]")
 	RegisterSignal(clicker, COMSIG_CLIENT_MOUSEDOWN, .proc/on_mouse_down)
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/autofire_off)
 	RegisterSignal(shooter, COMSIG_MOB_LOGOUT, .proc/autofire_off)
-	parent.RegisterSignal(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, /obj/item/weapon/gun/.proc/autofire_bypass_check)
-	parent.RegisterSignal(parent, COMSIG_AUTOFIRE_SHOT, /obj/item/weapon/gun/.proc/do_autofire)
+	
+	if(isgun(parent))
+		parent.RegisterSignal(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, /obj/item/weapon/gun/.proc/autofire_bypass_check)
+		parent.RegisterSignal(parent, COMSIG_AUTOFIRE_SHOT, /obj/item/weapon/gun/.proc/do_autofire)
+	if(istankweapon(parent))
+		to_chat(world, "istank reached in autofireon")
+		parent.RegisterSignal(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, /obj/item/tank_weapon/secondary_weapon/.proc/autofire_bypass_check)
+		parent.RegisterSignal(parent, COMSIG_AUTOFIRE_SHOT, /obj/item/tank_weapon/secondary_weapon/.proc/do_autofire)
 
 
 /datum/component/automatic_fire/proc/autofire_off(datum/source)
@@ -135,7 +162,7 @@
 	to_chat(world, "after checks")
 	if(source.mob.in_throw_mode)
 		return
-	if(!isturf(source.mob.loc) && !istype(source.mob.loc, /obj/vehicle/tank)) //No firing inside lockers and stuff.
+	if(!isturf(source.mob.loc) && !istype(source.mob.loc/*, /obj/vehicle/tank*/)) //No firing inside lockers and stuff.
 		return
 	if(get_dist(source.mob, target) < 2) //Adjacent clicking.
 		return
@@ -172,6 +199,7 @@
 
 //Dakka-dakka
 /datum/component/automatic_fire/proc/start_autofiring()
+	to_chat(world, "autofire start")
 	if(autofire_stat == AUTOFIRE_STAT_FIRING)
 		return //Already pew-pewing.
 	autofire_stat = AUTOFIRE_STAT_FIRING
@@ -220,6 +248,7 @@
 
 
 /datum/component/automatic_fire/proc/on_mouse_up(datum/source, atom/object, turf/location, control, params)
+	to_chat(world, "on mouseup")
 	UnregisterSignal(clicker, COMSIG_CLIENT_MOUSEUP)
 	mouse_status = AUTOFIRE_MOUSEUP
 	if(autofire_stat == AUTOFIRE_STAT_FIRING)
@@ -228,6 +257,7 @@
 
 
 /datum/component/automatic_fire/proc/stop_autofiring(datum/source, atom/object, turf/location, control, params)
+	to_chat(world, "autofire stop")
 	switch(autofire_stat)
 		if(AUTOFIRE_STAT_SLEEPING, AUTOFIRE_STAT_IDLE, AUTOFIRE_STAT_ALERT)
 			return
@@ -241,12 +271,20 @@
 		UnregisterSignal(clicker, COMSIG_CLIENT_MOUSEDRAG)
 	if(!QDELETED(shooter))
 		UnregisterSignal(shooter, COMSIG_CARBON_SWAPPED_HANDS)
-	var/obj/item/weapon/gun/shoota = parent
-	shoota.on_autofire_stop(shots_fired)
-	shots_fired = 0
-	target = null
-	target_loc = null
-	mouse_parameters = null
+	if(isgun(parent))
+		var/obj/item/weapon/gun/shoota = parent	//goyim remove thsi shitcode
+		shoota.on_autofire_stop(shots_fired)
+		shots_fired = 0
+		target = null
+		target_loc = null
+		mouse_parameters = null
+	if(istankweapon(parent))
+		var/obj/item/tank_weapon/secondary_weapon/shoota = parent
+		shoota.on_autofire_stop(shots_fired)
+		shots_fired = 0
+		target = null
+		target_loc = null
+		mouse_parameters = null
 
 
 /datum/component/automatic_fire/proc/keep_trying_to_delete_timer(timer_id) //This is an ugly hack until a fix for timers being unable to be deleted from inside the call stack is done.
@@ -259,6 +297,7 @@
 
 
 /datum/component/automatic_fire/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
+	to_chat(world, "onmousedrag triggered")
 	if(isnull(over_location)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
 		var/list/modifiers = params2list(params)
 		var/new_target = params2turf(modifiers["screen-loc"], get_turf(source.eye), source)
@@ -282,6 +321,7 @@
 
 
 /datum/component/automatic_fire/proc/process_shot()
+	to_chat(world, "process_shot")
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		return
 	if(get_turf(target) != target_loc) //Target moved since we last aimed.
@@ -314,6 +354,7 @@
 
 
 /datum/component/automatic_fire/proc/itemgun_equipped(datum/source, mob/shooter, slot)
+	to_chat(world, "this shouldnt be firing")
 	switch(slot)
 		if(SLOT_L_HAND, SLOT_R_HAND)
 			autofire_on(shooter.client)

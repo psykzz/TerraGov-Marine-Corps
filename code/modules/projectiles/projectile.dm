@@ -132,7 +132,9 @@
 		shot_from = source
 	permutated += src //Don't try to hit self.
 	if(!isturf(loc))
-		forceMove(get_turf(src))
+		to_chat(world, "src is [src]")
+		to_chat(world, "getturf of src is [get_turf(shooter)]")
+		forceMove(get_turf(shooter)) //goyim used to be src
 	starting_turf = loc
 
 	if(target)

@@ -22,7 +22,7 @@
 	icon_state = "ltbcannon_[current_rounds]"
 
 
-/obj/item/ammo_magazine/tank/ltaaap_minigun
+/obj/item/ammo_magazine/tank/ltaap_minigun
 	name = "LTAA-AP Minigun Magazine"
 	desc = "A primary armament minigun magazine"
 	caliber = "7.62x51mm" //Correlates to miniguns

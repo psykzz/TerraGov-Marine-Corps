@@ -164,6 +164,11 @@
 		return FALSE
 	return T.Adjacent(neighbor, target = neighbor, mover = src)
 
+/obj/vehicle/tank/Adjacent(atom/neighbor)	//goyim ?
+	for(var/obj/effect/doorpoint/door in neighbor.loc)
+		if(door.root == src)
+			return TRUE
+		return FALSE
 
 /*
 	This checks if you there is uninterrupted airspace between that turf and this one.

@@ -175,6 +175,9 @@
 #define COMSIG_GUN_BURSTDELAY_MODIFIED "gun_burstdelay_modified"
 #define COMSIG_GUN_BURSTAMOUNT_MODIFIED "gun_burstamount_modified"
 
+#define COMSIG_TANK_ENTERED "tank turret entered"
+#define COMSIG_TANK_EXITED "tank turret exited"
+
 // /obj/item/clothing signals
 #define COMSIG_SHOES_STEP_ACTION "shoes_step_action"			//from base of obj/item/clothing/shoes/proc/step_action(): ()
 

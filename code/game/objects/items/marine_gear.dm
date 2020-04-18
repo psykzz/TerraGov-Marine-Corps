@@ -15,25 +15,35 @@
 	name = "\improper V1 thermal-dampening tarp (folded)"
 	desc = "A tarp carried by TGMC Snipers. When laying underneath the tarp, the sniper is almost indistinguishable from the landscape if utilized correctly. The tarp contains a thermal-dampening weave to hide the wearer's heat signatures, optical camoflauge, and smell dampening."
 	icon = 'icons/obj/bodybag.dmi'
-	icon_state = "jungletarp_folded"
+	icon_state = "tarp_folded"
 	w_class = WEIGHT_CLASS_NORMAL
+	flags_item_map_variant = (ITEM_ICE_VARIANT)
 	unfoldedbag_path = /obj/structure/closet/bodybag/tarp
 
+/obj/item/bodybag/tarp/Initialize(mapload, ...)
+	. = ..()
 
-/obj/item/bodybag/tarp/snow
-	icon = 'icons/obj/bodybag.dmi'
-	icon_state = "snowtarp_folded"
-	unfoldedbag_path = /obj/structure/closet/bodybag/tarp/snow
-
+	/// Structures don't support item_map_variants yet
+	/// When we spawn the tarp update which structure to use
+	switch(SSmapping.configs[GROUND_MAP].armor_style)
+		if(MAP_ARMOR_STYLE_JUNGLE)
+			if(flags_item_map_variant & ITEM_JUNGLE_VARIANT)
+				unfoldedbag_path = /obj/structure/closet/bodybag/tarp
+		if(MAP_ARMOR_STYLE_ICE)
+			if(flags_item_map_variant & ITEM_ICE_VARIANT)
+				unfoldedbag_path = /obj/structure/closet/bodybag/tarp/snow
+		if(MAP_ARMOR_STYLE_PRISON)
+			if(flags_item_map_variant & ITEM_PRISON_VARIANT)
+				unfoldedbag_path = /obj/structure/closet/bodybag/tarp
 
 /obj/structure/closet/bodybag/tarp
 	name = "\improper V1 thermal-dampening tarp"
 	bag_name = "V1 thermal-dampening tarp"
 	desc = "An active camo tarp carried by TGMC Snipers. When laying underneath the tarp, the sniper is almost indistinguishable from the landscape if utilized correctly. The tarp contains a thermal-dampening weave to hide the wearer's heat signatures, optical camouflage, and smell dampening."
 	icon = 'icons/obj/bodybag.dmi'
-	icon_state = "jungletarp_closed"
-	icon_closed = "jungletarp_closed"
-	icon_opened = "jungletarp_open"
+	icon_state = "tarp_closed"
+	icon_closed = "tarp_closed"
+	icon_opened = "tarp_open"
 	open_sound = 'sound/effects/vegetation_walk_1.ogg'
 	close_sound = 'sound/effects/vegetation_walk_2.ogg'
 	foldedbag_path = /obj/item/bodybag/tarp
@@ -109,11 +119,13 @@
 		M.bullet_act(Proj) //tarp isn't bullet proof; concealment, not cover; pass it on to the occupant.
 
 
+/// A snow variant for the tarp structure
+/// When we add map variants for structures we could remove this
 /obj/structure/closet/bodybag/tarp/snow
-	icon_state = "snowtarp_closed"
-	icon_closed = "snowtarp_closed"
-	icon_opened = "snowtarp_open"
-	foldedbag_path = /obj/item/bodybag/tarp/snow
+	icon_state = "s_tarp_closed"
+	icon_closed = "s_tarp_closed"
+	icon_opened = "s_tarp_open"
+	foldedbag_path = /obj/item/bodybag/tarp
 
 
 /obj/item/coin/marine

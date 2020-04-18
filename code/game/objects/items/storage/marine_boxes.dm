@@ -235,14 +235,13 @@
 	new /obj/item/ammo_magazine/sniper(src)
 	new /obj/item/ammo_magazine/sniper/incendiary(src)
 	new /obj/item/weapon/gun/rifle/sniper/M42A(src)
+	new /obj/item/bodybag/tarp(src)
 	if(SSmapping.configs[GROUND_MAP].environment_traits[MAP_COLD])
 		new /obj/item/clothing/under/marine/sniper(src)
 		new /obj/item/storage/backpack/marine/satchel(src)
-		new /obj/item/bodybag/tarp/snow(src)
 	else
 		new /obj/item/facepaint/sniper(src)
 		new /obj/item/storage/backpack/marine/smock(src)
-		new /obj/item/bodybag/tarp(src)
 
 /obj/item/storage/box/grenade_system
 	name = "\improper M92 grenade launcher case"

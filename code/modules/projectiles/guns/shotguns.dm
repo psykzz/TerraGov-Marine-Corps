@@ -302,7 +302,7 @@ can cause issues with ammo types getting mixed up during the burst.
 
 //Turns out it has some attachments.
 /obj/item/weapon/gun/shotgun/double/update_icon()
-	icon_state = current_mag.chamber_closed ? copytext(icon_state,1,-2) : icon_state + "_o"
+	icon_state = current_mag.chamber_closed ? initial(icon_state) : icon_state + "_o"
 
 /obj/item/weapon/gun/shotgun/double/check_chamber_position()
 	if(current_mag.chamber_closed)

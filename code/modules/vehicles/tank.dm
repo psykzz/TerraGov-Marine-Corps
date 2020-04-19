@@ -292,8 +292,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		secondary_weapon.owner = src
 	GLOB.tank_list += src
 	/////////////////////AAAAAAAAAAAAAAAAAAA
-	linked_objs += new /obj/vehicle/multitile/hitbox(src.loc)
+	linked_objs += new hitbox_type(src.loc)
 	linked_objs += new /obj/effect/doorpoint(get_step_away(get_step(src,turn(src.dir, 180) ), src, 2))
+	relink_objs()
+
+/obj/vehicle/tank/proc/relink_objs
 	for(var/obj/vehicle/multitile/hitbox/i in linked_objs)	//We can have multiple different sized hitboxes if we wanna be funky
 		var/obj/vehicle/multitile/hitbox/hitbox = i
 		hitbox.root = src
@@ -473,11 +476,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	switch(position)
 		if(POSITION_DRIVER)
 			pilot = user
-			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
 		if(POSITION_GUNNER)
 			gunner = user
 			to_chat(world, "signal sent to component with [src.secondary_weapon] and user [user.client]")
-			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
+			if(secondary_weapon)
+				SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 		if(POSITION_PASSENGER)
 			passengers += user
 
@@ -498,7 +501,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		pilot = null
 		operators -= L
 	else if(L == gunner)
-		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
+		if(secondary_weapon)
+			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
 		gunner = null
 		operators -= L
 	else if(L in passengers)
@@ -676,6 +680,14 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 
 	pilot = wannabe_trucker ? user : null
 	gunner = wannabe_trucker ? null : user
+
+	if(!secondary_weapon)
+		return
+	if(pilot)
+		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
+		return
+	if(gunner)
+		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 
 /obj/vehicle/tank/proc/handle_harm_attack(mob/living/M, mob/living/occupant)
 	if(M.resting || M.buckled || M.incapacitated())

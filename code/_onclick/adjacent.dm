@@ -164,8 +164,10 @@
 		return FALSE
 	return T.Adjacent(neighbor, target = neighbor, mover = src)
 
-/obj/vehicle/tank/Adjacent(atom/neighbor)	//goyim ?
-	for(var/obj/effect/doorpoint/door in neighbor.loc)
+/obj/vehicle/armored/multitile/Adjacent(atom/neighbor)
+	if(isxeno(neighbor) && (get_dist(src, neighbor) < 3))	//Xenos stand next to it and slash
+		return TRUE
+	for(var/obj/effect/doorpoint/door in neighbor.loc)	//Humans need to be in a doorpoint to be able to access the vehicle
 		if(door.root == src)
 			return TRUE
 		return FALSE

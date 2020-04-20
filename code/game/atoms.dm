@@ -100,8 +100,6 @@ directive is properly returned.
 	if(density)
 		if( (flags_atom & ON_BORDER) && !(get_dir(loc, target) & dir) )
 			return 1
-		if(locate(/obj/vehicle/armored) in mover.loc)	//Edge case where we want a mover in a tank to be able to move thru it's own hitbox
-			return 1
 		else
 			return 0
 	else

@@ -99,6 +99,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		/obj/item/ammo_magazine/tank/tank_glauncher
 	)
 	cooldown = 0.7 SECONDS //Minimal cooldown
+	range_safety_check = 0
 
 /obj/item/tank_weapon/proc/fire(atom/T,mob/user)
 	if(!can_fire(T))
@@ -194,12 +195,12 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 /obj/vehicle/hitbox
 	density = TRUE
 	var/obj/vehicle/armored/multitile/root = null
-	//invisibility = INVISIBILITY_MAXIMUM
+	invisibility = INVISIBILITY_MAXIMUM
 	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
-	max_integrity = 1000
+	max_integrity = 10000
 
 /obj/vehicle/hitbox/projectile_hit(obj/projectile/proj)
 	. = ..()
@@ -216,10 +217,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	obj_integrity = 1000	//Keep us at max health
 
 /obj/effect/doorpoint
-	//invisibility = INVISIBILITY_MAXIMUM
+	invisibility = INVISIBILITY_MAXIMUM
 	var/obj/vehicle/armored/root = null
-
-//////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 /obj/vehicle/armored/apc //SQUEEEE
 	name = "M157 Replica Armoured Personnel Carrier"
@@ -484,7 +483,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 			pilot = user
 		if(POSITION_GUNNER)
 			gunner = user
-			if(secondary_weapon)
+			if(!secondary_weapon)
 				SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 		if(POSITION_PASSENGER)
 			passengers += user
@@ -527,8 +526,9 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(user.incapacitated() || user != pilot)
 		to_chat(user, "<span class ='notice'>You can't reach the gas pedal from down here, maybe try manning the driver's seat?</span>")
 		return FALSE
+	. = step(src, direction)
 	update_icon()
-	///aaaaaaaaaa
+
 /obj/vehicle/armored/multitile/relaymove(mob/user, direction)
 	if(world.time < last_move_time + move_delay)
 		return
@@ -548,9 +548,21 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		var/turf/T = i
 		if(T.Enter(src) == FALSE)
 			canstep = FALSE
+		for(var/b in T.contents)
+			var/atom/O = b
+			if(O.CanPass(src) == TRUE)
+				continue
+			Bump(O)
+			canstep = FALSE
 	if(canstep == TRUE)
 		. = step(src, direction)
 	update_icon()
+	return .
+
+/obj/vehicle/hitbox/CanPass(atom/movable/mover, turf/target)
+	. = ..()
+	if(mover == root)
+		return TRUE
 
 /obj/vehicle/armored/Bump(atom/A, yes)
 	. = ..()

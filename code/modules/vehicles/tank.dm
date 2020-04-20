@@ -16,7 +16,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	desc = "A gun that works about 50% of the time, but at least it's open source! It fires tank shells."
 	icon = 'icons/obj/hardpoint_modules.dmi'
 	icon_state = "glauncher"
-	var/obj/vehicle/tank/owner
+	var/obj/vehicle/armored/owner
 	var/list/fire_sounds = list('sound/weapons/guns/fire/tank_cannon1.ogg', 'sound/weapons/guns/fire/tank_cannon2.ogg')
 	var/obj/item/ammo_magazine/ammo
 	var/default_ammo = /obj/item/ammo_magazine/tank/ltb_cannon //What do we start with?
@@ -81,7 +81,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	log_combat(shooter, target, "fired the [src].")
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-	playsound(src, pick(fire_sounds, 50))	//yatatatatata
+	playsound(src, pick(fire_sounds), 50)	//yatatatatata
 	lastfired = world.time
 	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
 	ammo.current_rounds--
@@ -135,25 +135,26 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 // -differently so that you can get the effect of a large multi-tile vehicle without actually needing any multitile code.													//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/vehicle/tank
-	name = "MK-1 'friendly fire' prototype tank"
-	desc = "A gigantic wall of metal designed for maximum Xeno destruction. Click it with an open hand to enter as a pilot or a gunner."
-	icon = 'icons/obj/tank.dmi'
+/obj/vehicle/armored
+	name = "Mk-4 'shortstreet' tank"
+	desc = "An adorable chunk of metal with an alarming amount of firepower designed to crush, immolate, destroy and maim anything that nanotrasen wants it to. This model contains advanced bluespace technology which allows a tardis like amount of room on the inside"
+	icon = 'icons/obj/tinytank.dmi'
 	icon_state = "tank"
+	pixel_x = -16 //Stops marines from treading on it...d'aww
+	pixel_y = -8
 	layer = ABOVE_MOB_LAYER
 	anchored = FALSE
 	req_access = list(ACCESS_MARINE_TANK)
-	move_delay = 0.8 SECONDS
+	move_delay = 0.5 SECONDS
 	obj_integrity = 600 //Friendly fire resistant
 	max_integrity = 600
 	anchored = TRUE //No bumping / pulling the tank
 	demolish_on_ram = TRUE
-	pixel_x = -48
-	pixel_y = -48
-	//Who's driving the tank
-	var/turret_icon = 'icons/obj/tank_gun.dmi'
+	var/max_passengers = 0 //Bluespace's one hell of a drug.
+	var/turret_icon = 'icons/obj/tinytank_gun.dmi'
 	var/turret_icon_state = "turret"
 	var/obj/effect/damage_overlay
+	//Who's driving the tank
 	var/mob/living/carbon/human/pilot
 	var/mob/living/carbon/human/gunner
 	var/list/operators = list() //Who's in this tank? Prevents you from entering the tank again
@@ -170,18 +171,29 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/firing_secondary_weapon = FALSE
 	var/last_drive_sound = 0 //Engine noises.
 	var/list/passengers = list() //People who are in the tank without gunning / driving. This allows for things like jeeps and APCs in future
-	var/max_passengers = 5 //This seems sane to me, change if you don't agree.
 	var/lights_on = FALSE //Tanks start with lights off
-	var/allow_diagonal_movement = FALSE //For smaller vehicles like a jeep you may want this. This forbids / allows you to move diagonally in these vehicles
+	var/allow_diagonal_movement = TRUE //For smaller vehicles like a jeep you may want this. This forbids / allows you to move diagonally in these vehicles
 	var/has_underlay = FALSE //For larger vehicles that need seperately overlaying parts.
 	var/obj/effect/underlay = null
+
+/obj/vehicle/armored/multitile
+	name = "MK-1 'friendly fire' prototype tank"
+	desc = "A gigantic wall of metal designed for maximum Xeno destruction. Click it with an open hand to enter as a pilot or a gunner."
+	icon = 'icons/obj/tank.dmi'
+	turret_icon = 'icons/obj/tank_gun.dmi'
+	icon_state = "tank"
+	pixel_x = -48
+	pixel_y = -48
+	max_passengers = 5 //This seems sane to me, change if you don't agree.
+	allow_diagonal_movement = FALSE
+	move_delay = 0.8 SECONDS
 /////////////////////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-	var/hitbox_type = /obj/vehicle/multitile/hitbox
+	var/hitbox_type = /obj/vehicle/hitbox
 	var/list/linked_objs = list()
 
-/obj/vehicle/multitile/hitbox
+/obj/vehicle/hitbox
 	density = TRUE
-	var/obj/vehicle/tank/root = null
+	var/obj/vehicle/armored/multitile/root = null
 	//invisibility = INVISIBILITY_MAXIMUM
 	bound_width = 96
 	bound_height = 96
@@ -189,37 +201,27 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	bound_y = -32
 	max_integrity = 1000
 
-/obj/effect/doorpoint
-	//invisibility = INVISIBILITY_MAXIMUM
-	var/obj/vehicle/tank/root = null
-
-/obj/vehicle/multitile/hitbox/projectile_hit(obj/projectile/proj)
+/obj/vehicle/hitbox/projectile_hit(obj/projectile/proj)
 	. = ..()
 	if(proj.firer == root)
 		return FALSE
 
-
-/obj/vehicle/multitile/hitbox/bullet_act(obj/projectile/P)
+/obj/vehicle/hitbox/bullet_act(obj/projectile/P)
 	. = ..()
 	root.bullet_act(P)
 
-/obj/vehicle/multitile/hitbox/take_damage(amount)
+/obj/vehicle/hitbox/take_damage(amount)
 	. = ..()
 	root.take_damage(amount)
 	obj_integrity = 1000	//Keep us at max health
 
-//////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-/obj/vehicle/tank/tiny //SQUEEEE
-	name = "Mk-4 'shortstreet' tank"
-	desc = "An adorable chunk of metal with an alarming amount of firepower designed to crush, immolate, destroy and maim anything that nanotrasen wants it to. This model contains advanced bluespace technology which allows a tardis like amount of room on the inside"
-	icon = 'icons/obj/tinytank.dmi'
-	turret_icon = 'icons/obj/tinytank_gun.dmi'
-	icon_state = "tank"
-	pixel_x = -16 //Stops marines from treading on it...d'aww
-	pixel_y = -8
-	max_passengers = 0 //Bluespace's one hell of a drug.
+/obj/effect/doorpoint
+	//invisibility = INVISIBILITY_MAXIMUM
+	var/obj/vehicle/armored/root = null
 
-/obj/vehicle/tank/apc/mini //SQUEEEE
+//////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+/obj/vehicle/armored/apc //SQUEEEE
 	name = "M157 Replica Armoured Personnel Carrier"
 	desc = "A miniaturized replica of a popular personnel carrier. For ages 5 and up."
 	icon = 'icons/obj/tinytank.dmi'
@@ -233,7 +235,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	primary_weapon_type = null
 	secondary_weapon_type = null
 
-/obj/vehicle/tank/apc //Big boy troop carrier
+/obj/vehicle/armored/multitile/apc //Big boy troop carrier
 	name = "M557 Armoured Personnel Carrier"
 	desc = "A heavily armoured vehicle with light armaments designed to ferry troops around the battle field, or assist with search and rescue (SAR) operations."
 	icon = 'icons/obj/medium_vehicles.dmi'
@@ -248,7 +250,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	secondary_weapon_type = null
 	has_underlay = TRUE
 
-/obj/vehicle/tank/medium //Bigass tank designed to cut through enemy lines
+/obj/vehicle/armored/multitile/medium //Bigass tank designed to cut through enemy lines
 	name = "M74A4 'Baker Street' Heavy Tank"
 	desc = "A metal behemoth which is designed to cleave through enemy lines. It comes pre installed with a main tank cannon capable of deploying heavy payloads, as well as a minigun which can tear through multiple targets in quick succession."
 	icon = 'icons/obj/medium_vehicles.dmi'
@@ -262,7 +264,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	max_passengers = 1 //Seats 3 total. It's designed to cut through enemy lines with 1 gunner, 1 pilot and 1 commander to oversee operations
 	has_underlay = TRUE
 
-/obj/vehicle/tank/examine(mob/user)
+/obj/vehicle/armored/examine(mob/user)
 	. = ..()
 	to_chat(user, "<b><span class='notice'>To fire its main cannon, <i>ctrl</i> click a tile.</b></span>")
 	to_chat(user, "<b><span class='notice'>To fire its secondary weapon, click a tile.</b></span>")
@@ -278,7 +280,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	animate_movement = TRUE //So it doesnt just ping back and forth and look all stupid
 	mouse_opacity = FALSE //It's an overlay
 
-/obj/vehicle/tank/Initialize()
+/obj/vehicle/armored/Initialize()
 	. = ..()
 	turret_overlay = new()
 	turret_overlay.icon = turret_icon
@@ -291,32 +293,35 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		secondary_weapon = new secondary_weapon_type(src)
 		secondary_weapon.owner = src
 	GLOB.tank_list += src
-	/////////////////////AAAAAAAAAAAAAAAAAAA
+
+/obj/vehicle/armored/multitile/Initialize()
+	. = ..()
 	linked_objs += new hitbox_type(src.loc)
 	linked_objs += new /obj/effect/doorpoint(get_step_away(get_step(src,turn(src.dir, 180) ), src, 2))
 	relink_objs()
 
-/obj/vehicle/tank/proc/relink_objs
-	for(var/obj/vehicle/multitile/hitbox/i in linked_objs)	//We can have multiple different sized hitboxes if we wanna be funky
-		var/obj/vehicle/multitile/hitbox/hitbox = i
+/obj/vehicle/armored/multitile/proc/relink_objs()
+	for(var/obj/vehicle/hitbox/hitbox in linked_objs)	//We can have multiple different sized hitboxes if we wanna be funky and make a Tshaped tank
 		hitbox.root = src
-	for(var/obj/effect/doorpoint/i in linked_objs)	//Drake? Where are the doors?
-		var/obj/effect/doorpoint/door = i
+	for(var/obj/effect/doorpoint/door in linked_objs)	//Drake? Where are the doors?
 		door.root = src
-	////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAA
-/obj/vehicle/tank/Destroy()
+
+/obj/vehicle/armored/Destroy()
 	obj_integrity = 10000 //Prevents this from being called over and over and over while we chuck the mobs out
 	remove_mobs()
 	QDEL_NULL(turret_overlay)
 	QDEL_NULL(primary_weapon)
 	QDEL_NULL(secondary_weapon)
-	for(var/o in linked_objs)
-		QDEL_NULL(o)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_cannon1.ogg', 100, 1) //Explosion sound
 	GLOB.tank_list -= src
 	return ..()
 
-/obj/vehicle/tank/proc/remove_mobs()
+/obj/vehicle/armored/multitile/Destroy()
+	for(var/k in linked_objs)
+		QDEL_NULL(k)
+	return ..()
+
+/obj/vehicle/armored/proc/remove_mobs()
 	for(var/x in contents) //Yeet the occupants out so they arent deleted
 		if(ismob(x))
 			var/mob/living/M = x
@@ -328,28 +333,29 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 			M.apply_effects(6, 6, 0, 0, 6, 0, 0, 0, 0)
 			to_chat(M, "<span class='warning'>You violently dive out of [src] as it explodes behind you!</span>")
 
-/obj/vehicle/tank/Move()
+/obj/vehicle/armored/Move()
 	. = ..()
 	update_icon()
-	////////////////////////////7AAAAAAAAAAAAAAAAAAAAA
-	for(var/obj/vehicle/multitile/i in linked_objs)
-		var/obj/vehicle/multitile/A = i
-		A.forceMove(src.loc)
-	for(var/obj/effect/doorpoint/k in linked_objs)
-		var/obj/effect/doorpoint/B = k
-		B.forceMove(get_step_away(get_step(src, turn(src.dir, 180)), src, 5))
-	//////////////////////7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	if(world.time < last_drive_sound + 2 SECONDS)
 		return
 	last_drive_sound = world.time
 	playsound(src, 'sound/ambience/tank_driving.ogg', vol = 20, sound_range = 30)
 
-/obj/vehicle/tank/update_icon() //To show damage, gun firing, whatever. We need to re apply the gun turret overlay.
+/obj/vehicle/armored/multitile/Move()
+	. = ..()
+	for(var/obj/vehicle/hitbox/i in linked_objs)
+		var/obj/vehicle/hitbox/A = i
+		A.forceMove(src.loc)
+	for(var/obj/effect/doorpoint/k in linked_objs)
+		var/obj/effect/doorpoint/B = k
+		B.forceMove(get_step_away(get_step(src, turn(src.dir, 180)), src, 5))
+
+/obj/vehicle/armored/update_icon() //To show damage, gun firing, whatever. We need to re apply the gun turret overlay.
 	if(!turret_overlay)
 		return
 	handle_overlays()
 
-/obj/vehicle/tank/proc/handle_overlays() //This code is vehicle specific and handles offsets + overlays for the tank's gun. Please change this accordingly.
+/obj/vehicle/armored/proc/handle_overlays() //This code is vehicle specific and handles offsets + overlays for the tank's gun. Please change this accordingly.
 	if(primary_weapon_dir)
 		turret_overlay.setDir(primary_weapon_dir)
 		turret_overlay.pixel_x = 0
@@ -378,7 +384,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	add_overlay(underlay)
 
 
-/obj/vehicle/tank/attack_hand(mob/living/user)
+/obj/vehicle/armored/attack_hand(mob/living/user)
 	if(!ishuman(user)) // Aliens can't get in a tank...as hilarious as that would be
 		return
 
@@ -449,7 +455,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	to_chat(user, "You climb into [src] as a [position]!")
 	enter(user, position) //Yeah i could do this with a define, but this way we're not using multiple things
 
-/obj/vehicle/tank/proc/can_enter(mob/living/carbon/M, position) //NO BENOS ALLOWED
+/obj/vehicle/armored/proc/can_enter(mob/living/carbon/M, position) //NO BENOS ALLOWED
 	if(!istype(M))
 		return
 	if(!M.dextrous)
@@ -470,7 +476,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		return TRUE
 
 
-/obj/vehicle/tank/proc/enter(mob/user, position) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
+/obj/vehicle/armored/proc/enter(mob/user, position) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	user.forceMove(src)
 	operators += user
 	switch(position)
@@ -478,17 +484,16 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 			pilot = user
 		if(POSITION_GUNNER)
 			gunner = user
-			to_chat(world, "signal sent to component with [src.secondary_weapon] and user [user.client]")
 			if(secondary_weapon)
 				SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 		if(POSITION_PASSENGER)
 			passengers += user
 
-/obj/vehicle/tank/proc/remove_all_players()
+/obj/vehicle/armored/proc/remove_all_players()
 	for(var/M in operators)
 		exit_tank(M)
 
-/obj/vehicle/tank/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
+/obj/vehicle/armored/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	if(!istype(L))
 		return
 	
@@ -512,7 +517,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	L.forceMove(T)
 	to_chat(L, "<span class='notice'>You hop out of [src] and slam its hatch shut behind you.</span>")
 
-/obj/vehicle/tank/relaymove(mob/user, direction)
+/obj/vehicle/armored/relaymove(mob/user, direction)
+	. = ..()
 	if(world.time < last_move_time + move_delay)
 		return
 	last_move_time = world.time
@@ -521,7 +527,17 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(user.incapacitated() || user != pilot)
 		to_chat(user, "<span class ='notice'>You can't reach the gas pedal from down here, maybe try manning the driver's seat?</span>")
 		return FALSE
-	//////AALARM_MODE_CYCL
+	update_icon()
+	///aaaaaaaaaa
+/obj/vehicle/armored/multitile/relaymove(mob/user, direction)
+	if(world.time < last_move_time + move_delay)
+		return
+	last_move_time = world.time
+	if((!allow_diagonal_movement && direction) in GLOB.diagonals)
+		return
+	if(user.incapacitated() || user != pilot)
+		to_chat(user, "<span class ='notice'>You can't reach the gas pedal from down here, maybe try manning the driver's seat?</span>")
+		return FALSE
 	var/canstep = TRUE
 	var/list/enteringturfs = list()
 	var/turf/centerturf = get_step(get_step(src, direction), direction)
@@ -534,10 +550,9 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 			canstep = FALSE
 	if(canstep == TRUE)
 		. = step(src, direction)
-	
 	update_icon()
-	///aaaaaaaaaa
-/obj/vehicle/tank/Bump(atom/A, yes)
+
+/obj/vehicle/armored/Bump(atom/A, yes)
 	. = ..()
 	var/facing = get_dir(src, A)
 	var/turf/temp = get_turf(loc)
@@ -547,7 +562,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		log_attack("[pilot] drove over [A] with [src]")
 
 //Combat, tank guns, all that fun stuff
-/obj/vehicle/tank/proc/onMouseDown(atom/A, mob/user, params)
+/obj/vehicle/armored/proc/onMouseDown(atom/A, mob/user, params)
 	if(user != gunner) //Only the gunner can fire!
 		return
 	var/list/modifiers = params2list(params) //If they're CTRL clicking, for example, let's not have them accidentally shoot.
@@ -562,9 +577,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(modifiers["alt"])
 		return
 	handle_fire(A)
-	to_chat(world, "handled normal fire for [A]")
 
-/obj/vehicle/tank/proc/handle_fire(atom/A)
+/obj/vehicle/armored/proc/handle_fire(atom/A)
 	if(!secondary_weapon && gunner)
 		to_chat(gunner, "[src]'s secondary weapon hardpoint spins pathetically. Maybe you should install a secondary weapon on this tank?")
 		return FALSE
@@ -574,7 +588,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	to_chat(world, "started processing handlefire")
 	START_PROCESSING(SSfastprocess, src)
 
-/obj/vehicle/tank/proc/handle_fire_main(atom/A) //This is used to shoot your big ass tank cannon, rather than your small MG
+/obj/vehicle/armored/proc/handle_fire_main(atom/A) //This is used to shoot your big ass tank cannon, rather than your small MG
 	if(!primary_weapon && gunner)
 		to_chat(gunner, "You look at the stump where [src]'s tank barrel should be and sigh.")
 		return FALSE
@@ -584,7 +598,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	to_chat(world, "started processing mainfire")
 	START_PROCESSING(SSfastprocess, src)
 
-/obj/vehicle/tank/proc/swivel_gun(atom/A)
+/obj/vehicle/armored/proc/swivel_gun(atom/A)
 	var/new_weapon_dir = get_dir(src, A) //Check that we're not already facing this way to avoid a double swivel when you fire.
 	if(new_weapon_dir == primary_weapon_dir)
 		return FALSE
@@ -595,7 +609,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		primary_weapon_dir = new_weapon_dir
 		return TRUE
 
-/obj/vehicle/tank/process()
+/obj/vehicle/armored/process()
 	if(firing_primary_weapon && firing_target)
 		if(primary_weapon.fire(firing_target, gunner))
 			primary_weapon_dir = get_dir(src, firing_target) //For those instances when you've swivelled your gun round a lot when your main gun wasn't ready to fire. This ensures the gun always faces the desired target.
@@ -607,10 +621,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 			secondary_weapon_dir = get_dir(src, firing_target) //Set the gun dir
 			update_icon()
 
-/obj/vehicle/tank/proc/onMouseUp(atom/A, mob/user)
+/obj/vehicle/armored/proc/onMouseUp(atom/A, mob/user)
 	stop_firing()
 
-/obj/vehicle/tank/proc/stop_firing()
+/obj/vehicle/armored/proc/stop_firing()
 	firing_target = null
 	firing_primary_weapon = FALSE
 	firing_secondary_weapon = FALSE
@@ -625,14 +639,14 @@ Tank interaction procs copied from tank.dm!
 This handles stuff like swapping seats, pulling people out of the tank, all that stuff.
 */
 
-/obj/vehicle/tank/verb/exit_tank_verb()
+/obj/vehicle/armored/verb/exit_tank_verb()
 	set name = "Exit vehicle"
 	set category = "Vehicle"
 	set src in view(0)
 	if(usr)
 		exit_tank(usr)
 
-/obj/vehicle/tank/verb/toggle_light()
+/obj/vehicle/armored/verb/toggle_light()
 	set name = "Toggle floodlights"
 	set category = "Vehicle"
 	set src in view(0)
@@ -646,7 +660,7 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 		lights_on = TRUE
 
 
-/obj/vehicle/tank/verb/switch_seats()
+/obj/vehicle/armored/verb/switch_seats()
 	set name = "Swap Seats"
 	set category = "Vehicle"
 	set src in view(0)
@@ -665,7 +679,7 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 	to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
 	addtimer(CALLBACK(src, .proc/seat_switched, wannabe_trucker, usr), 3 SECONDS)
 
-/obj/vehicle/tank/proc/seat_switched(wannabe_trucker, mob/living/user)
+/obj/vehicle/armored/proc/seat_switched(wannabe_trucker, mob/living/user)
 
 	var/player = wannabe_trucker ? gunner : pilot
 	var/challenger = wannabe_trucker ? pilot : gunner
@@ -689,7 +703,7 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 	if(gunner)
 		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
 
-/obj/vehicle/tank/proc/handle_harm_attack(mob/living/M, mob/living/occupant)
+/obj/vehicle/armored/proc/handle_harm_attack(mob/living/M, mob/living/occupant)
 	if(M.resting || M.buckled || M.incapacitated())
 		return FALSE
 	if(!occupant)
@@ -710,11 +724,11 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 					"<span class='notice'>you forcibly pull [occupant] out of [src].</span>", null, 6)
 	occupant.Knockdown(4)
 
-/obj/vehicle/tank/bullet_act(obj/projectile/Proj)
+/obj/vehicle/armored/bullet_act(obj/projectile/Proj)
 	. = ..()
 	update_icon()
 
-/obj/vehicle/tank/take_damage(amount)
+/obj/vehicle/armored/take_damage(amount)
 	. = ..()
 	update_icon() //Update damage overlays
 

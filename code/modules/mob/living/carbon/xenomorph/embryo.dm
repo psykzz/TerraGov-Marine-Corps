@@ -184,8 +184,8 @@
 
 	victim.update_burst()
 
-	if(istype(victim.loc, /obj/vehicle/tank))
-		var/obj/vehicle/tank/vehicle = victim.loc
+	if(istype(victim.loc, /obj/vehicle/armored))
+		var/obj/vehicle/armored/vehicle = victim.loc
 		vehicle.exit_tank(src)
 	else
 		forceMove(get_turf(victim)) //moved to the turf directly so we don't get stuck inside a cryopod or another mob container.

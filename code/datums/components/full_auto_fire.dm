@@ -104,14 +104,11 @@
 
 // There is a gun and there is a user wielding it. The component now waits for the mouse click.
 /datum/component/automatic_fire/proc/autofire_on(client/usercli)
-	to_chat(world, "autofire on")
 	if(autofire_stat & (AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
-		to_chat(world, "returning in autofire on")
 		return
 	autofire_stat = AUTOFIRE_STAT_ALERT
 	clicker = usercli
 	shooter = clicker.mob
-	to_chat(world, "autofon cli is [usercli] and parent is [parent]")
 	RegisterSignal(clicker, COMSIG_CLIENT_MOUSEDOWN, .proc/on_mouse_down)
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/autofire_off)
 	RegisterSignal(shooter, COMSIG_MOB_LOGOUT, .proc/autofire_off)
@@ -120,7 +117,6 @@
 		parent.RegisterSignal(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, /obj/item/weapon/gun/.proc/autofire_bypass_check)
 		parent.RegisterSignal(parent, COMSIG_AUTOFIRE_SHOT, /obj/item/weapon/gun/.proc/do_autofire)
 	if(istankweapon(parent))
-		to_chat(world, "istank reached in autofireon")
 		parent.RegisterSignal(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, /obj/item/tank_weapon/secondary_weapon/.proc/autofire_bypass_check)
 		parent.RegisterSignal(parent, COMSIG_AUTOFIRE_SHOT, /obj/item/tank_weapon/secondary_weapon/.proc/do_autofire)
 
@@ -162,7 +158,7 @@
 	to_chat(world, "after checks")
 	if(source.mob.in_throw_mode)
 		return
-	if(!isturf(source.mob.loc) && !istype(source.mob.loc/*, /obj/vehicle/tank*/)) //No firing inside lockers and stuff.
+	if(!isturf(source.mob.loc) && !istype(source.mob.loc/*, /obj/vehicle/armored*/)) //No firing inside lockers and stuff.	//goyim
 		return
 	if(get_dist(source.mob, target) < 2) //Adjacent clicking.
 		return
@@ -297,7 +293,6 @@
 
 
 /datum/component/automatic_fire/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
-	to_chat(world, "onmousedrag triggered")
 	if(isnull(over_location)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
 		var/list/modifiers = params2list(params)
 		var/new_target = params2turf(modifiers["screen-loc"], get_turf(source.eye), source)
@@ -321,7 +316,6 @@
 
 
 /datum/component/automatic_fire/proc/process_shot()
-	to_chat(world, "process_shot")
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		return
 	if(get_turf(target) != target_loc) //Target moved since we last aimed.
@@ -354,7 +348,6 @@
 
 
 /datum/component/automatic_fire/proc/itemgun_equipped(datum/source, mob/shooter, slot)
-	to_chat(world, "this shouldnt be firing")
 	switch(slot)
 		if(SLOT_L_HAND, SLOT_R_HAND)
 			autofire_on(shooter.client)

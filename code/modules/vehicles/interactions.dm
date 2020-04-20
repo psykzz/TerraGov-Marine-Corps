@@ -1,4 +1,4 @@
-/obj/vehicle/tank/attackby(obj/item/I, mob/user) //This handles reloading weapons, or changing what kind of mags they'll accept. You can have a passenger do this
+/obj/vehicle/armored/attackby(obj/item/I, mob/user) //This handles reloading weapons, or changing what kind of mags they'll accept. You can have a passenger do this
 	. = ..()
 	if(user.loc == src) //Stops safe healing
 		to_chat(user, "<span class='warning'>You can't reach [src]'s hardpoints while youre seated in it.</span>")
@@ -28,7 +28,7 @@
 			user.transferItemToLoc(I,src)
 		return
 
-/obj/vehicle/tank/welder_act(mob/living/user, obj/item/I)
+/obj/vehicle/armored/welder_act(mob/living/user, obj/item/I)
 	. = ..()
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='warning'>You can't see any visible dents on [src].</span>")

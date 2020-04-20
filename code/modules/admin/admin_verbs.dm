@@ -1128,7 +1128,7 @@
 		return
 
 	for(var/i in GLOB.tank_list)
-		var/obj/vehicle/tank/CA = i
+		var/obj/vehicle/armored/CA = i
 		CA.remove_all_players()
 
 		log_admin("[key_name(usr)] forcibly removed all players from [CA].")

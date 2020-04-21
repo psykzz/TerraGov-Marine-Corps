@@ -14,13 +14,16 @@
 
 /obj/structure/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	. = ..()
-	to_chat(world, "ramming structre")
 	var/damage = . //If it has a snowplow, add extra damage
+	take_damage(damage)
+
+/obj/vehicle/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)	//MONSTER TRUCKS
+	. = ..()
+	var/damage = .
 	take_damage(damage)
 
 /obj/machinery/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	. = ..()
-	to_chat(world, "ramming machine")
 	var/damage = .
 	take_damage(damage)
 

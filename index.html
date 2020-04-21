@@ -29,13 +29,14 @@ General Public License version 3.
 
 
 <h3 id="modules">Modules
-<aside>(11 modules,
-    48/4066 macros, 1.2%)</aside></h3>
+<aside>(12 modules,
+    51/4073 macros, 1.3%)</aside></h3>
 <ul class="index-tree">
     <li class="has-children"><span title="code">code</span><ul class="index-tree">
     <li class="has-children"><span title="code&#x2F;__DEFINES">__DEFINES</span><ul class="index-tree">
     <li><a href="code/__DEFINES/MC.html" title="code&#x2F;__DEFINES&#x2F;MC.dm">MC</a> - SubSystem flags (Please design any new flags so that the default is off, to make adding flags to subsystems easier)</li>
     <li><a href="code/__DEFINES/admin.html" title="code&#x2F;__DEFINES&#x2F;admin.dm">admin</a></li>
+    <li><a href="code/__DEFINES/atmospherics.html" title="code&#x2F;__DEFINES&#x2F;atmospherics.dm">atmospherics</a></li>
     <li><a href="code/__DEFINES/coordinates.html" title="code&#x2F;__DEFINES&#x2F;coordinates.dm">coordinates</a></li>
     <li class="has-children"><span title="code&#x2F;__DEFINES&#x2F;dcs">dcs</span><ul class="index-tree">
     <li><a href="code/__DEFINES/dcs/flags.html" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;flags.dm">flags</a></li>
@@ -58,7 +59,7 @@ Thanks to forum_account for saving the day, the library can be found
 
 
 <h3 id="types">Types
-<aside>(55 detailed/168 documented/10661 total, 1.6%)</aside></h3>
+<aside>(63 detailed/177 documented/10666 total, 1.7%)</aside></h3>
 <ul class="index-tree">
     <li><a href="global.html" title="(global)">(global)</a></li>
     <li class="has-children"><span title="&#x2F;area">area</span><ul class="index-tree">
@@ -71,7 +72,9 @@ Thanks to forum_account for saving the day, the library can be found
     </ul></li>
     </ul></li>
     <li class="has-children"><a href="atom.html" title="&#x2F;atom">atom</a><ul class="index-tree">
-    <li><span class="no-substance">movable&#x2F;</span><a href="atom/movable/lighting_object.html" title="&#x2F;atom&#x2F;movable&#x2F;lighting_object">lighting_object</a></li>
+    <li class="has-children"><a href="atom/movable.html" title="&#x2F;atom&#x2F;movable">movable</a><ul class="index-tree">
+    <li><a href="atom/movable/lighting_object.html" title="&#x2F;atom&#x2F;movable&#x2F;lighting_object">lighting_object</a></li>
+    </ul></li>
     </ul></li>
     <li><a href="client.html" title="&#x2F;client">client</a></li>
     <li class="has-children"><a href="datum.html" title="&#x2F;datum">datum</a> - The absolute base class for everything<ul class="index-tree">
@@ -143,6 +146,7 @@ parameters.</li>
     <li><span class="no-substance" title="&#x2F;datum&#x2F;wound&#x2F;internal_bleeding">internal_bleeding</span> - INTERNAL BLEEDING</li>
     <li><span class="no-substance" title="&#x2F;datum&#x2F;wound&#x2F;lost_limb">lost_limb</span> - EXTERNAL ORGAN LOSS</li>
     </ul></li>
+    <li><a href="datum/xeno_caste.html" title="&#x2F;datum&#x2F;xeno_caste">xeno_caste</a></li>
     </ul></li>
     <li class="has-children"><a href="mob.html" title="&#x2F;mob">mob</a><ul class="index-tree">
     <li><span class="no-substance">camera&#x2F;aiEye&#x2F;remote&#x2F;</span><span class="no-substance" title="&#x2F;mob&#x2F;camera&#x2F;aiEye&#x2F;remote&#x2F;fobdrone">Remote Construction Drone</span> - Drone Mob</li>
@@ -150,6 +154,10 @@ parameters.</li>
     <li class="has-children"><a href="mob/living/carbon.html" title="&#x2F;mob&#x2F;living&#x2F;carbon">carbon</a><ul class="index-tree">
     <li><a href="mob/living/carbon/human.html" title="&#x2F;mob&#x2F;living&#x2F;carbon&#x2F;human">unknown</a></li>
     <li><a href="mob/living/carbon/monkey.html" title="&#x2F;mob&#x2F;living&#x2F;carbon&#x2F;monkey">monkey</a></li>
+    <li class="has-children"><a href="mob/living/carbon/xenomorph.html" title="&#x2F;mob&#x2F;living&#x2F;carbon&#x2F;xenomorph">Drone</a><ul class="index-tree">
+    <li><a href="mob/living/carbon/xenomorph/boiler.html" title="&#x2F;mob&#x2F;living&#x2F;carbon&#x2F;xenomorph&#x2F;boiler">Boiler</a></li>
+    <li><a href="mob/living/carbon/xenomorph/hivemind.html" title="&#x2F;mob&#x2F;living&#x2F;carbon&#x2F;xenomorph&#x2F;hivemind">Hivemind</a></li>
+    </ul></li>
     </ul></li>
     <li><span class="no-substance">simple_animal&#x2F;</span><a href="mob/living/simple_animal/hostile.html" title="&#x2F;mob&#x2F;living&#x2F;simple_animal&#x2F;hostile">hostile</a></li>
     </ul></li>
@@ -167,6 +175,7 @@ parameters.</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;effect&#x2F;landmark&#x2F;corpsespawner&#x2F;bridgeofficer">Staff Officer</span> - Officers</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;effect&#x2F;landmark&#x2F;corpsespawner&#x2F;prisoner">Prisoner</span> - Civilians</li>
     </ul></li>
+    <li><a href="obj/effect/mine_tripwire.html" title="&#x2F;obj&#x2F;effect&#x2F;mine_tripwire">claymore tripwire</a> - This is a mine_tripwire that is basically used to extend the mine and capture bump movement further infront of the mine</li>
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;effect&#x2F;particle_effect">particle_effect</span><ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;obj&#x2F;effect&#x2F;particle_effect&#x2F;ion_trails">ion trails</span> - ///// Attach an Ion trail to any object, that spawns when it moves (like for the jetpack)
 just pass in the object to attach it to in set_up
@@ -183,11 +192,16 @@ and don't call start() in a loop that will be repeated otherwise it'll get spamm
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;attachable&#x2F;suppressor">suppressor</span> - Muzzle Attachments</li>
     </ul></li>
     <li><span class="no-substance">book&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;book&#x2F;manual">manual</span> - MANUALS (BOOKS)</li>
-    <li><span class="no-substance">clothing&#x2F;under&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;under&#x2F;pizza">pizza delivery uniform</span> - Civilians</li>
+    <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing">clothing</span><ul class="index-tree">
+    <li><span class="no-substance">suit&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;suit&#x2F;apron">apron</span> - Job related clothing</li>
+    <li><span class="no-substance">under&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;under&#x2F;pizza">pizza delivery uniform</span> - Civilians</li>
+    </ul></li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;coin">Coin</span> - Coin</li>
-    <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;explosive">explosive</span><ul class="index-tree">
+    <li class="has-children"><span title="&#x2F;obj&#x2F;item&#x2F;explosive">explosive</span><ul class="index-tree">
     <li><span class="no-substance">grenade&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;explosive&#x2F;grenade&#x2F;frag">\improper M40 HEDP grenade</span> - <em><strong>GRENADES</strong></em></li>
-    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;explosive&#x2F;mine">\improper M20 Claymore anti-personnel mine</span> - <em><strong>MINES</strong></em></li>
+    <li class="has-children"><a href="obj/item/explosive/mine.html" title="&#x2F;obj&#x2F;item&#x2F;explosive&#x2F;mine">\improper M20 Claymore anti-personnel mine</a> - Mines<ul class="index-tree">
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;explosive&#x2F;mine&#x2F;pmc">\improper M20P Claymore anti-personnel mine</span> - PMC specific mine, with IFF for PMC units</li>
+    </ul></li>
     </ul></li>
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;flashlight">flashlight</span><ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;flashlight&#x2F;combat">combat flashlight</span> - Marine Gear</li>
@@ -277,6 +291,7 @@ TO-DO -- Using it as a power measurement tool for cables etc. Nannek.</li>
     </ul></li>
     <li class="has-children"><span title="&#x2F;obj&#x2F;structure">structure</span><ul class="index-tree">
     <li><span class="no-substance">alien&#x2F;</span><a href="obj/structure/alien/weeds.html" title="&#x2F;obj&#x2F;structure&#x2F;alien&#x2F;weeds">weeds</a></li>
+    <li><span class="no-substance">bed&#x2F;chair&#x2F;</span><a href="obj/structure/bed/chair/janicart.html" title="&#x2F;obj&#x2F;structure&#x2F;bed&#x2F;chair&#x2F;janicart">janicart</a> - old style janicart</li>
     <li><a href="obj/structure/cable.html" title="&#x2F;obj&#x2F;structure&#x2F;cable">power cable</a></li>
     <li class="has-children"><span class="no-substance">closet&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;closet&#x2F;secure_closet">secure_closet</span><ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;closet&#x2F;secure_closet&#x2F;marine">marine&#x27;s locker</span> - Marine Gear</li>
@@ -290,7 +305,7 @@ TO-DO -- Using it as a power measurement tool for cables etc. Nannek.</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;adv_comp">adv_comp</span> - COMPUTERS</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;electronics">electronics</span> - ELECTRONICS</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;fuel">fuel</span> - FUEL EQUIPMENT</li>
-    <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;medevac_system">medevac system</span> - OTHER EQUIPMENT</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;operatingtable">Dropship Operating Table Deployment System</span> - OTHER EQUIPMENT</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;sentry_holder">sentry deployment system</span> - turret holders</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;structure&#x2F;dropship_equipment&#x2F;weapon">abstract weapon</span> - WEAPONS</li>
     </ul></li>
@@ -317,7 +332,7 @@ TO-DO -- Using it as a power measurement tool for cables etc. Nannek.</li>
 </main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/5fc500050c495693230d13d7bd798cbdc321170d">5fc5000</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/22f17f1a332fb67cad46beb952e6589f0ba42207">22f17f1</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

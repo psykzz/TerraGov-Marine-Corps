@@ -44,7 +44,7 @@
 /mob/living/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp) //If theyre alive, yeet them
 	if(stat == DEAD)	//Cant make horizontal spacemen more horizontal
 		return NONE
-	if(lying)
+	if(lying_angle)
 		return NONE
 	if(!veh.demolish_on_ram)
 		return NONE
@@ -76,7 +76,7 @@
 
 /mob/living/carbon/Xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	. = ..()
-	if(lying || loc == veh.loc)
+	if(lying_angle || loc == veh.loc)
 		return
 	temp = get_step(T, facing)
 	T = temp

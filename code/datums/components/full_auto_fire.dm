@@ -53,16 +53,16 @@
 			if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
 				sleep_up()
 			return //No need for autofire on other modes.
-	
+
 	if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT))
 		return //We've updated the firemode. No need for more.
 	if(autofire_stat & AUTOFIRE_STAT_FIRING)
 		stop_autofiring() //Let's stop shooting to avoid issues.
 		return
-	
+
 	autofire_stat = AUTOFIRE_STAT_IDLE
 
-	RegisterSignal(parent, list(COMSIG_PARENT_QDELETED), .proc/sleep_up)
+	RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
 
 	if(usercli)
@@ -79,8 +79,8 @@
 
 	autofire_off()
 
-	UnregisterSignal(parent, list(COMSIG_PARENT_QDELETED, COMSIG_ITEM_EQUIPPED))
-	
+	UnregisterSignal(parent, list(COMSIG_PARENT_PREQDELETED, COMSIG_ITEM_EQUIPPED))
+
 	autofire_stat = AUTOFIRE_STAT_SLEEPING
 
 
@@ -121,13 +121,15 @@
 /datum/component/automatic_fire/proc/on_mouse_down(client/source, atom/target, turf/location, control, params)
 	to_chat(world, "mouse down")
 	var/list/modifiers = params2list(params) //If they're shift+clicking, for example, let's not have them accidentally shoot.
-	if(modifiers["shift"])
+	if(modifiers["shift"] && (world.time <= source.mob.next_click || source.mob.ShiftClickOn(target)))
+		source.click_intercepted = world.time
 		return
 	if(modifiers["ctrl"])
 		return
 	if(modifiers["middle"])
 		return
-	if(modifiers["alt"])
+	if(modifiers["alt"] && (world.time <= source.mob.next_click || source.mob.AltClickOn(target)))
+		source.click_intercepted = world.time
 		return
 
 	to_chat(world, "after checks")
@@ -149,8 +151,7 @@
 		modifiers["icon-x"] = num2text(ABS_PIXEL_TO_REL(text2num(modifiers["icon-x"])))
 		modifiers["icon-y"] = num2text(ABS_PIXEL_TO_REL(text2num(modifiers["icon-y"])))
 		params = list2params(modifiers)
-	
-	to_chat(world, "before signal")
+
 	if(SEND_SIGNAL(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, source, target, location, control, params) & COMPONENT_AUTOFIRE_ONMOUSEDOWN_BYPASS)
 		return
 	to_chat(world, "after signal")
@@ -255,7 +256,7 @@
 		if(!timer)
 			return //Has already been deleted.
 		stoplag(1) //Let's try again next tick.
-	
+
 
 /datum/component/automatic_fire/proc/on_mouse_drag(client/source, atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params)
 	if(isnull(over_location)) //This happens when the mouse is over an inventory or screen object, or on entering deep darkness, for example.
@@ -310,7 +311,7 @@
 		if(!process_shot())
 			return
 		stoplag(burstfire_shot_delay)
-	
+
 
 /datum/component/automatic_fire/proc/itemgun_equipped(datum/source, mob/shooter, slot)
 	switch(slot)
@@ -351,7 +352,8 @@
 
 /obj/item/weapon/gun/proc/do_autofire(datum/source, atom/target, mob/living/shooter, params, shots_fired)
 	SEND_SIGNAL(src, COMSIG_GUN_AUTOFIRE, target, shooter)
-	var/obj/item/projectile/projectile_to_fire = load_into_chamber(shooter)
+	var/obj/projectile/projectile_to_fire = load_into_chamber(shooter)
+	in_chamber = null //Projectiles live and die fast. It's better to null the reference early so the GC can handle it immediately.
 	if(!projectile_to_fire)
 		click_empty(shooter)
 		return NONE
@@ -376,7 +378,7 @@
 	if(!reload_into_chamber(shooter))
 		click_empty(shooter)
 		return NONE
-	SEND_SIGNAL(shooter, COMSIG_HUMAN_GUN_AUTOFIRED, target, src, shooter)
+	SEND_SIGNAL(shooter, COMSIG_MOB_GUN_AUTOFIRED, target, src)
 	var/obj/screen/ammo/A = shooter.hud_used.ammo
 	A.update_hud(shooter) //Ammo HUD.
 	return COMPONENT_AUTOFIRE_SHOT_SUCCESS //All is well, we can continue shooting.
@@ -389,7 +391,7 @@
 	if(shooter.action_busy)
 		return FALSE
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_minigun_start.ogg', 30)
-	if(!do_after(shooter, 0.5 SECONDS, TRUE, src, BUSY_ICON_DANGER))
+	if(!do_after(shooter, 0.4 SECONDS, TRUE, src, BUSY_ICON_DANGER, BUSY_ICON_DANGER, ignore_turf_checks = TRUE))
 		return FALSE
 
 #undef AUTOFIRE_MOUSEUP

@@ -65,17 +65,17 @@
 
 	if(ismob(AM))
 		var/mob/M = AM
-		if(M.cooldowns[COOLDOWN_BUMP]) 
+		if(M.cooldowns[COOLDOWN_BUMP])
 			return	//This is to prevent shock spam.
 		M.cooldowns[COOLDOWN_BUMP] = addtimer(VARSET_LIST_CALLBACK(M.cooldowns, COOLDOWN_BUMP, null), openspeed)
 		if(!M.restrained() && M.mob_size > MOB_SIZE_SMALL)
 			bumpopen(M)
 		return
 
-	if(istype(AM, /obj))
+	if(isobj(AM))
 		var/obj/O = AM
-		if(O.buckled_mob)
-			Bumped(O.buckled_mob)
+		for(var/m in O.buckled_mobs)
+			Bumped(m)
 
 	if(istype(AM, /obj/machinery/bot))
 		var/obj/machinery/bot/bot = AM

@@ -71,7 +71,7 @@
 	if(istype(mover) && CHECK_BITFIELD(mover.flags_pass, PASSGRILLE))
 		return TRUE
 	else
-		if(istype(mover, /obj/item/projectile))
+		if(istype(mover, /obj/projectile))
 			return prob(90)
 		else
 			return !density
@@ -140,7 +140,7 @@
 		var/wtype = ST.created_window
 		if(!ST.use(1))
 			return
-			
+
 		var/obj/structure/window/WD = new wtype(loc, dir_to_set, 1)
 		to_chat(user, "<span class='notice'>You place the [WD] on [src].</span>")
 		WD.update_icon()

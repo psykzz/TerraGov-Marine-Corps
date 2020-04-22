@@ -12,7 +12,9 @@
 	icon_state = "nuclearbomb0"
 	density = TRUE
 	anchored = TRUE
+	flags_atom = CRITICAL_ATOM
 	resistance_flags = RESIST_ALL
+	layer = BELOW_MOB_LAYER
 	var/deployable = TRUE
 	var/extended = FALSE
 	var/lighthack = FALSE
@@ -20,7 +22,7 @@
 	var/timer_enabled = FALSE
 	var/safety = TRUE
 	var/exploded = FALSE
-	var/removal_stage = NUKE_STAGE_NONE 
+	var/removal_stage = NUKE_STAGE_NONE
 	use_power = NO_POWER_USE
 	var/obj/effect/countdown/nuclearbomb/countdown
 
@@ -66,6 +68,7 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NUKE_STOP, src)
 	countdown.stop()
 	GLOB.active_nuke_list -= src
+	timeleft = initial(timeleft)
 	return ..()
 
 
@@ -127,6 +130,7 @@
 	timer_enabled = FALSE
 	stop_processing()
 	update_icon()
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NUKE_DIFFUSED, src, X)
 
 
 /obj/machinery/nuclearbomb/can_interact(mob/user)
@@ -165,7 +169,7 @@
 	if(!lighthack)
 		flick("nuclearbombc", src)
 		icon_state = "nuclearbomb1"
-		
+
 	extended = TRUE
 
 
@@ -186,7 +190,7 @@
 			status = "Set-[safe_text]"
 		else
 			status = "Auth. S1-[safe_text]"
-	
+
 	var/html = {"
 	<b>Nuclear Fission Explosive</b><br />
 	<hr />
@@ -270,10 +274,13 @@
 			if(safety)
 				to_chat(usr, "<span class='warning'>The safety is still on.</span>")
 				return
+			if(!anchored)
+				to_chat(usr, "<span class='warning'>The anchors are not set.</span>")
+				return
 			timer_enabled = !timer_enabled
 			if(timer_enabled)
 				start_processing()
-				
+
 			if(!lighthack)
 				icon_state = (timer_enabled) ? "nuclearbomb2" : "nuclearbomb1"
 		if(href_list["safety"])
@@ -288,12 +295,17 @@
 				anchored = FALSE
 				visible_message("<span class='warning'>\The [src] makes a highly unpleasant crunching noise. It looks like the anchoring bolts have been cut.</span>")
 				return
+			if(istype(get_area(loc), /area/shuttle))
+				to_chat(usr, "<span class='warning'>This doesn't look like a good spot to anchor the nuke.</span>")
+				return
 
 			anchored = !anchored
 			if(anchored)
 				visible_message("<span class='warning'>With a steely snap, bolts slide out of [src] and anchor it to the flooring.</span>")
 			else
 				visible_message("<span class='warning'>The anchoring bolts slide back into the depths of [src].</span>")
+				timer_enabled = FALSE
+				stop_processing()
 
 	updateUsrDialog()
 

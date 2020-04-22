@@ -1,7 +1,7 @@
 /datum/job/som
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
-	skills_type = /datum/skills/pfc/crafty
+	skills_type = /datum/skills/crafty
 	faction = "Sons of Mars"
 
 
@@ -53,10 +53,10 @@
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/revolver/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/stack/medical/splint, SLOT_IN_BACKPACK)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
 
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/rifle/ak47, SLOT_IN_BELT)
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/rifle/ak47, SLOT_IN_BELT)
@@ -117,14 +117,14 @@
 
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/smg/skorpion, SLOT_IN_HEAD)
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/smg/skorpion, SLOT_IN_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tramadol, SLOT_IN_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine, SLOT_IN_HEAD)
 
 	H.equip_to_slot_or_del(new /obj/item/storage/firstaid/adv, SLOT_IN_R_POUCH)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/bicaridine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/bicaridine, SLOT_IN_L_POUCH)
 
 
 //SOM Veteran

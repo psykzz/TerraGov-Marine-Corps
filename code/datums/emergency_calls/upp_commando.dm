@@ -14,13 +14,12 @@
 
 
 /datum/emergency_call/upp_commando/create_member(datum/mind/M)
-	var/turf/spawn_loc = get_spawn_point()
-	var/mob/original = M.current
-
-	if(!istype(spawn_loc))
+	. = ..()
+	if(!.)
 		return
 
-	var/mob/living/carbon/human/H = new /mob/living/carbon/human(spawn_loc)
+	var/mob/original = M.current
+	var/mob/living/carbon/human/H = .
 
 	H.name = GLOB.namepool[/datum/namepool/russian].random_name(H)
 	H.real_name = H.name
@@ -36,17 +35,17 @@
 	if(!leader)
 		leader = H
 		var/datum/job/J = SSjob.GetJobType(/datum/job/upp/commando/leader)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are the leader of the elite UPP commando unit.</span>")
 		return
 
 	if(medics < max_medics)
 		var/datum/job/J = SSjob.GetJobType(/datum/job/upp/commando/medic)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are the medic of the elite UPP commando unit.</span>")
 		medics++
 		return
 
 	var/datum/job/J = SSjob.GetJobType(/datum/job/upp/commando/leader)
-	J.assign_equip(H)
+	H.apply_assigned_role_to_spawn(J)
 	to_chat(H, "<span class='notice'>You are a member of the elite UPP commando unit.</span>")

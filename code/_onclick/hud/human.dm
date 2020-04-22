@@ -13,7 +13,7 @@
 /datum/hud/human/New(mob/living/carbon/human/owner, ui_style='icons/mob/screen/White.dmi', ui_color = "#ffffff", ui_alpha = 230)
 	. = ..()
 	owner.overlay_fullscreen("see_through_darkness", /obj/screen/fullscreen/see_through_darkness)
-	
+
 	var/datum/hud_data/hud_data
 	if(!istype(owner))
 		hud_data = new()
@@ -163,6 +163,9 @@
 
 		healths = new /obj/screen/healths()
 		infodisplay += healths
+
+		staminas = new
+		infodisplay += staminas
 
 	if(hud_data.has_pressure)
 		pressure_icon = new /obj/screen()

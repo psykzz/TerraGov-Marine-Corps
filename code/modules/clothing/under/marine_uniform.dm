@@ -12,47 +12,33 @@
 	rollable_sleeves = TRUE
 	has_sensor = 2
 
+/obj/item/clothing/under/marine/standard
+	flags_item_map_variant = null
+
 /obj/item/clothing/under/marine/corpsman
 	name = "\improper TGMC corpsman fatigues"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented combat corpsman fatigues. You suspect it's not as robust-proof as advertised."
 	icon_state = "marine_medic"
 
-/obj/item/clothing/under/marine/medic/Initialize(mapload, expected_type 		= type,
-	new_name[] 			= list(MAP_ICE_COLONY = "\improper TGMC corpsman snow uniform"),
-	new_protection[] 	= list(MAP_ICE_COLONY = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE))
-	return ..()
 
 /obj/item/clothing/under/marine/engineer
 	name = "\improper TGMC engineer fatigues"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented combat engineer fatigues. You suspect it's not as robust-proof as advertised."
 	icon_state = "marine_engineer"
 
-/obj/item/clothing/under/marine/engineer/Initialize(mapload, expected_type 		= type,
-	new_name[] 			= list(MAP_ICE_COLONY = "\improper TGMC engineer snow uniform"),
-	new_protection[] 	= list(MAP_ICE_COLONY = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE))
-	return ..()
 
 /obj/item/clothing/under/marine/sniper
-	name = "\improper TGMC sniper uniform"
+	name = "\improper TGMC sniper snow uniform"
+	icon_state = "s_marine_sniper"
+	item_state = "s_marine_sniper"
+	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	rollable_sleeves = FALSE
-
-/obj/item/clothing/under/marine/sniper/Initialize(mapload, expected_type = type, list/new_name = list(MAP_ICE_COLONY = "\improper TGMC sniper snow uniform"),
-	list/new_protection = list(MAP_ICE_COLONY = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE), list/override_icon_state = list(MAP_ICE_COLONY = "s_marine_sniper"))
-	return ..()
 
 /obj/item/clothing/under/marine/tanker
 	name = "\improper TGMC tanker uniform"
 	icon_state = "marine_tanker"
 	rollable_sleeves = FALSE
-
-/*
-/obj/item/clothing/under/marine/tanker/Initialize(mapload, expected_type 		= type,
-	new_name[] 			= list(MAP_ICE_COLONY = "\improper TGMC tanker snow uniform"),
-	new_protection[] 	= list(MAP_ICE_COLONY = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE),
-	override_icon_state[]		= list(MAP_ICE_COLONY = "s_marine_tanker")
-	)
-	return ..()
-*/
+	flags_item_map_variant = (ITEM_ICE_VARIANT|ITEM_ICE_PROTECTION)
 
 /obj/item/clothing/under/marine/mp
 	name = "military police uniform"
@@ -65,7 +51,18 @@
 	desc = "A kevlar-weaved, hazmat-tested, EMF-augmented, yet extra-soft and extra-light officer uniform. You suspect it's not as extra-fancy as advertised."
 	icon_state = "officertanclothes"
 	item_state = "officertanclothes"
-	rollable_sleeves = FALSE
+
+/obj/item/clothing/under/marine/officer/warden
+	name = "marine officer uniform"
+	desc = "A kevlar-weaved, hazmat-tested, EMF-augmented, yet extra-soft and extra-light officer uniform. You suspect it's not as extra-fancy as advertised."
+	icon_state = "wardentanclothes"
+	item_state = "wardentanclothes"
+
+/obj/item/clothing/under/marine/officer/hos
+	name = "marine officer uniform"
+	desc = "A kevlar-weaved, hazmat-tested, EMF-augmented, yet extra-soft and extra-light officer uniform. You suspect it's not as extra-fancy as advertised."
+	icon_state = "hostanclothes"
+	item_state = "hostanclothes"
 
 /obj/item/clothing/under/marine/officer/warrant
 	name = "Command Master at Arms uniform"
@@ -82,32 +79,38 @@
 	name = "marine officer uniform"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented uniform worn by logistics officers of the TGMC. Do the corps proud."
 	icon_state = "BO_jumpsuit"
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/pilot
 	name = "pilot officer bodysuit"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented, survival-friendly pilot bodysuit. Fly the marines onwards to glory."
 	icon_state = "pilot_flightsuit"
 	flags_cold_protection = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/tanker
 	name = "tank crewman officer uniform"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented fatigues worth of a tankman. Do the corps proud."
 	icon_state = "marine_tanker"
+	flags_item_map_variant = (ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/bridge
 	name = "staff officer uniform"
 	desc = "A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented staff officer uniform. Do the navy proud."
 	icon_state = "BO_jumpsuit"
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/exec
 	name = "field commander uniform"
 	desc = "A special-issue, kevlar-weaved, hazmat-tested, EMF-augmented worn by a field-grade officer of the TGMC. You suspect it's not as robust-proof as advertised."
 	icon_state = "XO_jumpsuit"
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/command
 	name = "captain uniform"
 	desc = "A special-issue, well-ironed, kevlar-weaved, hazmat-tested, EMF-augmented uniform worth of a TerraGov Naval Captain. Even looking at it the wrong way could result in being court-martialed."
 	icon_state = "CO_jumpsuit"
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/under/marine/officer/admiral
 	name = "admiral uniform"
@@ -154,6 +157,14 @@
 
 /obj/item/clothing/under/marine/veteran
 	rollable_sleeves = FALSE
+
+/obj/item/clothing/under/marine/commissar
+	name = "\improper commissar uniform"
+	desc = "A commissars noble uniform."
+	rollable_sleeves = FALSE // don't disrespect the EMPEROR!
+	icon_state = "commissar_uniform"
+	item_state = "commissar_uniform"
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 10, "rad" = 10, "fire" = 10, "acid" = 10)
 
 /obj/item/clothing/under/marine/veteran/PMC
 	name = "\improper PMC fatigues"
@@ -302,6 +313,12 @@
 	name = "\improper TGMC Support Uniform"
 	desc = "A simple uniform made for Synthetic crewmembers."
 	icon_state = "rdalt"
+	rollable_sleeves = FALSE
+
+/obj/item/clothing/under/rank/marine_cmo
+	name = "marine chief medical officer jumpsuit"
+	desc = "It's made of a special fiber that provides minor protection against biohazards."
+	icon_state = "marine_cmo"
 	rollable_sleeves = FALSE
 
 

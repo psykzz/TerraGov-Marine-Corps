@@ -48,7 +48,7 @@
 		affected.limb_status |= LIMB_BLEEDING
 
 	affected.createwound(CUT, 1)
-	affected.clamp() //Hemostat function, clamp bleeders
+	affected.clamp_bleeder() //Hemostat function, clamp bleeders
 	affected.surgery_open_stage = 2 //Can immediately proceed to other surgery steps
 	target.updatehealth()
 
@@ -90,7 +90,7 @@
 		affected.limb_status |= LIMB_BLEEDING
 
 	affected.createwound(CUT, 1)
-	affected.clamp() //Hemostat function, clamp bleeders
+	affected.clamp_bleeder() //Hemostat function, clamp bleeders
 	//spread_germs_to_organ(affected, user) //I don't see the reason for infection with a clean laser incision, when scalpel or ICS is fine
 	affected.update_wounds()
 
@@ -165,7 +165,7 @@
 /datum/surgery_step/generic/clamp_bleeders/end_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool, datum/limb/affected)
 	user.visible_message("<span class='notice'>[user] clamps bleeders in [target]'s [affected.display_name] with \the [tool].</span>",	\
 	"<span class='notice'>You clamp bleeders in [target]'s [affected.display_name] with \the [tool].</span>")
-	affected.clamp()
+	affected.clamp_bleeder()
 	spread_germs_to_organ(affected, user)
 
 /datum/surgery_step/generic/clamp_bleeders/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool, datum/limb/affected)
@@ -219,7 +219,7 @@
 	else
 		user.visible_message("<span class='warning'>[user]'s hand slips, tearing the edges of the incision on [target]'s [affected.display_name] with \the [tool]!</span>", \
 		"<span class='warning'>Your hand slips, tearing the edges of the incision on [target]'s [affected.display_name] with \the [tool]!</span>")
-	target.apply_damage(12, BRUTE, affected, 0, TRUE)
+	target.apply_damage(12, BRUTE, affected, 0, TRUE, updating_health = TRUE)
 	affected.update_wounds()
 
 
@@ -254,5 +254,4 @@
 /datum/surgery_step/generic/cauterize/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool, datum/limb/affected)
 	user.visible_message("<span class='warning'>[user]'s hand slips, leaving a small burn on [target]'s [affected.display_name] with \the [tool]!</span>", \
 	"<span class='warning'>Your hand slips, leaving a small burn on [target]'s [affected.display_name] with \the [tool]!</span>")
-	target.apply_damage(3, BURN, affected)
-	target.updatehealth()
+	target.apply_damage(3, BURN, affected, updating_health = TRUE)

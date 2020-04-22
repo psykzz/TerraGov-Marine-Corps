@@ -49,6 +49,7 @@
 	var/def_zone = ran_zone()
 	armor_block = M.run_armor_check(def_zone, "melee")
 	M.apply_damage(rand(RAZORWIRE_BASE_DAMAGE * 0.8, RAZORWIRE_BASE_DAMAGE * 1.2), BRUTE, def_zone, armor_block, TRUE)
+	UPDATEHEALTH(M)
 	razorwire_tangle(M)
 
 /obj/structure/razorwire/proc/razorwire_tangle(mob/living/M, duration = RAZORWIRE_ENTANGLE_DELAY)
@@ -61,10 +62,11 @@
 	entangled_list += M //Add the entangled person to the trapped list.
 	M.entangled_by = src
 	ENABLE_BITFIELD(M.restrained_flags, RESTRAINED_RAZORWIRE)
-	RegisterSignal(M, COMSIG_LIVING_DO_RESIST, .proc/resisted_against)
+	RegisterSignal(M, COMSIG_LIVING_DO_RESIST, /atom/movable.proc/resisted_against)
 
 
-/obj/structure/razorwire/resisted_against(datum/source, mob/living/entangled)
+/obj/structure/razorwire/resisted_against(datum/source)
+	var/mob/living/entangled = source
 	if(entangled.cooldowns[COOLDOWN_ENTANGLE])
 		entangled.visible_message("<span class='danger'>[entangled] attempts to disentangle itself from [src] but is unsuccessful!</span>",
 		"<span class='warning'>You fail to disentangle yourself!</span>")
@@ -84,6 +86,7 @@
 	M.set_frozen(FALSE)
 	M.update_canmove()
 	M.apply_damage(rand(RAZORWIRE_BASE_DAMAGE * 0.8, RAZORWIRE_BASE_DAMAGE * 1.2), BRUTE, def_zone, armor_block, TRUE) //Apply damage as we tear free
+	UPDATEHEALTH(M)
 	M.next_move_slowdown += RAZORWIRE_SLOWDOWN //big slowdown
 	DISABLE_BITFIELD(M.restrained_flags, RESTRAINED_RAZORWIRE)
 	UnregisterSignal(M, COMSIG_LIVING_DO_RESIST)
@@ -121,22 +124,22 @@
 
 		var/mob/living/M = G.grabbed_thing
 		if(user.a_intent == INTENT_HARM)
-			if(user.grab_level <= GRAB_AGGRESSIVE)
+			if(user.grab_state <= GRAB_AGGRESSIVE)
 				to_chat(user, "<span class='warning'>You need a better grip to do that!</span>")
 				return
 
 			var/armor_block = null
 			var/def_zone = ran_zone()
 			M.apply_damage(rand(RAZORWIRE_BASE_DAMAGE * 0.8, RAZORWIRE_BASE_DAMAGE * 1.2), BRUTE, def_zone, armor_block, TRUE)
+			UPDATEHEALTH(M)
 			user.visible_message("<span class='danger'>[user] spartas [M]'s into [src]!</span>",
 			"<span class='danger'>You sparta [M]'s against [src]!</span>")
 			log_combat(user, M, "spartaed", "", "against \the [src]")
-			msg_admin_attack("[key_name(usr)] spartaed [key_name(M)] against \the [src].")
 			playsound(src, 'sound/effects/barbed_wire_movement.ogg', 25, 1)
 
-		else if(user.grab_level >= GRAB_AGGRESSIVE)
+		else if(user.grab_state >= GRAB_AGGRESSIVE)
 			M.forceMove(loc)
-			M.knock_down(5)
+			M.Paralyze(10 SECONDS)
 			user.visible_message("<span class='danger'>[user] throws [M] on [src].</span>",
 			"<span class='danger'>You throw [M] on [src].</span>")
 		return
@@ -144,9 +147,7 @@
 	else if(iswirecutter(I))
 		user.visible_message("<span class='notice'>[user] starts disassembling [src].</span>",
 		"<span class='notice'>You start disassembling [src].</span>")
-		var/delay_disassembly = SKILL_TASK_AVERAGE
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer) //Higher skill lowers the delay.
-			delay_disassembly -= 5 + user.mind.cm_skills.engineer * 5
+		var/delay_disassembly = SKILL_TASK_AVERAGE - (0.5 SECONDS + user.skills.getRating("engineer"))
 
 		if(!do_after(user, delay_disassembly, TRUE, src, BUSY_ICON_BUILD))
 			return
@@ -161,9 +162,7 @@
 		if(!WT.remove_fuel(0, user))
 			return
 
-		var/delay = SKILL_TASK_TOUGH
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer) //Higher skill lowers the delay.
-			delay -= 10 + user.mind.cm_skills.engineer * 5
+		var/delay = SKILL_TASK_TOUGH - (1 SECONDS + user.skills.getRating("engineer") * 5)
 		user.visible_message("<span class='notice'>[user] begins repairing damage to [src].</span>",
 		"<span class='notice'>You begin repairing the damage to [src].</span>")
 		playsound(loc, 'sound/items/welder2.ogg', 25, 1)
@@ -180,6 +179,7 @@
 
 /obj/structure/razorwire/attack_alien(mob/living/carbon/xenomorph/M)
 	M.apply_damage(rand(RAZORWIRE_BASE_DAMAGE * RAZORWIRE_MIN_DAMAGE_MULT_LOW, RAZORWIRE_BASE_DAMAGE * RAZORWIRE_MAX_DAMAGE_MULT_LOW)) //About a third as damaging as actually entering
+	UPDATEHEALTH(M)
 	update_icon()
 	SEND_SIGNAL(M, COMSIG_XENOMORPH_ATTACK_RAZORWIRE)
 	return ..()

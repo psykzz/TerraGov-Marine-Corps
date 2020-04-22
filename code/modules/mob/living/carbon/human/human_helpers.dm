@@ -1,7 +1,3 @@
-/mob/living/carbon/human/get_crit_threshold()
-	return CONFIG_GET(number/human_health_threshold_crit)
-
-
 /proc/get_gender_name(gender)
 	var/g = "m"
 	if (gender == FEMALE)
@@ -83,6 +79,9 @@
 
 			if ("head")
 				return "[limb_name]_[get_gender_name(gender)]"
+			
+			if ("synthetic head")
+				return "head_[get_gender_name(gender)]"
 
 			if ("groin")
 				return "[limb_name]_[get_gender_name(gender)]"
@@ -206,7 +205,7 @@
 		return TRUE
 	if(!has_eyes())
 		return FALSE
-	if(get_total_tint() >= TINT_BLIND)
+	if(tinttotal >= TINT_BLIND)
 		return FALSE
 	return TRUE
 
@@ -241,6 +240,7 @@
 mob/living/carbon/human/get_standard_bodytemperature()
 	return species.body_temperature
 
-/mob/living/carbon/human/throw_item(atom/target)
+/mob/living/carbon/human/get_policy_keywords()
 	. = ..()
-	SEND_SIGNAL(src, COMSIG_HUMAN_ITEM_THROW, target, null, src)
+	if(species.name)
+		. += species.name

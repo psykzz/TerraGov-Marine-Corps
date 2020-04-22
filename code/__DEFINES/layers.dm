@@ -1,6 +1,6 @@
 
 //Filters
-#define AMBIENT_OCCLUSION filter(type="drop_shadow", x=0, y=-2, size=4, border=4, color="#04080FAA")
+#define AMBIENT_OCCLUSION filter(type="drop_shadow", x=0, y=-2, size=4, color="#04080FAA")
 #define GAUSSIAN_BLUR(filter_size) filter(type="blur", size=filter_size)
 
 //https://secure.byond.com/docs/ref/info.html#/atom/var/mouse_opacity
@@ -42,14 +42,13 @@
 #define ATMOS_PIPE_SUPPLY_LAYER 2.39
 #define ATMOS_PIPE_LAYER 2.4
 
+#define GAS_SCRUBBER_LAYER 2.41
+#define GAS_PIPE_VISIBLE_LAYER 2.42
+#define GAS_FILTER_LAYER 2.43
+#define GAS_PUMP_LAYER 2.44
 
-#define WIRE_LAYER 2.44
-#define WIRE_TERMINAL_LAYER 2.45
-
-#define GAS_SCRUBBER_LAYER 2.46
-#define GAS_PIPE_VISIBLE_LAYER 2.47
-#define GAS_FILTER_LAYER 2.48
-#define GAS_PUMP_LAYER 2.49
+#define WIRE_LAYER 2.45
+#define WIRE_TERMINAL_LAYER 2.46
 
 #define LOW_OBJ_LAYER 2.5
 #define UNDERFLOOR_OBJ_LAYER 2.5 //bluespace beacon, navigation beacon, etc

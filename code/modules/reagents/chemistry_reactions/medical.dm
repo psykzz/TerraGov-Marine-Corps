@@ -62,6 +62,11 @@
 	results = list(/datum/reagent/medicine/spaceacillin = 2)
 	required_reagents = list(/datum/reagent/cryptobiolin = 1, /datum/reagent/medicine/inaprovaline = 1)
 
+/datum/chemical_reaction/polyhexanide
+	name = "Polyhexanide"
+	results = list(/datum/reagent/medicine/polyhexanide = 3)
+	required_reagents = list(/datum/reagent/cryptobiolin = 1, /datum/reagent/medicine/spaceacillin = 1, /datum/reagent/medicine/sterilizine = 1)
+
 /datum/chemical_reaction/imidazoline
 	name = "imidazoline"
 	results = list(/datum/reagent/medicine/imidazoline = 2)
@@ -147,23 +152,12 @@
 	required_reagents = list(/datum/reagent/medicine/kelotane = 2, /datum/reagent/medicine/clonexadone = 2)
 	required_catalysts = list(/datum/reagent/toxin/phoron = 5)
 
-
-/datum/chemical_reaction/methylphenidate //TODO REMOVE OR MAKE IT NOT JUST A RP CHEM
-	name = "Methylphenidate"
-	results = list(/datum/reagent/medicine/antidepressant/methylphenidate = 3)
-	required_reagents = list(/datum/reagent/toxin/mindbreaker = 1, /datum/reagent/hydrogen = 1)
-
-/datum/chemical_reaction/citalopram //SAME AS ABOVE, RP CHEM
-	name = "Citalopram"
-	results = list(/datum/reagent/medicine/antidepressant/citalopram = 3)
-	required_reagents = list(/datum/reagent/toxin/mindbreaker = 1, /datum/reagent/carbon = 1)
-
-/datum/chemical_reaction/paroxetine//SAME, RP CHEM
-	name = "Paroxetine"
-	results = list(/datum/reagent/medicine/antidepressant/paroxetine = 3)
-	required_reagents = list(/datum/reagent/toxin/mindbreaker = 1, /datum/reagent/oxygen = 1, /datum/reagent/medicine/inaprovaline = 1)
-
 /datum/chemical_reaction/hypervene //New purge chem.
 	name = "Hypervene"
 	results = list(/datum/reagent/medicine/hypervene = 3)
 	required_reagents = list(/datum/reagent/medicine/arithrazine = 1, /datum/reagent/medicine/dylovene = 1, /datum/reagent/medicine/ethylredoxrazine = 1)
+
+/datum/chemical_reaction/roulettium
+	name = "Roulettium"
+	results = list(/datum/reagent/medicine/roulettium = 1)
+	required_reagents = list(/datum/reagent/medicine/bicaridine = 52, /datum/reagent/medicine/kelotane = 58, /datum/reagent/medicine/meralyne = 33, /datum/reagent/medicine/dermaline = 27, /datum/reagent/medicine/synaptizine = 9, /datum/reagent/medicine/hyperzine = 11, /datum/reagent/medicine/leporazine = 5, /datum/reagent/medicine/tricordrazine = 29, /datum/reagent/medicine/dexalinplus = 1, /datum/reagent/medicine/clonexadone = 5, /datum/reagent/toxin/mutagen = 7, /datum/reagent/space_drugs = 33, /datum/reagent/toxin/mindbreaker = 29, /datum/reagent/consumable/sodiumchloride = 1)

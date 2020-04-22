@@ -8,7 +8,7 @@
 	upgrade = XENO_UPGRADE_BASETYPE
 	wound_type = "hivelord" //used to match appropriate wound overlays
 	// *** Melee Attacks *** //
-	melee_damage = 17.5
+	melee_damage = 20
 
 	// *** Tackle *** //
 	tackle_damage = 30
@@ -24,8 +24,8 @@
 	max_health = 250
 
 	// *** Evolution *** //
-	evolution_threshold = 200
-	upgrade_threshold = 200
+	evolution_threshold = 180
+	upgrade_threshold = 100
 
 	deevolves_to = /mob/living/carbon/xenomorph/drone
 
@@ -52,8 +52,8 @@
 		/datum/action/xeno_action/xeno_resting,
 		/datum/action/xeno_action/regurgitate,
 		/datum/action/xeno_action/plant_weeds,
-		/datum/action/xeno_action/choose_resin,
-		/datum/action/xeno_action/activable/secrete_resin/hivelord,
+		/datum/action/xeno_action/choose_resin/hivelord,
+		/datum/action/xeno_action/activable/secrete_resin/hivelord, // TODO: (psykzz) Disabled until this is fixed.
 		/datum/action/xeno_action/activable/transfer_plasma/improved,
 		/datum/action/xeno_action/activable/corrosive_acid,
 		/datum/action/xeno_action/build_tunnel,
@@ -61,7 +61,7 @@
 		/datum/action/xeno_action/toggle_pheromones,
 		/datum/action/xeno_action/activable/xeno_spit
 		)
-		
+
 /datum/xeno_caste/hivelord/young
 	upgrade_name = "Young"
 
@@ -73,7 +73,7 @@
 	upgrade = XENO_UPGRADE_ONE
 
 	// *** Melee Attacks *** //
-	melee_damage = 17.5
+	melee_damage = 23
 
 	// *** Tackle *** //
 	tackle_damage = 35
@@ -89,7 +89,7 @@
 	max_health = 275
 
 	// *** Evolution *** //
-	upgrade_threshold = 400
+	upgrade_threshold = 200
 
 	// *** Defense *** //
 	armor = list("melee" = 15, "bullet" = 7, "laser" = 7, "energy" = 15, "bomb" = XENO_BOMB_RESIST_0, "bio" = 15, "rad" = 15, "fire" = 15, "acid" = 15)
@@ -107,7 +107,7 @@
 	upgrade = XENO_UPGRADE_TWO
 
 	// *** Melee Attacks *** //
-	melee_damage = 17.5
+	melee_damage = 25
 
 	// *** Tackle *** //
 	tackle_damage = 40
@@ -123,7 +123,7 @@
 	max_health = 290
 
 	// *** Evolution *** //
-	upgrade_threshold = 800
+	upgrade_threshold = 400
 
 	// *** Defense *** //
 	armor = list("melee" = 18, "bullet" = 9, "laser" = 9, "energy" = 18, "bomb" = XENO_BOMB_RESIST_0, "bio" = 18, "rad" = 18, "fire" = 18, "acid" = 18)
@@ -142,7 +142,7 @@
 	upgrade = XENO_UPGRADE_THREE
 
 	// *** Melee Attacks *** //
-	melee_damage = 25
+	melee_damage = 27
 
 	// *** Tackle *** //
 	tackle_damage = 45
@@ -158,7 +158,7 @@
 	max_health = 300
 
 	// *** Evolution *** //
-	upgrade_threshold = 800
+	upgrade_threshold = 400
 
 	// *** Defense *** //
 	armor = list("melee" = 20, "bullet" = 10, "laser" = 10, "energy" = 20, "bomb" = XENO_BOMB_RESIST_0, "bio" = 20, "rad" = 20, "fire" = 20, "acid" = 20)
@@ -169,4 +169,4 @@
 
 	// *** Pheromones *** //
 	aura_strength = 3
-	
+

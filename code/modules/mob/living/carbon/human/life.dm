@@ -7,7 +7,7 @@
 	//update the current life tick, can be used to e.g. only do something every 4 ticks
 	life_tick++
 
-	if(!in_stasis)
+	if(!HAS_TRAIT(src, TRAIT_STASIS))
 		if(stat != DEAD)
 
 			// Increase germ_level regularly
@@ -22,10 +22,6 @@
 
 			if(stat == CONSCIOUS && getToxLoss() >= 45 && nutrition > 20)
 				vomit()
-
-			//effects of being grabbed aggressively by another mob
-			if(pulledby && pulledby.grab_level)
-				handle_grabbed()
 
 			handle_shock()
 
@@ -47,8 +43,6 @@
 
 	//Handle temperature/pressure differences between body and environment
 	handle_environment() //Optimized a good bit.
-
-	pulse = handle_pulse()
 
 
 /mob/living/carbon/human/proc/set_undefibbable()

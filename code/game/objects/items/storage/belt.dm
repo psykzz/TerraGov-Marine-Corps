@@ -95,11 +95,11 @@
 
 	can_hold = list(
 		/obj/item/healthanalyzer,
-		/obj/item/reagent_container/dropper,
-		/obj/item/reagent_container/glass/beaker,
-		/obj/item/reagent_container/glass/bottle,
-		/obj/item/reagent_container/pill,
-		/obj/item/reagent_container/syringe,
+		/obj/item/reagent_containers/dropper,
+		/obj/item/reagent_containers/glass/beaker,
+		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/pill,
+		/obj/item/reagent_containers/syringe,
 		/obj/item/tool/lighter,
 		/obj/item/storage/fancy/cigarettes,
 		/obj/item/storage/pill_bottle,
@@ -113,7 +113,7 @@
 		/obj/item/ammo_magazine/handful,
 		/obj/item/flashlight/flare,
 		/obj/item/explosive/grenade/flare,
-		/obj/item/reagent_container/hypospray,
+		/obj/item/reagent_containers/hypospray,
 		/obj/item/bodybag,
 		/obj/item/defibrillator,
 		/obj/item/roller)
@@ -145,12 +145,12 @@
 	max_storage_space = 42
 	max_w_class = 2
 	can_hold = list(
-		/obj/item/reagent_container/glass/bottle,
-		/obj/item/reagent_container/pill,
-		/obj/item/reagent_container/syringe,
+		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/pill,
+		/obj/item/reagent_containers/syringe,
 		/obj/item/storage/pill_bottle,
 		/obj/item/clothing/gloves/latex,
-		/obj/item/reagent_container/hypospray/autoinjector,
+		/obj/item/reagent_containers/hypospray/autoinjector,
 		/obj/item/stack/medical
 	)
 
@@ -171,11 +171,11 @@
 	new /obj/item/storage/pill_bottle/peridaxon(src)
 	new /obj/item/storage/pill_bottle/quickclot(src)
 	new /obj/item/storage/pill_bottle/hypervene(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/quickclot(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/dexalinplus(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/dexalinplus(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/oxycodone(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/hypervene(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/quickclot(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/dexalinplus(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/dexalinplus(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/oxycodone(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/hypervene(src)
 
 /obj/item/storage/belt/combatLifesaver/upp
 	name ="\improper Type 41 pattern lifesaver bag"
@@ -202,13 +202,13 @@
 	can_hold = list(
 		/obj/item/explosive/grenade/flashbang,
 		/obj/item/explosive/grenade/chem_grenade/teargas,
-		/obj/item/reagent_container/spray/pepper,
+		/obj/item/reagent_containers/spray/pepper,
 		/obj/item/restraints/handcuffs,
 		/obj/item/flash,
 		/obj/item/clothing/glasses,
 		/obj/item/ammo_magazine/pistol,
 		/obj/item/ammo_magazine/handful,
-		/obj/item/reagent_container/food/snacks/donut,
+		/obj/item/reagent_containers/food/snacks/donut,
 		/obj/item/weapon/baton,
 		/obj/item/weapon/gun/energy/taser,
 		/obj/item/tool/lighter/zippo,
@@ -271,7 +271,7 @@
 		/obj/item/ammo_magazine/handful,
 		/obj/item/explosive/grenade,
 		/obj/item/explosive/mine,
-		/obj/item/reagent_container/food/snacks
+		/obj/item/reagent_containers/food/snacks
 		)
 
 /obj/item/storage/belt/marine/upp
@@ -382,7 +382,7 @@
 	new /obj/item/explosive/grenade/frag(src)
 	new /obj/item/explosive/grenade/frag(src)
 
-/obj/item/storage/belt/grenade/b18
+/obj/item/storage/belt/grenade/b17
 	name = "\improper M276 pattern M40 HEDP rig Mk II"
 	w_class = WEIGHT_CLASS_BULKY
 	storage_slots = 16
@@ -390,7 +390,7 @@
 	max_storage_space = 48
 	can_hold = list(/obj/item/explosive/grenade)
 
-/obj/item/storage/belt/grenade/b18/Initialize()
+/obj/item/storage/belt/grenade/b17/Initialize()
 	. = ..()
 	new /obj/item/explosive/grenade/incendiary(src)
 	new /obj/item/explosive/grenade/incendiary(src)
@@ -569,6 +569,29 @@
 	icon_state = "som_belt_pistol"
 	item_state = "som_belt_pistol"
 
+/obj/item/storage/belt/gun/stand
+	name = "\improper M276 pattern M4A3 holster rig"
+	desc = "The M276 is the standard load-bearing equipment of the TGMC. It consists of a modular belt with various clips. This version has a holster assembly that allows one to carry the M4A3 comfortably secure. It also contains side pouches that can store 9mm or .45 magazines."
+	can_hold = list(
+		/obj/item/weapon/gun/pistol,
+		/obj/item/ammo_magazine/pistol
+		)
+
+/obj/item/storage/belt/gun/pistol/standard_pistol
+	name = "\improper T457 pattern pistol holster rig"
+	desc = "The T457 is the standard load-bearing equipment of the TGMC. It consists of a modular belt with various clips."
+	icon_state = "tp14_holster"
+	item_state = "tp14_holster"
+
+/obj/item/storage/belt/gun/revolver/standard_revolver
+	name = "\improper T457 pattern revolver holster rig"
+	desc = "The T457 is the standard load-bearing equipment of the TGMC. It consists of a modular belt with various clips."
+	icon_state = "tp44_holster"
+	item_state = "tp44_holster"
+	can_hold = list(
+		/obj/item/weapon/gun/revolver,
+		/obj/item/ammo_magazine/revolver
+		)
 
 /obj/item/storage/belt/gun/m44
 	name = "\improper M276 pattern M44 holster rig"

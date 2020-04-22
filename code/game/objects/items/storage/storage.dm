@@ -41,7 +41,7 @@
 /obj/item/storage/MouseDrop(obj/over_object as obj)
 	if(ishuman(usr) || ismonkey(usr)) //so monkeys can take off their backpacks -- Urist
 
-		if(usr.lying)
+		if(usr.lying_angle)
 			return
 
 		if(istype(usr.loc, /obj/vehicle)) // stops inventory actions in a mech/tank
@@ -278,9 +278,9 @@
 	for(var/i = 1 to length(S.click_border_start))
 		if(S.click_border_start[i] > click_x || click_x > S.click_border_end[i])
 			continue
-		I = S.contents[i]
-		if(!I)
+		if(length(S.contents) < i)
 			continue
+		I = S.contents[i]
 		I.attack_hand(usr)
 		return
 
@@ -435,11 +435,11 @@
 		I.moveToNullspace()
 
 	orient2hud()
-	
+
 	for(var/i in can_see_content())
 		var/mob/M = i
 		show_to(M)
-	
+
 	if(!QDELETED(I))
 		I.on_exit_storage(src)
 		I.mouse_opacity = initial(I.mouse_opacity)
@@ -511,6 +511,7 @@
 
 /obj/item/storage/Initialize(mapload, ...)
 	. = ..()
+	PopulateContents()
 	if(length(can_hold))
 		can_hold = typecacheof(can_hold)
 	else if(length(cant_hold))
@@ -710,3 +711,5 @@
 		return ..() //User is already holding something.
 	var/obj/item/drawn_item = contents[length(contents)]
 	drawn_item.attack_hand(user)
+
+/obj/item/storage/proc/PopulateContents()

@@ -79,10 +79,7 @@
 
 
 //Return either pick(list) or null if list is not of type /list or is empty
-/proc/safepick(list/L)
-	if(!length(L))
-		return
-	return pick(L)
+#define SAFEPICK(L) (length(L) ? pick(L) : null)
 
 
 //Checks if the list is empty
@@ -157,6 +154,7 @@
 
 //Pick a random element from the list and remove it from the list.
 /proc/pick_n_take(list/L)
+	RETURN_TYPE(L[_].type)
 	if(!length(L))
 		return
 
@@ -471,6 +469,7 @@
 
 
 /proc/typecache_filter_list_reverse(list/atoms, list/typecache)
+	RETURN_TYPE(/list)
 	. = list()
 	for(var/thing in atoms)
 		var/atom/A = thing

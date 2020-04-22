@@ -127,7 +127,7 @@
 	return
 
 
-proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, burn_damage = 25, fire_stacks = 15, int_var = 0.5, dur_var = 0.5, colour = "red") //~Art updated fire.
+/proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, burn_damage = 25, fire_stacks = 15, int_var = 0.5, dur_var = 0.5, colour = "red") //~Art updated fire.
 	if(!T || !isturf(T))
 		return
 	radius = CLAMP(radius, 1, 50) //Sanitize inputs
@@ -136,7 +136,7 @@ proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, b
 	fire_stacks = rand(burn_damage*(0.5-int_var),burn_damage*(0.5+int_var) ) + rand(burn_damage*(0.5-int_var),burn_damage*(0.5+int_var) )
 	burn_damage = rand(burn_damage*(0.5-int_var),burn_damage*(0.5+int_var) ) + rand(burn_damage*(0.5-int_var),burn_damage*(0.5+int_var) )
 
-	for(var/turf/IT in filled_circle_turfs(T,radius))
+	for(var/turf/IT in filled_turfs(T, radius, "circle"))
 		IT.ignite(rand(burn_intensity*(0.5-int_var), burn_intensity*(0.5+int_var)) + rand(burn_intensity*(0.5-int_var), burn_intensity*(0.5+int_var)), rand(burn_duration*(0.5-int_var), burn_duration*(0.5-int_var)) + rand(burn_duration*(0.5-int_var), burn_duration*(0.5-int_var)), colour, burn_damage, fire_stacks)
 
 
@@ -221,11 +221,12 @@ proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, b
 
 /obj/item/explosive/grenade/phosphorus/prime()
 	playsound(loc, 'sound/effects/smoke.ogg', 25, 1, 4)
-	smoke.set_up(4, loc, 7)
+	smoke.set_up(5, loc, 7)
 	smoke.start()
+	flame_radius(4, get_turf(src))
+	flame_radius(1, get_turf(src), burn_intensity = 45, burn_duration = 75, burn_damage = 15, fire_stacks = 75)	//The closer to the middle you are the more it hurts
 	qdel(src)
-
-
+	
 /obj/item/explosive/grenade/phosphorus/upp
 	name = "\improper Type 8 WP grenade"
 	desc = "A deadly gas grenade found within the ranks of the UPP. Designed to spill white phosporus on the target. It explodes 2 seconds after the pin has been pulled."
@@ -277,6 +278,8 @@ proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, b
 	fuel = rand(800, 1000) // Sorry for changing this so much but I keep under-estimating how long X number of ticks last in seconds.
 
 /obj/item/explosive/grenade/flare/flamer_fire_act()
+	if(!fuel) //it's out of fuel, an empty shell.
+		return
 	if(!active)
 		turn_on()
 
@@ -362,6 +365,7 @@ proc/flame_radius(radius = 1, turf/T, burn_intensity = 25, burn_duration = 25, b
 		if(launched && CHECK_BITFIELD(resistance_flags, ON_FIRE))
 			var/armor_block = L.run_armor_check(target_zone, "fire")
 			L.apply_damage(rand(throwforce*0.75,throwforce*1.25), BURN, target_zone, armor_block) //Do more damage if launched from a proper launcher and active
+			UPDATEHEALTH(L)
 
 	// Flares instantly burn out nodes when thrown at them.
 	var/obj/effect/alien/weeds/node/N = locate() in loc

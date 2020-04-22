@@ -68,8 +68,8 @@
 	name = "bayonet sheath"
 	desc = "A pouch for your knives."
 	can_hold = list(
-		/obj/item/weapon/combat_knife, 
-		/obj/item/weapon/throwing_knife, 
+		/obj/item/weapon/combat_knife,
+		/obj/item/weapon/throwing_knife,
 		/obj/item/attachable/bayonet)
 	icon_state = "bayonet"
 	storage_slots = 3
@@ -91,7 +91,7 @@
 	max_w_class = 3
 	can_hold = list(
 		/obj/item/flashlight,
-		/obj/item/reagent_container/pill,
+		/obj/item/reagent_containers/pill,
 		/obj/item/stack/medical/bruise_pack,
 		/obj/item/stack/sheet/metal,
 		/obj/item/stack/sheet/plasteel,
@@ -100,7 +100,7 @@
 /obj/item/storage/pouch/survival/full/Initialize()
 	. = ..()
 	new /obj/item/flashlight(src)
-	new /obj/item/reagent_container/pill/tramadol(src)
+	new /obj/item/reagent_containers/pill/tramadol(src)
 	new /obj/item/stack/medical/bruise_pack(src, 3)
 	new /obj/item/stack/sheet/metal(src, 40)
 	new /obj/item/stack/sheet/plasteel(src, 15)
@@ -116,7 +116,7 @@
 	storage_slots = 5
 	can_hold = list(
 		/obj/item/stack/medical/ointment,
-		/obj/item/reagent_container/hypospray/autoinjector,
+		/obj/item/reagent_containers/hypospray/autoinjector,
 		/obj/item/stack/medical/bruise_pack,
 		/obj/item/stack/medical/splint)
 
@@ -126,10 +126,29 @@
 /obj/item/storage/pouch/firstaid/full/Initialize()
 	. = ..()
 	new /obj/item/stack/medical/ointment (src)
-	new /obj/item/reagent_container/hypospray/autoinjector/tramadol (src)
-	new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/tramadol (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine (src)
 	new /obj/item/stack/medical/bruise_pack (src)
 	new /obj/item/stack/medical/splint (src)
+
+
+/obj/item/storage/pouch/firstaid/injectors
+	name = "first-aid pouch"
+	desc = "It can contain autoinjectors."
+	icon_state = "firstaid"
+	storage_slots = 5
+	can_hold = list(/obj/item/reagent_containers/hypospray/autoinjector)
+
+/obj/item/storage/pouch/firstaid/injectors/full
+	desc = "Contains 3 combat autoinjectors, an oxycodone injector, and a stimulant injector."
+
+/obj/item/storage/pouch/firstaid/injectors/full/Initialize()
+	. = ..()
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/oxycodone (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/synaptizine_expired (src)
 
 
 /obj/item/storage/pouch/firstaid/som
@@ -139,7 +158,7 @@
 	storage_slots = 5
 	can_hold = list(
 		/obj/item/stack/medical/ointment,
-		/obj/item/reagent_container/hypospray/autoinjector,
+		/obj/item/reagent_containers/hypospray/autoinjector,
 		/obj/item/stack/medical/bruise_pack,
 		/obj/item/stack/medical/splint)
 
@@ -151,8 +170,8 @@
 /obj/item/storage/pouch/firstaid/som/full/Initialize()
 	. = ..()
 	new /obj/item/stack/medical/ointment(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/tramadol(src)
-	new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/tramadol(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine(src)
 	new /obj/item/stack/medical/bruise_pack(src)
 	new /obj/item/stack/medical/splint(src)
 
@@ -218,6 +237,10 @@
 	fill_type = /obj/item/ammo_magazine/revolver/mateba
 	fill_number = 3
 
+/obj/item/storage/pouch/magazine/pistol/large/mateba
+	fill_type = /obj/item/ammo_magazine/revolver/mateba
+	fill_number = 6
+
 /obj/item/storage/pouch/magazine/pistol/vp70
 	fill_type = /obj/item/ammo_magazine/pistol/vp70
 	fill_number = 3
@@ -247,7 +270,7 @@
 	fill_number = 3
 
 /obj/item/storage/pouch/magazine/large/pmc_lmg
-	fill_type = /obj/item/ammo_magazine/rifle/lmg
+	fill_type = /obj/item/ammo_magazine/standard_lmg
 	fill_number = 3
 
 /obj/item/storage/pouch/magazine/large/pmc_sniper
@@ -292,14 +315,14 @@
 
 	can_hold = list(
 		/obj/item/healthanalyzer,
-		/obj/item/reagent_container/dropper,
-		/obj/item/reagent_container/pill,
-		/obj/item/reagent_container/glass/bottle,
-		/obj/item/reagent_container/syringe,
+		/obj/item/reagent_containers/dropper,
+		/obj/item/reagent_containers/pill,
+		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/syringe,
 		/obj/item/storage/pill_bottle,
 		/obj/item/stack/medical,
 		/obj/item/flashlight/pen,
-		/obj/item/reagent_container/hypospray)
+		/obj/item/reagent_containers/hypospray)
 
 /obj/item/storage/pouch/medical/full/Initialize()
 	. = ..()
@@ -314,8 +337,37 @@
 	storage_slots = 7
 	max_storage_space = 14
 	can_hold = list(
-		/obj/item/reagent_container/hypospray/autoinjector
-	)
+		/obj/item/reagent_containers/hypospray/autoinjector)
+
+/obj/item/storage/pouch/autoinjector/full/Initialize()
+	. = ..()
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/quickclot (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/dexalinplus (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/hypervene(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/synaptizine(src)
+
+/obj/item/storage/pouch/autoinjector/advanced
+	name = "auto-injector pouch"
+	desc = "A pouch specifically for auto-injectors. This one comes pre-loaded with goodies!"
+	icon_state = "autoinjector"
+	storage_slots = 7
+	max_storage_space = 14
+	can_hold = list(
+		/obj/item/reagent_containers/hypospray/autoinjector)
+
+/obj/item/storage/pouch/autoinjector/advanced/full/Initialize()
+	. = ..()
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat_advanced(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat_advanced(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat_advanced(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/combat_advanced (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/synaptizine (src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/synaptizine(src)
+	new /obj/item/reagent_containers/hypospray/autoinjector/hyperzine(src)
+
 
 
 /obj/item/storage/pouch/syringe
@@ -324,7 +376,7 @@
 	icon_state = "syringe"
 	storage_slots = 5
 	max_storage_space = 10
-	can_hold = list(/obj/item/reagent_container/syringe)
+	can_hold = list(/obj/item/reagent_containers/syringe)
 
 
 /obj/item/storage/pouch/medkit
@@ -348,7 +400,7 @@
 	icon_state = "document"
 	storage_slots = 7
 	can_hold = list(
-		/obj/item/paper, 
+		/obj/item/paper,
 		/obj/item/clipboard)
 
 
@@ -515,7 +567,7 @@
 			return
 
 		to_chat(user, "<span class='notice'>You start refilling [src] with [M].</span>")
-		
+
 		if(!do_after(user, 15, TRUE, src, BUSY_ICON_GENERIC))
 			return
 

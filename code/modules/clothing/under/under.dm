@@ -49,7 +49,7 @@
 	var/mob/living/carbon/human/H = user
 	if(!hastie && istype(I, /obj/item/clothing/tie))
 		var/obj/item/clothing/tie/T = I
-		if(!T.tie_check(src, user)) 
+		if(!T.tie_check(src, user))
 			return ..()
 		user.drop_held_item()
 		hastie = T
@@ -85,7 +85,7 @@
 		if ((flags_item & NODROP) || loc != usr)
 			return
 
-		if (!usr.incapacitated() && !(usr.buckled && usr.lying))
+		if (!usr.incapacitated() && !(usr.buckled && usr.lying_angle))
 			if(over_object)
 				switch(over_object.name)
 					if("r_hand")

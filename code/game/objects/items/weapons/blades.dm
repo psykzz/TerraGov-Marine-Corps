@@ -35,8 +35,17 @@
 	name = "\improper M2132 machete"
 	desc = "Latest issue of the TGMC Machete. Great for clearing out jungle or brush on outlying colonies. Found commonly in the hands of scouts and trackers, but difficult to carry with the usual kit."
 	icon_state = "machete"
-	force = 40
-	attack_speed = 9
+	force = 60
+	attack_speed = 12
+	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/weapon/claymore/mercsword/commissar_sword
+	name = "\improper commissars sword"
+	desc = "The pride of an imperial commissar, held high as they charge into battle."
+	icon_state = "comsword"
+	item_state = "comsword"
+	force = 80
+	attack_speed = 10
 	w_class = WEIGHT_CLASS_BULKY
 
 /obj/item/weapon/claymore/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)

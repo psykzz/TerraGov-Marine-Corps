@@ -54,6 +54,7 @@
 	"<span class='xenodanger'>We savage [M]!</span>", null, 5)
 	var/extra_dam = min(15, plasma_stored * 0.2)
 	GLOB.round_statistics.runner_savage_attacks++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "runner_savage_attacks")
 	M.attack_alien(src,  extra_dam, FALSE, TRUE, TRUE, TRUE) //Inflict a free attack on pounce that deals +1 extra damage per 4 plasma stored, up to 35 or twice the max damage of an Ancient Runner attack.
 	use_plasma(extra_dam * 5) //Expend plasma equal to 4 times the extra damage.
 	savage_used = TRUE
@@ -68,7 +69,7 @@
 	to_chat(src, "<span class='xenowarning'><b>We can now savage our victims again.</b></span>")
 	playsound(src, 'sound/effects/xeno_newlarva.ogg', 50, 0, 1)
 	update_action_buttons()
-	
+
 // ***************************************
 // *********** Pouncey
 // ***************************************
@@ -85,7 +86,7 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	
+
 	if(!A || A.layer >= FLY_LAYER)
 		return FALSE
 
@@ -132,3 +133,17 @@
 		flags_pass = initial(flags_pass) //Reset the passtable.
 	else
 		flags_pass = NONE //Reset the passtable.
+
+	//AI stuff
+/datum/action/xeno_action/activable/pounce/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/pounce/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 6)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	use_ability(target)
+	return TRUE

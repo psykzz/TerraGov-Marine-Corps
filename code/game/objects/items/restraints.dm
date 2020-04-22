@@ -2,7 +2,8 @@
 	breakouttime = 2 MINUTES
 
 
-/obj/item/restraints/resisted_against(datum/source, mob/living/carbon/perp)
+/obj/item/restraints/resisted_against(datum/source)
+	var/mob/living/carbon/perp = source
 	if(perp.cooldowns[COOLDOWN_RESIST])
 		return FALSE
 
@@ -33,4 +34,4 @@
 
 	DISABLE_BITFIELD(cuffs.flags_item, BEING_REMOVED)
 
-	dropItemToGround(cuffs) //This will call doUnEquip() > update_handcuffed() > UnregisterSignal()
+	dropItemToGround(cuffs) //This will call UnEquip() > update_handcuffed() > UnregisterSignal()

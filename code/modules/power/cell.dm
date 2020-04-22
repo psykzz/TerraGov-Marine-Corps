@@ -5,8 +5,22 @@
 /obj/item/cell/Initialize()
 	. = ..()
 	charge = maxcharge
+	if(self_recharge)
+		START_PROCESSING(SSobj, src)
 
 	update_icon()
+
+/obj/item/cell/Destroy()
+	if(self_recharge)
+		STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/cell/process()
+	if(self_recharge)
+		if(world.time >= last_use + charge_delay)
+			give(charge_amount)
+	else
+		return PROCESS_KILL
 
 /obj/item/cell/update_icon()
 	cut_overlays()
@@ -28,6 +42,7 @@
 	if(rigged && amount > 0)
 		explode()
 		return FALSE
+	last_use = world.time
 
 	if(charge < amount)
 		return FALSE
@@ -92,8 +107,8 @@
 /obj/item/cell/attackby(obj/item/I, mob/user, params)
 	. = ..()
 
-	if(istype(I, /obj/item/reagent_container/syringe))
-		var/obj/item/reagent_container/syringe/S = I
+	if(istype(I, /obj/item/reagent_containers/syringe))
+		var/obj/item/reagent_containers/syringe/S = I
 
 		if(issynth(user) && !CONFIG_GET(flag/allow_synthetic_gun_use))
 			to_chat(user, "<span class='warning'>Your programming restricts rigging of power cells.</span>")
@@ -109,11 +124,8 @@
 		if(issynth(user) && !CONFIG_GET(flag/allow_synthetic_gun_use))
 			to_chat(user, "<span class='warning'>Your programming restricts rigging of power cells.</span>")
 			return
-		var/delay = SKILL_TASK_EASY
-		var/skill
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer) //Higher skill lowers the delay.
-			skill = user.mind.cm_skills.engineer
-			delay -= 5 + skill * 1.25
+		var/skill = user.skills.getRating("engineer")
+		var/delay = SKILL_TASK_EASY - (5 + skill * 1.25)
 
 		if(user.action_busy)
 			return

@@ -1,4 +1,4 @@
-/obj/item/tank_weapon //These are really just proof of concept weapons. You'll probably want to adapt them to use the hardpoint crap that CM has.
+/obj/item/tank_weapon
 	name = "TGS 4 main tank cannon"
 	desc = "A gun that works about 50% of the time, but at least it's open source! It fires tank shells."
 	icon = 'icons/obj/hardpoint_modules.dmi'
@@ -151,6 +151,7 @@ This handles stuff like rotating turrets and shooting.
 	to_chat(world, "started processing handlefire")
 	START_PROCESSING(SSfastprocess, src)
 
+///starts handling fire for the main weapon
 /obj/vehicle/armored/proc/handle_fire_main(atom/A) //This is used to shoot your big ass tank cannon, rather than your small MG
 	if(!primary_weapon && gunner)
 		to_chat(gunner, "You look at the stump where [src]'s tank barrel should be and sigh.")
@@ -161,6 +162,7 @@ This handles stuff like rotating turrets and shooting.
 	to_chat(world, "started processing mainfire")
 	START_PROCESSING(SSfastprocess, src)
 
+///Rotates the cannon overlay
 /obj/vehicle/armored/proc/swivel_gun(atom/A)
 	var/new_weapon_dir = get_dir(src, A) //Check that we're not already facing this way to avoid a double swivel when you fire.
 	if(new_weapon_dir == primary_weapon_dir)
@@ -187,6 +189,7 @@ This handles stuff like rotating turrets and shooting.
 /obj/vehicle/armored/proc/onMouseUp(atom/A, mob/user)
 	stop_firing()
 
+///Cleans up after we stop shooting
 /obj/vehicle/armored/proc/stop_firing()
 	firing_target = null
 	firing_primary_weapon = FALSE

@@ -8,14 +8,45 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 #define POSITION_GUNNER "Gunner"
 #define POSITION_PASSENGER "Passenger"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// As standard, tank subtypes come with a primary and secondary, the primary is its big tank gun which fires explosive rounds, and its secondary is a rapid firing minigun. //
-// You must manually set the offsets for your tank subtypes so that they move correctly, VV them in game to find the perfect values											//
-// You can set max_passengers to something different (eg, 2 for a jeep) if you don't want loads of marines to pile in														//
-// I have set the layer of this tank high so that it layers over lights. This is an issue with multi-tile sprites in byond 													//
-// If you want to make a vehicle which is larger than 48x48 you'll need to make an underlay. See the APC for reference, but this makes seperate parts of the tank layer		//
-// -differently so that you can get the effect of a large multi-tile vehicle without actually needing any multitile code.													//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * HOW DOES IT WORK
+ *
+ * Each vehicle can hold at least a gunner and a driver and optionally can carry passengers
+ * Bump will cause damage to things and do the ramming effect
+ * The weapons have a overlay that is updated when the gunner does stuff and will rotate accordingly
+ * The layers set this high because multitile sprites have issues with lighting otherwise
+ * Also % damage overlays are calculated on damage so remember to add those
+ *
+ * MULTITILE:
+ * Since we cant make non 1x1 vehicles move normally we instead make a hitbox that is forcemoved onto the location of the tank,
+ * creating a dense area while allowing the tank to move. The Hitbox also acts as a relay for projectiles, all other interactions are handled
+ * by Adjacent().
+ * Doorpoints exist for both multitile and 1x1 and determine the location where the humans are allowed to go in
+ * Both doorpoints and multitile are tracked in a list meaning that you can make non-rectangular vehicles by layering hitboxes
+ * And multiple enterances through which humans can get in
+ * Crushing is calculated on relaymove, where we select a main "centerturf" ahead that we can then calculate the rest of the tiles from,
+ * Although you can alter the exact method to suit your needs
+ */
+
+ /* TIVIS GUIDE TO MAKING VEHICLES, OR THE DUMMIES GUIDE TO TANK MAKING
+  * 
+  * First get your sprites in
+  * You must manually set the offsets for your tank subtypes so that they move correctly, VV them in game to find the perfect values for it
+  * add default weapons and decide whether it should move diagonally or not
+  * add a doorpoint for where you want people to get in from using get_door_location()
+  *
+  * MULTITILE EXTRAS:
+  * Set the hitbox_type to your hitbox, /hitbox is 3x3 and /hitbox medium is 2x2 so make custom ones as required
+  * set size to the range you want xenos to be able to slash from
+  * you can also layer multiple hitboxes to make ... special shapes
+  * REMEMBER, USE ONLY BOUNDS DIVISIBLE BY 32 OR GLIDING WILL BREAK
+  * Set doorpoints for where you want access from, set this in the get_door_location() proc
+  * Set relaymove like this:
+  * First do checkmove, this checks whether the vehicle is ready to move
+  * Then calculate centerturf and the rest of the tiles that need to be rammed using get_steps() and turns()
+  * Then do do_move(), hich handles ramming of the actual turfs
+  */
+
 
 /obj/vehicle/armored
 	name = "Mk-4 'shortstreet' tank"	//PEAK PERFORMANCE MINITANK
@@ -95,6 +126,8 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	move_delay = 0.8 SECONDS
 	///The hitbox default type(size) for this vehicle
 	var/hitbox_type = /obj/vehicle/hitbox
+	///How wide our vehicle is, used to determine xeno slash range
+	var/size = 3
 	///List of doors and hitboxes we need to be moved when we move
 	var/list/linked_objs = list()
 
@@ -129,6 +162,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	max_passengers = 1 //Seats 3 total. It's designed to cut through enemy lines with 1 gunner, 1 pilot and 1 commander to oversee operations
 	has_underlay = TRUE
 	hitbox_type = /obj/vehicle/hitbox/medium
+	size = 2
 
 /obj/vehicle/armored/multitile/medium/get_door_location()
 	door_location = get_step(src,turn(src.dir, 180))
@@ -221,6 +255,7 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 		secondary_weapon.owner = src
 	GLOB.tank_list += src
 
+///Proc to get the location of the door of the vehicle
 /obj/vehicle/armored/proc/get_door_location()
 	door_location = get_step_away(get_step(src,turn(src.dir, 180)), src, 2)
 
@@ -377,7 +412,7 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 		return
 
 	// Entering the tank
-	var/position = alert("What seat would you like to enter?.", name, POSITION_DRIVER, POSITION_GUNNER, POSITION_PASSENGER, "Cancel")
+	var/position = alert("What seat would you like to enter?", name, POSITION_DRIVER, POSITION_GUNNER, POSITION_PASSENGER, "Cancel")
 	if(!position || position == "Cancel")
 		return
 	if(pilot && position == POSITION_DRIVER)
@@ -428,10 +463,12 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 		if(POSITION_PASSENGER)
 			passengers += user
 
+///Throws EVERYONE in the tank out
 /obj/vehicle/armored/proc/remove_all_players()
 	for(var/M in operators)
 		exit_tank(M)
 
+///Proc thats called when someone tries to get out the vehicle
 /obj/vehicle/armored/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	if(!istype(L))
 		return
@@ -482,6 +519,7 @@ Tank relaymove(), related checks and subsequent bumping .
 		. = step(src, direction)
 	update_icon()
 
+///Checks whether the prerequisites are there for ramming
 /obj/vehicle/armored/proc/checkmove(mob/user, direction)
 	if(world.time < last_move_time + move_delay)
 		return FALSE
@@ -494,6 +532,7 @@ Tank relaymove(), related checks and subsequent bumping .
 	src.dir = direction//we can move, so lets start by pointing in that direction
 	return TRUE
 
+///Rams all our obstacles and checks if we can keep moving
 /obj/vehicle/armored/multitile/proc/do_move(var/list/enteringturfs)
 	var/canstep = TRUE
 	for(var/i in enteringturfs)	//No break because we want to crush all the turfs before we start trying to move
@@ -594,6 +633,7 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 	to_chat(usr, "<span class='notice'>You start getting into the other seat.</span>")
 	addtimer(CALLBACK(src, .proc/seat_switched, wannabe_trucker, usr), 3 SECONDS)
 
+///Called when the gunner or driver finishes swapping seats
 /obj/vehicle/armored/proc/seat_switched(wannabe_trucker, mob/living/user)
 
 	var/player = wannabe_trucker ? gunner : pilot
@@ -617,27 +657,6 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 		return
 	if(gunner)
 		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
-
-/obj/vehicle/armored/proc/handle_harm_attack(mob/living/M, mob/living/occupant)
-	if(M.resting || M.buckled || M.incapacitated())
-		return FALSE
-	if(!occupant)
-		to_chat(M, "<span class='warning'>There is no one on that seat.</span>")
-		return
-	var/turf/hatch = get_turf(src)
-	M.visible_message("<span class='warning'>[M] starts pulling [occupant] out of \the [src].</span>",
-	"<span class='warning'>You start pulling [occupant] out of \the [src]. (this will take a while...)</span>", null, 6)
-	var/fumbling_time = 20 SECONDS
-	if(M.skills.getRating("police") < SKILL_POLICE_MP)
-		fumbling_time -= 2 SECONDS * M.skills.getRating("police")
-	if(M.skills.getRating("large_vehicle") < SKILL_LARGE_VEHICLE_TRAINED)
-		fumbling_time -= 2 SECONDS * M.skills.getRating("large_vehicle")
-	if(!do_after(M, fumbling_time, TRUE, 5, BUSY_ICON_HOSTILE) || !M.Adjacent(hatch))
-		return
-	exit_tank(occupant)
-	M.visible_message("<span class='warning'>[M] forcibly pulls [occupant] out of [src].</span>",
-					"<span class='notice'>you forcibly pull [occupant] out of [src].</span>", null, 6)
-	occupant.Knockdown(4)
 
 /obj/vehicle/armored/bullet_act(obj/projectile/Proj)
 	. = ..()

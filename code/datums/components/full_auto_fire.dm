@@ -77,7 +77,6 @@
 
 
 /datum/component/automatic_fire/proc/sleep_up()
-	to_chat(world, "sleeping up")
 	if(autofire_stat & AUTOFIRE_STAT_SLEEPING)
 		return //Already asleep
 
@@ -140,14 +139,12 @@
 		source.click_intercepted = world.time
 		return
 
-	to_chat(world, "after checks")
 	if(source.mob.in_throw_mode)
 		return
 	if(!isturf(source.mob.loc) && (!istankweapon(parent))) //No firing inside lockers and stuff.
 		return
 	if(get_dist(source.mob, target) < 2) //Adjacent clicking.
 		return
-	to_chat(world, "after 2ndchecks")
 
 	if(isnull(location)) //Clicking on a screen object.
 		if(target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
@@ -160,10 +157,8 @@
 		modifiers["icon-y"] = num2text(ABS_PIXEL_TO_REL(text2num(modifiers["icon-y"])))
 		params = list2params(modifiers)
 
-	to_chat(world, "before signal")
 	if(SEND_SIGNAL(src, COMSIG_AUTOFIRE_ONMOUSEDOWN, source, target, location, control, params) & COMPONENT_AUTOFIRE_ONMOUSEDOWN_BYPASS)
 		return
-	to_chat(world, "after signal")
 
 	source.click_intercepted = world.time //From this point onwards Click() will no longer be triggered.
 
@@ -180,7 +175,6 @@
 
 //Dakka-dakka
 /datum/component/automatic_fire/proc/start_autofiring()
-	to_chat(world, "autofire start")
 	if(autofire_stat == AUTOFIRE_STAT_FIRING)
 		return //Already pew-pewing.
 	autofire_stat = AUTOFIRE_STAT_FIRING

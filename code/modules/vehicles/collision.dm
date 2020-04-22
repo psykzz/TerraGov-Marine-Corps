@@ -30,14 +30,13 @@
 /mob/living/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp) //If theyre alive, yeet them
 	if(stat == DEAD) //We don't care about the dead
 		return NONE
-	if(lying)
+	if(lying_angle)
 		return NONE
 	if(!veh.demolish_on_ram)
 		return NONE
 
 	if(src in get_turf(veh)) // trodden over.
-		if(!knocked_down)
-			set_knocked_down(1)
+		Paralyze(1)
 		var/target_dir = turn(veh.dir, 180)
 		temp = get_step(veh.loc, target_dir)
 		T = temp
@@ -55,14 +54,13 @@
 		throw_at(T, 3, 2, veh, 0)
 	else
 		throw_at(T, 3, 2, veh, 1)
-	if(!knocked_down)
-		set_knocked_down(1)
+	Paralyze(1)
 	apply_damage(rand(10, 15), BRUTE)
 	visible_message("<span class='danger'>[veh] bumps into [src], throwing [p_them()] away!</span>", "<span class='danger'>[veh] violently bumps into you!</span>")
 
-/mob/living/carbon/Xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
+/mob/living/carbon/xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	. = ..()
-	if(lying || loc == veh.loc)
+	if(lying_angle || loc == veh.loc)
 		return
 	temp = get_step(T, facing)
 	T = temp
@@ -70,7 +68,7 @@
 	throw_at(T, 2, 2, veh, 0)
 	visible_message("<span class='danger'>[veh] bumps into [src], pushing [p_them()] away!</span>", "<span class='danger'>[veh] bumps into you!</span>")
 
-/mob/living/carbon/Xenomorph/Larva/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
+/mob/living/carbon/xenomorph/larva/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	gib() //fuck you
 
 /obj/effect/alien/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)

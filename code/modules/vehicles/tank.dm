@@ -70,7 +70,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	SEND_SIGNAL(src, COMSIG_GUN_AUTOFIRE, target, shooter)
 	if(!can_fire())
 		return NONE
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 
 	var/list/mouse_control = params2list(params)
 	if(mouse_control["icon-x"])
@@ -82,7 +82,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
 	lastfired = world.time
-	SEND_SIGNAL(src, COMSIG_HUMAN_GUN_AUTOFIRED, target, src, shooter)
+	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
 	ammo.current_rounds--
 	return COMPONENT_AUTOFIRE_SHOT_SUCCESS
 
@@ -103,7 +103,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(!can_fire(T))
 		return FALSE
 	lastfired = world.time
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	log_combat(user, T, "fired the [src].")
 	P.fire_at(T, owner, src, P.ammo.max_range, P.ammo.shell_speed)
@@ -138,7 +138,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	icon_state = "tank"
 	layer = ABOVE_MOB_LAYER
 	anchored = FALSE
-	can_buckle = FALSE
+	buckle_flags = NONE
 	req_access = list(ACCESS_MARINE_TANK)
 	move_delay = 0.8 SECONDS
 	obj_integrity = 600 //Friendly fire resistant
@@ -336,7 +336,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 
 		user.visible_message("<span class='notice'>[user] starts to load [user.pulling] into [src].</span>",
 		"<span class='notice'>You start to load [user.pulling] into [src].</span>")
-		var/time = 10 SECONDS - (2 SECONDS * user.mind.cm_skills.large_vehicle)
+		var/time = 10 SECONDS - (2 SECONDS * user.skills.getRating("large_vehicle"))
 		if(do_after(user, time, TRUE, src, BUSY_ICON_BUILD))
 			return enter(user.pulling, POSITION_PASSENGER)
 
@@ -358,7 +358,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		var/mob/living/L = choice
 		user.visible_message("<span class='warning'>[user] starts to force their way through [src]'s hatch!.</span>",
 		"<span class='notice'>You start to force your way through [src]'s hatch to grab [L].</span>")
-		var/time = 6 SECONDS - (1 SECONDS * user.mind.cm_skills.large_vehicle)
+		var/time = 6 SECONDS - (1 SECONDS * user.skills.getRating("large_vehicle"))
 		if(!do_after(user, time, TRUE, src, BUSY_ICON_BUILD))
 			return
 		exit_tank(L)
@@ -402,10 +402,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	if(offhand && !(offhand.flags_item & (NODROP|DELONDROP)))
 		to_chat(M, "<span class='warning'>You need your hands free to climb into [src].</span>")
 		return FALSE
-	if(M.mind?.cm_skills?.large_vehicle < SKILL_LARGE_VEHICLE_TRAINED)
+	if(M.skills.getRating("large_vehicle") < SKILL_LARGE_VEHICLE_TRAINED)
 		M.visible_message("<span class='notice'>[M] fumbles around figuring out how to get into the [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to get into [src].</span>")
-	var/time = 10 SECONDS - (2 SECONDS * M.mind.cm_skills.large_vehicle)
+	var/time = 10 SECONDS - (2 SECONDS * M.skills.getRating("large_vehicle"))
 	if(do_after(M, time, TRUE, src, BUSY_ICON_BUILD))
 		return TRUE
 
@@ -470,12 +470,15 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 
 //Combat, tank guns, all that fun stuff
 /obj/vehicle/tank/proc/onMouseDown(atom/A, mob/user, params)
+	to_chat(world, "firing...")
 	if(user != gunner) //Only the gunner can fire!
 		return
 	var/list/modifiers = params2list(params) //If they're CTRL clicking, for example, let's not have them accidentally shoot.
 	if(modifiers["shift"])
+		to_chat(world, "shift firing...")
 		return
 	if(modifiers["ctrl"])
+		to_chat(world, "ctrl firing...")
 		handle_fire_main(A) //CTRL click to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
 	if(modifiers["middle"])
@@ -615,18 +618,18 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 	M.visible_message("<span class='warning'>[M] starts pulling [occupant] out of \the [src].</span>",
 	"<span class='warning'>You start pulling [occupant] out of \the [src]. (this will take a while...)</span>", null, 6)
 	var/fumbling_time = 20 SECONDS
-	if(M.mind?.cm_skills?.police)
-		fumbling_time -= 2 SECONDS * M.mind.cm_skills.police
-	if(M.mind?.cm_skills?.large_vehicle)
-		fumbling_time -= 2 SECONDS * M.mind.cm_skills.large_vehicle
+	if(M.skills.getRating("police"))
+		fumbling_time -= 2 SECONDS * M.skills.getRating("police")
+	if(M.skills.getRating("large_vehicle"))
+		fumbling_time -= 2 SECONDS * M.skills.getRating("large_vehicle")
 	if(!do_after(M, fumbling_time, TRUE, 5, BUSY_ICON_HOSTILE) || !M.Adjacent(hatch))
 		return
 	exit_tank(occupant)
 	M.visible_message("<span class='warning'>[M] forcibly pulls [occupant] out of [src].</span>",
 					"<span class='notice'>you forcibly pull [occupant] out of [src].</span>", null, 6)
-	occupant.set_knocked_down(4)
+	occupant.Paralyze(40)
 
-/obj/vehicle/tank/bullet_act(obj/item/projectile/Proj)
+/obj/vehicle/tank/bullet_act(obj/projectile/proj)
 	. = ..()
 	update_icon()
 

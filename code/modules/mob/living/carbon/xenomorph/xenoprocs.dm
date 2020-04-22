@@ -195,7 +195,7 @@
 
 //A simple handler for checking your state. Used in pretty much all the procs.
 /mob/living/carbon/xenomorph/proc/check_state()
-	if(incapacitated() || lying || buckled)
+	if(incapacitated() || lying_angle || buckled)
 		to_chat(src, "<span class='warning'>We cannot do this in our current state.</span>")
 		return 0
 	return 1
@@ -471,6 +471,8 @@
 	client.pixel_y = 0
 
 /mob/living/carbon/xenomorph/drop_held_item()
+	if(status_flags & INCORPOREAL)
+		return FALSE
 	var/obj/item/clothing/mask/facehugger/F = get_active_held_item()
 	if(istype(F))
 		if(locate(/turf/closed/wall/resin) in loc)
@@ -482,7 +484,6 @@
 
 //When the Queen's pheromones are updated, or we add/remove a leader, update leader pheromones
 /mob/living/carbon/xenomorph/proc/handle_xeno_leader_pheromones(mob/living/carbon/xenomorph/queen/Q)
-
 	if(QDELETED(Q) || !queen_chosen_lead || !Q.current_aura || Q.loc.z != loc.z) //We are no longer a leader, or the Queen attached to us has dropped from her ovi, disabled her pheromones or even died
 		leader_aura_strength = 0
 		leader_current_aura = ""

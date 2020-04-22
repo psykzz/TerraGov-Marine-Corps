@@ -122,7 +122,7 @@
 #define CANKNOCKOUT		(1<<2)
 #define CANPUSH			(1<<3)
 #define GODMODE			(1<<4)
-#define FAKEDEATH		(1<<5)	//Replaces stuff like changeling.changeling_fakedeath
+#define FAKEDEATH		(1<<5)	//Unused
 #define DISFIGURED		(1<<6)	//I'll probably move this elsewhere if I ever get wround to writing a bitflag mob-damage system
 #define XENO_HOST		(1<<7)	//Tracks whether we're gonna be a baby alien's mummy.
 #define TK_USER			(1<<8)
@@ -434,7 +434,7 @@ GLOBAL_LIST_INIT(xenoupgradetiers, list(XENO_UPGRADE_BASETYPE, XENO_UPGRADE_INVA
 #define XENO_LARVAL_AMOUNT_RECURRING		10
 #define XENO_LARVAL_CHANNEL_TIME			1.5 SECONDS
 
-#define XENO_NEURO_AMOUNT_RECURRING			15
+#define XENO_NEURO_AMOUNT_RECURRING			10
 #define XENO_NEURO_CHANNEL_TIME				1.5 SECONDS
 
 #define CANNOT_HOLD_EGGS 0
@@ -516,7 +516,11 @@ GLOBAL_LIST_INIT(xenoupgradetiers, list(XENO_UPGRADE_BASETYPE, XENO_UPGRADE_INVA
 #define DEFILER_STING_AMOUNT_RECURRING		10
 
 //Boiler defines
-#define BOILER_LUMINOSITY					0
+#define BOILER_LUMINOSITY_BASE						0
+#define BOILER_LUMINOSITY_BASE_COLOR				LIGHT_COLOR_GREEN
+#define BOILER_LUMINOSITY_AMMO						1 //don't set this to 0. How much each 'piece' of ammo in reserve glows by.
+#define BOILER_LUMINOSITY_AMMO_NEUROTOXIN_COLOR		LIGHT_COLOR_YELLOW
+#define BOILER_LUMINOSITY_AMMO_CORROSIVE_COLOR		LIGHT_COLOR_GREEN
 
 //Hivelord defines
 

@@ -8,130 +8,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 #define POSITION_GUNNER "Gunner"
 #define POSITION_PASSENGER "Passenger"
 
-
-/obj/item/tank_weapon //These are really just proof of concept weapons. You'll probably want to adapt them to use the hardpoint crap that CM has.
-	name = "TGS 4 main tank cannon"
-	desc = "A gun that works about 50% of the time, but at least it's open source! It fires tank shells."
-	icon = 'icons/obj/hardpoint_modules.dmi'
-	icon_state = "ltb_cannon"
-	///Who this weapon is attached to
-	var/obj/vehicle/armored/owner
-	///Pew pew sounds the gun makes
-	var/list/fire_sounds = list('sound/weapons/guns/fire/tank_cannon1.ogg', 'sound/weapons/guns/fire/tank_cannon2.ogg')
-	///Current active magazine
-	var/obj/item/ammo_magazine/ammo
-	///The default ammo we start with
-	var/default_ammo = /obj/item/ammo_magazine/tank/ltb_cannon
-	///Alt ammo we'll also accept alongside the default ammo
-	var/list/accepted_ammo = list(
-		/obj/item/ammo_magazine/tank/tank_glauncher
-	)
-	///Cooldown between shots
-	var/cooldown = 6 SECONDS
-	///When we last shot
-	var/lastfired = 0
-	///Explosion safety check range to stop bald TCs from blowing themselves into orbit trying to kill a runner
-	var/range_safety_check = 3
-
-/obj/item/tank_weapon/Initialize()
-	. = ..()
-	ammo = new default_ammo(src)
-	accepted_ammo += default_ammo
-
-
-/obj/item/tank_weapon/secondary_weapon
-	name = "TGS 3 XENOCRUSHER tank machine gun"
-	desc = "A much better gun that shits out bullets at ridiculous speeds, don't get in its way!"
-	icon_state = "m56_cupola"
-	fire_sounds = list('sound/weapons/guns/fire/tank_minigun_loop.ogg')
-	default_ammo = /obj/item/ammo_magazine/tank/ltaap_minigun
-	accepted_ammo = list(
-		/obj/item/ammo_magazine/tank/towlauncher,
-		/obj/item/ammo_magazine/tank/m56_cupola,
-		/obj/item/ammo_magazine/tank/flamer,
-		/obj/item/ammo_magazine/tank/tank_slauncher
-	)
-	cooldown = 0.3 SECONDS //Minimal cooldown
-	range_safety_check = 0
-
-/obj/item/tank_weapon/secondary_weapon/Initialize()
-	. = ..()
-
-	AddComponent(/datum/component/automatic_fire, 3, 1, 3, GUN_FIREMODE_AUTOMATIC, owner)
-
-/obj/item/tank_weapon/secondary_weapon/proc/on_autofire_start(mob/living/shooter)
-	if(!can_fire())
-		return FALSE
-	return TRUE
-
-/obj/item/tank_weapon/secondary_weapon/proc/on_autofire_stop(shots_fired)
-	return
-
-/obj/item/tank_weapon/secondary_weapon/proc/autofire_bypass_check(datum/source, client/clicker, atom/target, turf/location, control, params)
-	return
-
-/obj/item/tank_weapon/secondary_weapon/proc/do_autofire(datum/source, atom/target, mob/living/shooter, params, shots_fired)
-	SEND_SIGNAL(src, COMSIG_GUN_AUTOFIRE, target, shooter)
-	if(!can_fire())
-		return NONE
-	var/obj/projectile/P = new
-
-	var/list/mouse_control = params2list(params)
-	if(mouse_control["icon-x"])
-		P.p_x = text2num(mouse_control["icon-x"])
-	if(mouse_control["icon-y"])
-		P.p_y = text2num(mouse_control["icon-y"])
-
-	log_combat(shooter, target, "fired the [src].")
-	P.generate_bullet(new ammo.default_ammo)
-	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-	playsound(src, pick(fire_sounds), 50)	//yatatatatata
-	lastfired = world.time
-	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
-	ammo.current_rounds--
-	return COMPONENT_AUTOFIRE_SHOT_SUCCESS
-
-/obj/item/tank_weapon/apc_cannon
-	name = "MKV-7 utility payload launcher"
-	desc = "A double barrelled cannon which can rapidly deploy utility packages to the battlefield."
-	icon_state = "APC uninstalled dualcannon"
-	fire_sounds = list('sound/weapons/guns/fire/shotgun_automatic.ogg', 'sound/weapons/guns/fire/shotgun_light.ogg', 'sound/weapons/guns/fire/shotgun_heavy.ogg')
-	default_ammo = /obj/item/ammo_magazine/tank/tank_slauncher
-	accepted_ammo = list(
-		/obj/item/ammo_magazine/tank/towlauncher, 
-		/obj/item/ammo_magazine/tank/flamer,
-		/obj/item/ammo_magazine/tank/tank_glauncher
-	)
-	cooldown = 0.7 SECONDS //Minimal cooldown
-	range_safety_check = 0
-
-/obj/item/tank_weapon/proc/fire(atom/T,mob/user)
-	if(!can_fire(T))
-		return FALSE
-	lastfired = world.time
-	var/obj/projectile/P = new
-	P.generate_bullet(new ammo.default_ammo)
-	log_combat(user, T, "fired the [src].")
-	P.fire_at(T, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-	playsound(get_turf(src), pick(fire_sounds), 100, TRUE)
-
-	ammo.current_rounds--
-	return TRUE
-
-/obj/item/tank_weapon/proc/can_fire(turf/T = null)
-	if(world.time < lastfired + cooldown)
-		return FALSE
-	if(!owner.gunner)
-		return FALSE
-	if(ammo.current_rounds <= 0)
-		playsound(get_turf(src), 'sound/weapons/guns/fire/empty.ogg', 100, 1)
-		to_chat(owner.gunner, "<span class='warning'>[src] has no ammo left!</span>")
-		return FALSE
-	if(istype(T) && get_dist(T, src) <= range_safety_check)
-		to_chat(owner.gunner, "<span class='warning'>Firing [src] here would damage your vehicle!</span>")
-		return FALSE
-	return TRUE
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // As standard, tank subtypes come with a primary and secondary, the primary is its big tank gun which fires explosive rounds, and its secondary is a rapid firing minigun. //
 // You must manually set the offsets for your tank subtypes so that they move correctly, VV them in game to find the perfect values											//
@@ -239,19 +115,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	primary_weapon_type = null
 	secondary_weapon_type = null
 
-/obj/vehicle/armored/multitile/medium/apc //BIG APC
-	name = "M557 Armoured Personnel Carrier"
-	desc = "A heavily armoured vehicle with light armaments designed to ferry troops around the battle field, or assist with search and rescue (SAR) operations."
-	icon = 'icons/obj/medium_vehicles.dmi'
-	turret_icon = 'icons/obj/medium_vehicles.dmi'
-	turret_icon_state = "apc_turret"
-	icon_state = "apc"
-	move_delay = 0.25 SECONDS //Fast as fuck boiii
-	max_passengers = 3 //Enough to ferry wounded men to and fro without being stupidly tardis like. Seats 5 total
-	primary_weapon_type = /obj/item/tank_weapon/apc_cannon //Only has a utility launcher, no offense as standard.
-	secondary_weapon_type = null
-	has_underlay = TRUE
-
 /obj/vehicle/armored/multitile/medium //Its a smaller tank, we had sprites for it so whoo
 	name = "M74A4 'Baker Street' Heavy Tank"
 	desc = "A metal behemoth which is designed to cleave through enemy lines. It comes pre installed with a main tank cannon capable of deploying heavy payloads, as well as a minigun which can tear through multiple targets in quick succession."
@@ -271,6 +134,19 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	door_location = get_step(src,turn(src.dir, 180))
 	if(dir == NORTH || dir == WEST)
 		door_location = get_step_away(get_step(src,turn(src.dir, 180)), src, 3)	//Because haha funny byond sprite rotations funny
+
+/obj/vehicle/armored/multitile/medium/apc //BIG APC
+	name = "M557 Armoured Personnel Carrier"
+	desc = "A heavily armoured vehicle with light armaments designed to ferry troops around the battle field, or assist with search and rescue (SAR) operations."
+	icon = 'icons/obj/medium_vehicles.dmi'
+	turret_icon = 'icons/obj/medium_vehicles.dmi'
+	turret_icon_state = "apc_turret"
+	icon_state = "apc"
+	move_delay = 0.25 SECONDS //Fast as fuck boiii
+	max_passengers = 3 //Enough to ferry wounded men to and fro without being stupidly tardis like. Seats 5 total
+	primary_weapon_type = /obj/item/tank_weapon/apc_cannon //Only has a utility launcher, no offense as standard.
+	secondary_weapon_type = null
+	has_underlay = TRUE
 
 /obj/vehicle/armored/examine(mob/user)
 	. = ..()
@@ -672,79 +548,6 @@ Tank relaymove(), related checks and subsequent bumping .
 	if(do_move(enteringturfs))
 		. = step(src, direction)
 	update_icon()
-
-/*
-\\\\\\\\TANK WEAPON PROCS////////
-This handles stuff like rotating turrets and shooting.
-*/
-/obj/vehicle/armored/proc/onMouseDown(atom/A, mob/user, params)
-	if(user != gunner) //Only the gunner can fire!
-		return
-	var/list/modifiers = params2list(params) //If they're CTRL clicking, for example, let's not have them accidentally shoot.
-	if(modifiers["shift"])
-		return
-	if(modifiers["ctrl"])
-		return
-	if(modifiers["middle"])
-		to_chat(world, "handling mainfire")
-		handle_fire_main(A) //MMB to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
-		return
-	if(modifiers["alt"])
-		return
-	handle_fire(A)
-
-/obj/vehicle/armored/proc/handle_fire(atom/A)
-	if(!secondary_weapon && gunner)
-		to_chat(gunner, "[src]'s secondary weapon hardpoint spins pathetically. Maybe you should install a secondary weapon on this tank?")
-		return FALSE
-	firing_target = A
-	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_minigun_start.ogg', 60, 1)
-	firing_secondary_weapon = TRUE
-	to_chat(world, "started processing handlefire")
-	START_PROCESSING(SSfastprocess, src)
-
-/obj/vehicle/armored/proc/handle_fire_main(atom/A) //This is used to shoot your big ass tank cannon, rather than your small MG
-	if(!primary_weapon && gunner)
-		to_chat(gunner, "You look at the stump where [src]'s tank barrel should be and sigh.")
-		return FALSE
-	swivel_gun(A) //Special FX, makes the tank cannon visibly swivel round to aim at the target.
-	firing_target = A
-	firing_primary_weapon = TRUE
-	to_chat(world, "started processing mainfire")
-	START_PROCESSING(SSfastprocess, src)
-
-/obj/vehicle/armored/proc/swivel_gun(atom/A)
-	var/new_weapon_dir = get_dir(src, A) //Check that we're not already facing this way to avoid a double swivel when you fire.
-	if(new_weapon_dir == primary_weapon_dir)
-		return FALSE
-	if(world.time > lastsound + 2 SECONDS) //Slight cooldown to avoid spam
-		visible_message("<span class='danger'>[src] swings its turret round!</span>")
-		playsound(src, 'sound/effects/tankswivel.ogg', 80,1)
-		lastsound = world.time
-		primary_weapon_dir = new_weapon_dir
-		return TRUE
-
-/obj/vehicle/armored/process()
-	if(firing_primary_weapon && firing_target)
-		if(primary_weapon.fire(firing_target, gunner))
-			primary_weapon_dir = get_dir(src, firing_target) //For those instances when you've swivelled your gun round a lot when your main gun wasn't ready to fire. This ensures the gun always faces the desired target.
-			update_icon()
-		else
-			stop_firing()
-	if(firing_secondary_weapon)
-		if(secondary_weapon.fire(firing_target, gunner))
-			secondary_weapon_dir = get_dir(src, firing_target) //Set the gun dir
-			update_icon()
-
-/obj/vehicle/armored/proc/onMouseUp(atom/A, mob/user)
-	stop_firing()
-
-/obj/vehicle/armored/proc/stop_firing()
-	firing_target = null
-	firing_primary_weapon = FALSE
-	firing_secondary_weapon = FALSE
-	update_icon(icon_state, "turret", "secondary_weapon") //Stop firing animation
-	STOP_PROCESSING(SSfastprocess,src)
 
 /*
 \\\\\\\\TANK VERBS////////

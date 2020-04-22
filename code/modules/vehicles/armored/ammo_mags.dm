@@ -67,7 +67,7 @@
 /obj/item/ammo_magazine/tank/tank_glauncher
 	name = "Grenade Launcher Magazine"
 	desc = "A secondary armament grenade magazine"
-	caliber = "grenade"
+	caliber = "grenade"//grenades
 	icon_state = "glauncher_2"
 	w_class = 9
 	default_ammo = /datum/ammo/grenade_container

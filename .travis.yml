@@ -32,7 +32,7 @@ matrix:
       addons:
         apt:
           packages:
-            - libstdc++6:i386
+            - libstdc++6
       cache:
         directories:
           - $HOME/BYOND
@@ -51,11 +51,11 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - libstdc++6:i386
+            - libstdc++6
             - gcc-multilib
             - g++-7
             - g++-7-multilib
-            - libmariadb-client-lgpl-dev:i386
+            - libmariadb-client-lgpl-dev
             - libmariadbd-dev
       cache:
         directories:

@@ -51,25 +51,20 @@
 /datum/component/automatic_fire/proc/wake_up(datum/source, fire_mode, client/usercli)
 	if(isgun(parent))
 		switch(fire_mode)
-			if(GUN_FIREMODE_AUTOMATIC, GUN_FIREMODE_AUTOBURST)
-				component_fire_mode = fire_mode
-			else
+			if(GUN_FIREMODE_SEMIAUTO, GUN_FIREMODE_BURSTFIRE)
 				if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
 					sleep_up()
-				return //No need for autofire on other modes.
-	component_fire_mode = fire_mode //goyim code
-	to_chat(world, "autofire stat is [autofire_stat]")
+				return	//No need for autofire on other modes.
+	component_fire_mode = fire_mode
 	if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT))
 		return //We've updated the firemode. No need for more.
 	if(autofire_stat & AUTOFIRE_STAT_FIRING)
 		stop_autofiring() //Let's stop shooting to avoid issues.
 		return
 
-	to_chat(world, "usecli is [usercli] in wakeup")
-	to_chat(world, "parent is [parent] in wakeup")
-	if(usercli)	//goyim remove this shitcode
+	if(usercli)
 		autofire_stat = AUTOFIRE_STAT_IDLE
-		if(isgun(parent))
+		if(isgun(parent))//bonus checks for weapons we need to be holding to fire
 			var/obj/item/weapon/gun/shoota = parent
 			if(shoota.loc != usercli.mob)
 				return
@@ -79,7 +74,6 @@
 			RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/itemgun_equipped)
 		autofire_on(usercli)
 		RegisterSignal(parent, list(COMSIG_PARENT_PREQDELETED), .proc/sleep_up)
-		to_chat(world, "autofire on with [usercli]")
 
 
 /datum/component/automatic_fire/proc/sleep_up()
@@ -134,7 +128,6 @@
 
 
 /datum/component/automatic_fire/proc/on_mouse_down(client/source, atom/target, turf/location, control, params)
-	to_chat(world, "mouse down")
 	var/list/modifiers = params2list(params) //If they're shift+clicking, for example, let's not have them accidentally shoot.
 	if(modifiers["shift"] && (world.time <= source.mob.next_click || source.mob.ShiftClickOn(target)))
 		source.click_intercepted = world.time
@@ -150,7 +143,7 @@
 	to_chat(world, "after checks")
 	if(source.mob.in_throw_mode)
 		return
-	if(!isturf(source.mob.loc) && (!istankweapon(parent) && !istype(source.mob.loc, /obj/vehicle/armored))) //No firing inside lockers and stuff.	//goyim
+	if(!isturf(source.mob.loc) && (!istankweapon(parent))) //No firing inside lockers and stuff.
 		return
 	if(get_dist(source.mob, target) < 2) //Adjacent clicking.
 		return
@@ -211,11 +204,6 @@
 		if(!shoota.on_autofire_start(shooter)) //This is needed because the minigun has a do_after before firing and signals are async.
 			stop_autofiring()
 			return
-	if(istankweapon(parent))
-		var/obj/item/tank_weapon/secondary_weapon/shoota = parent
-		if(!shoota.on_autofire_start(shooter))
-			stop_autofiring()	//goyim
-			return
 	if(autofire_stat != AUTOFIRE_STAT_FIRING)
 		return //Things may have changed while on_autofire_start() was being processed, due to do_after's sleep.
 	switch(component_fire_mode)
@@ -258,7 +246,7 @@
 	if(!QDELETED(shooter))
 		UnregisterSignal(shooter, COMSIG_CARBON_SWAPPED_HANDS)
 	if(isgun(parent))
-		var/obj/item/weapon/gun/shoota = parent	//goyim remove thsi shitcode
+		var/obj/item/weapon/gun/shoota = parent
 		shoota.on_autofire_stop(shots_fired)
 	if(istankweapon(parent))
 		var/obj/item/tank_weapon/secondary_weapon/shoota = parent

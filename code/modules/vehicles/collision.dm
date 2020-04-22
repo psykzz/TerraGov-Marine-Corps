@@ -2,8 +2,8 @@
 	if(!veh.demolish_on_ram)
 		return NONE // 0 Damage
 
-	var/damage = 5000 // TODO: Better damage scaling?
-	var/veh_damage = 2
+	var/damage = veh.ram_damage // Each vehicle gets its own damage
+	var/veh_damage = 25
 
 	if(world.time > veh.lastsound + 1 SECONDS)
 		visible_message("<span class='danger'>[veh] crushes \the [src]!</span>")
@@ -33,7 +33,7 @@
 		ex_act(3)
 
 /mob/living/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp) //If theyre alive, yeet them
-	if(stat == DEAD) //We don't care about the dead
+	if(stat == DEAD)	//Cant make horizontal spacemen more horizontal
 		return NONE
 	if(lying)
 		return NONE

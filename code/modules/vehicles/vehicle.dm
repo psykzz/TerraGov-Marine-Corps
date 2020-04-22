@@ -23,10 +23,15 @@
 	var/vehicle_flags = NONE
 
 	var/obj/item/cell/cell
+	///How much power it uses per cell
 	var/charge_use = 5	//set this to adjust the amount of power the vehicle uses per move
 
-	var/demolish_on_ram = FALSE //Do we crash into walls and destroy them?
-	var/lastsound = 0 //Last time we played an engine noise
+	//Bool for whether we crash into walls and destroy them
+	var/demolish_on_ram = FALSE
+	///How much damage we deal when ramming things
+	var/ram_damage = 100
+	///Last time we played an engine noise
+	var/lastsound = 0
 
 //-------------------------------------------
 // Standard procs

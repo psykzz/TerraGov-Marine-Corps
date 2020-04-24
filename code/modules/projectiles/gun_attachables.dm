@@ -360,10 +360,9 @@ Defined in conflicts.dm of the #defines folder.
 	slot = "muzzle"
 	icon_state = "hbarrel"
 	attach_icon = "hbarrel_a"
-	accuracy_mod = -0.30
-	damage_mod = 0.30
-	delay_mod = 3
-	scatter_mod = 5
+	accuracy_mod = -0.45
+	damage_mod = 0.2
+	scatter_mod = 10
 	accuracy_unwielded_mod = -0.3
 
 
@@ -815,6 +814,20 @@ Defined in conflicts.dm of the #defines folder.
 	scatter_mod = -20
 	movement_acc_penalty_mod = 0.1
 
+/obj/item/attachable/stock/tx15
+	name = "TX-15 Stock"
+	desc = "The standard stock for the TX-15. Cannot be removed."
+	icon_state = "tx15stock"
+	wield_delay_mod = 0 SECONDS
+	pixel_shift_x = 32
+	pixel_shift_y = 13
+	flags_attach_features = NONE
+	accuracy_mod = 0
+	recoil_mod = 0
+	melee_mod = 0
+	scatter_mod = 0
+	movement_acc_penalty_mod = 0
+
 /obj/item/attachable/stock/vp70
 	name = "88 Mod 4 stock and holster"
 	desc = "A rare holster-stock distributed in small numbers to TGMC forces. Compatible with the 88 Mod 4, this stock reduces recoil and improves accuracy, but at a reduction to handling and agility. Seemingly a bit more effective in a brawl."
@@ -892,6 +905,18 @@ Defined in conflicts.dm of the #defines folder.
 	pixel_shift_y = 10
 	flags_attach_features = NONE
 
+/obj/item/attachable/stock/lasgun/practice
+	name = "\improper M43-P Sunfury lasgun stock"
+	desc = "The standard stock for the M43-P Sunfury lasgun, seems the stock is made out of plastic."
+	slot = "stock"
+	wield_delay_mod = null
+	melee_mod = 0
+	icon_state = "laserstock"
+	attach_icon = "laserstock"
+	pixel_shift_x = 41
+	pixel_shift_y = 10
+	flags_attach_features = NONE
+
 /obj/item/attachable/stock/dmr
 	name = "T-64 Stock"
 	desc = "A standard DMR Stock."
@@ -910,6 +935,34 @@ Defined in conflicts.dm of the #defines folder.
 	name = "T-18 Stock"
 	desc = "A standard Carbine Stock."
 	icon_state = "t18stock"
+	wield_delay_mod = 0 SECONDS
+	pixel_shift_x = 32
+	pixel_shift_y = 13
+	flags_attach_features = NONE
+	accuracy_mod = 0
+	recoil_mod = 0
+	melee_mod = 0
+	scatter_mod = 0
+	movement_acc_penalty_mod = 0
+
+/obj/item/attachable/stock/t12stock
+	name = "T-12 Stock"
+	desc = "A standard Assault Rifle Stock."
+	icon_state = "t12stock"
+	wield_delay_mod = 0 SECONDS
+	pixel_shift_x = 32
+	pixel_shift_y = 13
+	flags_attach_features = NONE
+	accuracy_mod = 0
+	recoil_mod = 0
+	melee_mod = 0
+	scatter_mod = 0
+	movement_acc_penalty_mod = 0
+
+/obj/item/attachable/stock/t42stock
+	name = "T-42 Stock"
+	desc = "A standard Light Machine Gun Stock."
+	icon_state = "t42stock"
 	wield_delay_mod = 0 SECONDS
 	pixel_shift_x = 32
 	pixel_shift_y = 13

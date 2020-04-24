@@ -200,6 +200,10 @@
 		GLOB.player_details[ckey] = player_details
 
 	. = ..()	//calls mob.Login()
+	if(length(GLOB.stickybanadminexemptions))
+		GLOB.stickybanadminexemptions -= ckey
+		if (!length(GLOB.stickybanadminexemptions))
+			restore_stickybans()
 
 	if(SSinput.initialized)
 		set_macros()
@@ -294,7 +298,7 @@
 			winset(src, "[child]", "[entries[child]]")
 			if(!ispath(child, /datum/verbs/menu))
 				var/procpath/verbpath = child
-				if(copytext(verbpath.name, 1, 2) != "@")
+				if(verbpath.name[1] != "@")
 					new child(src)
 
 	for(var/thing in prefs.menuoptions)
@@ -598,12 +602,13 @@
 	change_view("[x]x[y]")
 
 
-/client/proc/update_movement_keys()
-	if(!prefs?.key_bindings)
+/client/proc/update_movement_keys(datum/preferences/direct_prefs)
+	var/datum/preferences/D = prefs || direct_prefs
+	if(!D?.key_bindings)
 		return
 	movement_keys = list()
-	for(var/key in prefs.key_bindings)
-		for(var/kb_name in prefs.key_bindings[key])
+	for(var/key in D.key_bindings)
+		for(var/kb_name in D.key_bindings[key])
 			switch(kb_name)
 				if("North")
 					movement_keys[key] = NORTH

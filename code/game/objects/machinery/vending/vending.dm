@@ -112,8 +112,19 @@
 	return
 
 GLOBAL_LIST_INIT(vending_white_items, typecacheof(list(
+	/obj/item/ammo_magazine/pistol/standard_pistol,
+	/obj/item/ammo_magazine/revolver/standard_revolver,
+	/obj/item/weapon/gun/smg/standard_smg,
 	/obj/item/weapon/gun/rifle/standard_carbine,
-	/obj/item/ammo_magazine/rifle,
+	/obj/item/weapon/gun/rifle/standard_assaultrifle,
+	/obj/item/weapon/gun/rifle/standard_lmg,
+	/obj/item/weapon/gun/rifle/standard_dmr,
+	/obj/item/weapon/gun/energy/lasgun/M43,
+	/obj/item/weapon/gun/shotgun/pump/t35,
+	/obj/item/weapon/gun/rifle/standard_autoshotgun,
+	/obj/item/ammobox,
+	/obj/item/shotgunbox,
+	/obj/item/smartgun_powerpack,
 	/obj/item/weapon/combat_knife,
 	/obj/item/radio/headset/mainship/marine,
 	/obj/item/clothing/gloves/marine,
@@ -529,7 +540,7 @@ GLOBAL_LIST_INIT(vending_white_items, typecacheof(list(
 	if(machine_stat & (BROKEN|NOPOWER))
 		return
 
-	if(user.stat || user.restrained() || user.lying)
+	if(user.stat || user.restrained() || user.lying_angle)
 		return
 
 	if(get_dist(user, src) > 1 || get_dist(src, A) > 1)

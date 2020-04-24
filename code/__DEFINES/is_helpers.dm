@@ -101,6 +101,8 @@
 #define isxenoshrike(A) (istype(A, /mob/living/carbon/xenomorph/shrike))
 #define isxenodefiler(A) (istype(A, /mob/living/carbon/xenomorph/Defiler))
 #define isxenobull(A) (istype(A, /mob/living/carbon/xenomorph/bull))
+#define isxenohivemind(A) (istype(A, /mob/living/carbon/xenomorph/hivemind))
+#define isxenopanther(A) (istype(A, /mob/living/carbon/xenomorph/panther))
 
 //Silicon mobs
 #define issilicon(A) (istype(A, /mob/living/silicon))
@@ -199,6 +201,7 @@
 
 #define iseffect(O) (istype(O, /obj/effect))
 
+#define isainode(O) (istype(O, /obj/effect/ai_node))
 
 //Gamemode
 #define isdistress(O) (istype(O, /datum/game_mode/infestation/distress))
@@ -207,8 +210,8 @@
 #define isxenoresearcharea(A) (istype(A, /area/mainship/medical/medical_science))
 
 // Admin
-#define isaghost(mob) ( copytext(mob.key, 1, 2) == "@" )
-#define isclientedaghost(living) (isaghost(living) && GLOB.directory[copytext(living.ckey, 2)] && living.get_ghost())
+#define isaghost(mob) ( mob.key && mob.key[1] == "@" )
+#define isclientedaghost(living) (isaghost(living) && GLOB.directory[copytext_char(living.ckey, 2)] && living.get_ghost())
 
 // Shuttles
 #define isshuttleturf(T) (length(T.baseturfs) && (/turf/baseturf_skipover/shuttle in T.baseturfs))

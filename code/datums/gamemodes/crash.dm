@@ -53,7 +53,6 @@
 	// Spawn the ship
 	if(!SSmapping.shuttle_templates[shuttle_id])
 		CRASH("Shuttle [shuttle_id] wasn't found and can't be loaded")
-		return FALSE
 
 	var/datum/map_template/shuttle/ST = SSmapping.shuttle_templates[shuttle_id]
 	var/obj/docking_port/stationary/L = SSshuttle.getDock("canterbury_loadingdock")
@@ -76,7 +75,6 @@
 
 	if(!length(valid_docks))
 		CRASH("No valid crash sides found!")
-		return
 	var/obj/docking_port/stationary/crashmode/actual_crash_site = pick(valid_docks)
 
 	shuttle.crashing = TRUE
@@ -138,6 +136,7 @@
 
 /datum/game_mode/infestation/crash/proc/crash_shuttle(obj/docking_port/stationary/target)
 	shuttle_landed = TRUE
+	shuttle.crashing = FALSE
 
 	// We delay this a little because the shuttle takes some time to land, and we want to the xenos to know the position of the marines.
 	bioscan_interval = world.time + 30 SECONDS

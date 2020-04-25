@@ -534,7 +534,7 @@ Tank relaymove(), related checks and subsequent bumping .
 	return TRUE
 
 ///Rams all our obstacles and checks if we can keep moving
-/obj/vehicle/armored/multitile/proc/do_move(var/list/enteringturfs)
+/obj/vehicle/armored/multitile/proc/do_move(enteringturfs)
 	var/canstep = TRUE
 	for(var/i in enteringturfs)	//No break because we want to crush all the turfs before we start trying to move
 		var/turf/T = i

@@ -526,6 +526,10 @@
 	take_damage(rand(40,60) + SPRAY_STRUCTURE_UPGRADE_BONUS(X))
 	return TRUE // normal density flag
 
+/obj/vehicle/acid_spray_act(mob/living/carbon/xenomorph/X)
+	take_damage(rand(40,60) + SPRAY_STRUCTURE_UPGRADE_BONUS(X))//oof owie
+	return TRUE
+
 /obj/structure/razorwire/acid_spray_act(mob/living/carbon/xenomorph/X)
 	. = ..()
 	return FALSE // not normal density flag

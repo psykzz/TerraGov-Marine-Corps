@@ -26,7 +26,7 @@
 	///How much power it uses per cell
 	var/charge_use = 5	//set this to adjust the amount of power the vehicle uses per move
 
-	//Bool for whether we crash into walls and destroy them
+	///Bool for whether we crash into walls and destroy them
 	var/demolish_on_ram = FALSE
 	///How much damage we deal when ramming things
 	var/ram_damage = 100

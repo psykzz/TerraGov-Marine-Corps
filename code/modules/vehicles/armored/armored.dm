@@ -1,5 +1,6 @@
 /*
-Armored vehicles BY Tivi, Psykzz and KMC
+Armored vehicles by Tivi, Psykzz and KMC
+
 THIS IS LIKE REGULAR CM tank BUT IT'S LESS SHIT
 WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 */
@@ -502,7 +503,7 @@ Tank relaymove(), related checks and subsequent bumping .
 
 /obj/vehicle/armored/relaymove(mob/user, direction)
 	. = ..()
-	if(!checkmove(user, direction))
+	if(!checkmove(user, direction))//only need to check if we can move cus bump happens auto in 1x1 vehicles
 		return
 	. = step(src, direction)
 	update_icon()

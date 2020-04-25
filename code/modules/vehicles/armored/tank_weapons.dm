@@ -134,7 +134,6 @@ This handles stuff like rotating turrets and shooting.
 	if(modifiers["ctrl"])
 		return
 	if(modifiers["middle"])
-		to_chat(world, "handling mainfire")
 		handle_fire_main(A) //MMB to fire your big tank gun you can change any of these parameters here to hotkey for other shit :)
 		return
 	if(modifiers["alt"])

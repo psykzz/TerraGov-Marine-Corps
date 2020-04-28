@@ -134,7 +134,7 @@ GLOBAL_LIST_INIT(marine_selector_cats, list(
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 
 	if(!ui)
-		ui = new(user, src, ui_key, "marineselector", name, ui_x, ui_y, master_ui, state)
+		ui = new(user, src, ui_key, "MarineSelector", name, ui_x, ui_y, master_ui, state)
 		ui.open()
 
 /obj/machinery/marine_selector/ui_data(mob/user)
@@ -177,6 +177,12 @@ GLOBAL_LIST_INIT(marine_selector_cats, list(
 		if(!display_list[i]) // vendor doesnt have this category
 			continue
 		cats[i] = 0
+
+		// If we don't have buy flags, we use points
+		if(!length(GLOB.marine_selector_cats[i]))
+			cats[i] = m_points
+			continue
+
 		for(var/flag in GLOB.marine_selector_cats[i])
 			if(buy_flags & flag)
 				cats[i]++

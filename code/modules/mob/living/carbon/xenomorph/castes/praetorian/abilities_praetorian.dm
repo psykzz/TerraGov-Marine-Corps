@@ -46,8 +46,8 @@
 	return TRUE
 
 /datum/action/xeno_action/activable/spray_acid/ai_should_use(target)
-		return
 	if(owner.action_busy) //Chances are we're already spraying acid, don't override it
+		return
 	if(!iscarbon(target))
 		return ..()
 	if(get_dist(target, owner) > 3)

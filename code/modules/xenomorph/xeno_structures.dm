@@ -67,6 +67,10 @@
 		UnregisterSignal(associated_hive, list(COMSIG_HIVE_XENO_MOTHER_PRE_CHECK, COMSIG_HIVE_XENO_MOTHER_CHECK))
 		associated_hive.xeno_message("<span class='xenoannounce'>A resin silo has been destroyed at [silo_area]!</span>", 2, TRUE)
 		associated_hive = null
+
+	// If there are any mobs throw them to the floor
+	for(var/mob/living/nested_mob in src)
+		nested_mob.forceMove(get_step(src, NORTHEAST)) // northeast because silos are not centered
 	return ..()
 
 

@@ -421,31 +421,29 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	damage_falloff = 0
 	flags_ammo_behavior = AMMO_BALLISTIC|AMMO_SUNDERING
 	accurate_range_min = 6
-	damage = 50
-	scatter = -15
-	penetration = 30
-	sundering = 3
+	damage = 40
+	penetration = 20
+	sundering = 10
 
 /datum/ammo/bullet/rifle/m4ra/incendiary
 	name = "A19 high velocity incendiary bullet"
 	hud_state = "hivelo_fire"
 	flags_ammo_behavior = AMMO_BALLISTIC|AMMO_INCENDIARY|AMMO_SUNDERING
-	damage = 40
+	damage = 25
 	accuracy = 10
 	penetration = 20
-	sundering = 2
+	sundering = 2.5
 
 /datum/ammo/bullet/rifle/m4ra/impact
 	name = "A19 high velocity impact bullet"
 	hud_state = "hivelo_impact"
 	flags_ammo_behavior = AMMO_BALLISTIC|AMMO_SUNDERING
-	damage = 30
-	accuracy = -10
-	penetration = 20
-	sundering = 3
+	damage = 25
+	penetration = 45
+	sundering = 5
 
 /datum/ammo/bullet/rifle/m4ra/impact/on_hit_mob(mob/M, obj/projectile/P)
-	staggerstun(M, P, max_range = 40, weaken = 1, stagger = 1, knockback = 1)
+	staggerstun(M, P, max_range = 40, stagger = 2, slowdown = 3.5, knockback = 1)
 
 /datum/ammo/bullet/rifle/m4ra/smart
 	name = "A19 high velocity smart bullet"
@@ -453,7 +451,7 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	iff_signal = ACCESS_IFF_MARINE
 	flags_ammo_behavior = AMMO_BALLISTIC|AMMO_SKIPS_HUMANS|AMMO_SUNDERING
 	damage = 30
-	penetration = 30
+	penetration = 20
 	sundering = 3
 
 /datum/ammo/bullet/rifle/ak47
@@ -564,8 +562,8 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	max_range = 15
 	damage = 50
 	damage_falloff = 0.5
-	penetration = 25
-	sundering = 1.5
+	penetration = 15
+	sundering = 3
 
 /datum/ammo/bullet/shotgun/flechette_spread
 	name = "additional flechette"
@@ -574,10 +572,10 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	accuracy_var_low = 8
 	accuracy_var_high = 8
 	max_range = 15
-	damage = 50
+	damage = 40
 	damage_falloff = 1
 	penetration = 25
-	sundering = 1.5
+	sundering = 2.5
 
 /datum/ammo/bullet/shotgun/buckshot
 	name = "shotgun buckshot shell"
@@ -1071,7 +1069,7 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	name = "overcharged laser bolt"
 	icon_state = "heavylaser"
 	hud_state = "laser_sniper"
-	damage = 42 //requires mod with -0.15 multiplier should math out to 40
+	damage = 42 
 	max_range = 40
 	penetration = 20
 	sundering = 5
@@ -1096,7 +1094,7 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	accuracy_var_high = 9
 	accurate_range = 5
 	max_range = 5
-	damage = 42 //requires mod with -0.15 multiplier should math out to 40
+	damage = 42 
 	damage_falloff = 10
 	penetration = 0
 	sundering = 2.5
@@ -1319,8 +1317,6 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	if(!T)
 		T = get_turf(P)
 	drop_nade(T)
-
-	M.cooldowns[COOLDOWN_ACID] = addtimer(VARSET_LIST_CALLBACK(M.cooldowns, COOLDOWN_ACID, null), 1 SECONDS)
 
 /datum/ammo/xeno/acid/heavy/on_hit_obj(obj/O,obj/projectile/P)
 	var/turf/T = get_turf(O)

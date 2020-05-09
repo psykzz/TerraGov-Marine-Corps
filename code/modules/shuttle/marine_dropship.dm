@@ -1027,6 +1027,9 @@
 		to_chat(usr, "<span class='warning'>[src] is unresponsive.</span>")
 		return
 
+	if(!ishuman(usr))
+		return
+
 	if(!length(GLOB.active_nuke_list) && alert(usr, "Are you sure you want to launch the shuttle? Without sufficiently dealing with the threat, you will be in direct violation of your orders!", "Are you sure?", "Yes", "Cancel") != "Yes")
 		return
 

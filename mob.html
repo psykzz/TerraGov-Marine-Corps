@@ -16,7 +16,7 @@
 <h1>mob <aside>/<a href="mob.html">mob</a></aside><aside> inherits /<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a></aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_defines.dm#L1">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_defines.dm#L1">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_defines.dm 1"/></a></h1>
 
 <table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
@@ -29,14 +29,17 @@
 Called by /client/Move()
 For moving in space
 Return 1 for movement 0 for none</td></tr>
+            <tr><th><a href="mob.html#proc/UnEquip">UnEquip</a></th><td>DO NOT CALL THIS PROC</td></tr>
             <tr><th><a href="mob.html#proc/add_movespeed_modifier">add_movespeed_modifier</a></th><td>Add a move speed modifier to a mob</td></tr>
             <tr><th><a href="mob.html#proc/buckle_mob">buckle_mob</a></th><td>Buckle to another mob</td></tr>
             <tr><th><a href="mob.html#proc/check_emote">check_emote</a></th><td>Check if this message is an emote</td></tr>
+            <tr><th><a href="mob.html#proc/dropItemToGround">dropItemToGround</a></th><td>Used to drop an item (if it exists) to the ground.</td></tr>
             <tr><th><a href="mob.html#proc/drop_all_held_items">drop_all_held_items</a></th><td>Drops the items in our hands.</td></tr>
             <tr><th><a href="mob.html#proc/drop_held_item">drop_held_item</a></th><td>Drops the item in our active hand.</td></tr>
             <tr><th><a href="mob.html#proc/drop_item_v">drop_item_v</a></th><td>Helper proc used by the drop_item verb and on screen button.</td></tr>
             <tr><th><a href="mob.html#proc/drop_l_hand">drop_l_hand</a></th><td>Drops the item in our left hand.</td></tr>
             <tr><th><a href="mob.html#proc/drop_r_hand">drop_r_hand</a></th><td>Drops the item in our right hand.</td></tr>
+            <tr><th><a href="mob.html#proc/eord_respawn">eord_respawn</a></th><td>This is only available to mobs once they join EORD.</td></tr>
             <tr><th><a href="mob.html#proc/get_active_held_item">get_active_held_item</a></th><td>returns the thing in our currently active hand</td></tr>
             <tr><th><a href="mob.html#proc/get_config_multiplicative_speed">get_config_multiplicative_speed</a></th><td>Get the global config movespeed of a mob by type</td></tr>
             <tr><th><a href="mob.html#proc/get_inactive_held_item">get_inactive_held_item</a></th><td>returns the thing in our currently inactive hand</td></tr>
@@ -61,7 +64,9 @@ If both hands fail the item falls to the floor.</td></tr>
             <tr><th><a href="mob.html#proc/shared_ui_interaction">shared_ui_interaction</a></th><td>public</td></tr>
             <tr><th><a href="mob.html#proc/shuttleRotate">shuttleRotate</a></th><td>Mob rotate procs</td></tr>
             <tr><th><a href="mob.html#proc/sort_movespeed_modlist">sort_movespeed_modlist</a></th><td>Sort the list of move speed modifiers</td></tr>
+            <tr><th><a href="mob.html#proc/temporarilyRemoveItemFromInventory">temporarilyRemoveItemFromInventory</a></th><td>Removes an item on a mob's inventory.</td></tr>
             <tr><th><a href="mob.html#proc/total_multiplicative_slowdown">total_multiplicative_slowdown</a></th><td>Calculate the total slowdown of all movespeed modifiers</td></tr>
+            <tr><th><a href="mob.html#proc/transferItemToLoc">transferItemToLoc</a></th><td>For when the item will be immediately placed in a loc other than the ground.</td></tr>
             <tr><th><a href="mob.html#proc/update_config_movespeed">update_config_movespeed</a></th><td>Set or update the global movespeed config on a mob</td></tr>
             <tr><th><a href="mob.html#proc/update_mouse_pointer">update_mouse_pointer</a></th><td>Update the mouse pointer of the attached client in this mob</td></tr>
             <tr><th><a href="mob.html#proc/update_movespeed">update_movespeed</a></th><td>Go through the list of movespeed modifiers and calculate a final movespeed</td></tr>
@@ -71,53 +76,63 @@ If both hands fail the item falls to the floor.</td></tr>
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_defines.dm#L91">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_defines.dm#L91">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_defines.dm 91"/></a></h3>
         <p>Can they interact with station electronics</p><h3 id="var/lying_angle"><aside class="declaration">var </aside>lying_angle
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_defines.dm#L46">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_defines.dm#L46">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_defines.dm 46"/></a></h3>
         <p>Mob's angle in BYOND degrees. 0 is north (up/standing for humans), 90 and 270 are east and west respectively (lying horizontally), and 90 is south (upside-down).</p><h3 id="var/machine"><aside class="declaration">var </aside>machine
             <aside>&ndash; /<a href="obj.html">obj</a>/machinery</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_defines.dm#L83">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_defines.dm#L83">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_defines.dm 83"/></a></h3>
         <p>The machine the mob is interacting with (this is very bad old code btw)</p><h3 id="var/open_uis"><aside class="declaration">var </aside>open_uis
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/tgui/external.dm#L123">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/tgui/external.dm#L123">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 123"/></a></h3>
         <p>global</p>
 <p>Used to track UIs for a mob.</p><h2 id="proc">Proc Details</h2><h3 id="proc/MouseDrop_T">MouseDrop_T<aside>(/<a href="atom.html">atom</a>/dropping, /<a href="atom.html">atom</a>/user) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L410">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L410">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 410"/></a></aside>
         </h3>
         <p>Handle the result of a click drag onto this mob</p>
 <p>For mobs this just shows the inventory</p><h3 id="proc/Process_Spacemove"><aside class="declaration">proc </aside>Process_Spacemove<aside>(check_drift) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movement.dm#L155">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movement.dm#L155">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movement.dm 155"/></a></aside>
         </h3>
         <p>Process_Spacemove
 Called by /client/Move()
 For moving in space
-Return 1 for movement 0 for none</p><h3 id="proc/add_movespeed_modifier"><aside class="declaration">proc </aside>add_movespeed_modifier<aside>(id, update, priority, flags, override, multiplicative_slowdown, conflict) 
+Return 1 for movement 0 for none</p><h3 id="proc/UnEquip"><aside class="declaration">proc </aside>UnEquip<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/I, force, /<a href="atom.html">atom</a>/newloc) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L38">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L227">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 227"/></a></aside>
+        </h3>
+        <p>DO NOT CALL THIS PROC</p>
+<ul>
+<li>Use one of the above 3 helper procs.</li>
+<li>You may override it, but do not modify the args.</li>
+</ul><h3 id="proc/add_movespeed_modifier"><aside class="declaration">proc </aside>add_movespeed_modifier<aside>(id, update, priority, flags, override, multiplicative_slowdown, conflict) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L38">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 38"/></a></aside>
         </h3>
         <p>Add a move speed modifier to a mob</p><h3 id="proc/buckle_mob">buckle_mob<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/buckling_mob, force, check_loc, lying_buckle, hands_needed, target_hands_needed, silent) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L507">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L507">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 507"/></a></aside>
         </h3>
         <p>Buckle to another mob</p>
@@ -125,78 +140,96 @@ Return 1 for movement 0 for none</p><h3 id="proc/add_movespeed_modifier"><aside 
 <p>Turns you to face the other mob too</p><h3 id="proc/check_emote"><aside class="declaration">proc </aside>check_emote<aside>(message) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/say.dm#L89">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/say.dm#L89">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;say.dm 89"/></a></aside>
         </h3>
-        <p>Check if this message is an emote</p><h3 id="proc/drop_all_held_items"><aside class="declaration">proc </aside>drop_all_held_items<aside>() 
+        <p>Check if this message is an emote</p><h3 id="proc/dropItemToGround"><aside class="declaration">proc </aside>dropItemToGround<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/I, force) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L185">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 185"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L202">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 202"/></a></aside>
+        </h3>
+        <p>Used to drop an item (if it exists) to the ground.</p>
+<ul>
+<li>Will return TRUE is successfully dropped.</li>
+<li>Will return FALSE if the item can not be dropped due to TRAIT_NODROP via doUnEquip().</li>
+<li>Will return null if there is no item.
+If the item can be dropped, it will be forceMove()'d to the ground and the turf's Entered() will be called.</li>
+</ul><h3 id="proc/drop_all_held_items"><aside class="declaration">proc </aside>drop_all_held_items<aside>() 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L189">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 189"/></a></aside>
         </h3>
         <p>Drops the items in our hands.</p>
 <p>Returns TURE if it was successful.</p><h3 id="proc/drop_held_item"><aside class="declaration">proc </aside>drop_held_item<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L173">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 173"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L177">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 177"/></a></aside>
         </h3>
         <p>Drops the item in our active hand.</p>
 <p>Returns TURE if it was successful.</p><h3 id="proc/drop_item_v"><aside class="declaration">proc </aside>drop_item_v<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L136">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 136"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L140">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 140"/></a></aside>
         </h3>
         <p>Helper proc used by the drop_item verb and on screen button.</p>
 <p>Returns TURE if it was successful.</p><h3 id="proc/drop_l_hand"><aside class="declaration">proc </aside>drop_l_hand<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L149">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 149"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L153">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 153"/></a></aside>
         </h3>
         <p>Drops the item in our left hand.</p>
 <p>Returns TURE if it was successful.</p><h3 id="proc/drop_r_hand"><aside class="declaration">proc </aside>drop_r_hand<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L161">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 161"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L165">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 165"/></a></aside>
         </h3>
         <p>Drops the item in our right hand.</p>
-<p>Returns TURE if it was successful.</p><h3 id="proc/get_active_held_item"><aside class="declaration">proc </aside>get_active_held_item<aside>() 
+<p>Returns TURE if it was successful.</p><h3 id="proc/eord_respawn"><aside class="declaration">proc </aside>eord_respawn<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L7">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_verbs.dm#L87">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_verbs.dm 87"/></a></aside>
+        </h3>
+        <p>This is only available to mobs once they join EORD.</p><h3 id="proc/get_active_held_item"><aside class="declaration">proc </aside>get_active_held_item<aside>() 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L7">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 7"/></a></aside>
         </h3>
         <p>returns the thing in our currently active hand</p><h3 id="proc/get_config_multiplicative_speed"><aside class="declaration">proc </aside>get_config_multiplicative_speed<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L84">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L84">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 84"/></a></aside>
         </h3>
         <p>Get the global config movespeed of a mob by type</p><h3 id="proc/get_inactive_held_item"><aside class="declaration">proc </aside>get_inactive_held_item<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L17">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L17">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 17"/></a></aside>
         </h3>
         <p>returns the thing in our currently inactive hand</p><h3 id="proc/get_mob_buckling_height"><aside class="declaration">proc </aside>get_mob_buckling_height<aside>(/<a href="mob.html">mob</a>/seat) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L526">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L526">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 526"/></a></aside>
         </h3>
         <p>returns the height in pixel the mob should have when buckled to another mob.</p><h3 id="proc/get_movespeed_modifiers"><aside class="declaration">proc </aside>get_movespeed_modifiers<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L123">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L123">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 123"/></a></aside>
         </h3>
         <p>Get the move speed modifiers list of the mob</p><h3 id="proc/get_policy_keywords"><aside class="declaration">proc </aside>get_policy_keywords<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_helpers.dm#L501">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_helpers.dm#L501">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_helpers.dm 501"/></a></aside>
         </h3>
         <p>Get the list of keywords for policy config</p>
@@ -204,19 +237,19 @@ Return 1 for movement 0 for none</p><h3 id="proc/add_movespeed_modifier"><aside 
 to send the user relevant headadmin policy config</p><h3 id="proc/has_movespeed_modifier"><aside class="declaration">proc </aside>has_movespeed_modifier<aside>(id) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L76">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L76">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 76"/></a></aside>
         </h3>
         <p>Is there a movespeed modifier for this mob</p><h3 id="proc/movespeed_modifier_identical_check"><aside class="declaration">proc </aside>movespeed_modifier_identical_check<aside>(/list/mod1, /list/mod2) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L127">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L127">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 127"/></a></aside>
         </h3>
         <p>Check if a movespeed modifier is identical to another</p><h3 id="proc/onShuttleMove">onShuttleMove<aside>(/<a href="turf.html">turf</a>/newT, /<a href="turf.html">turf</a>/oldT, /list/movement_force, move_dir, /<a href="obj.html">obj</a>/docking_port/stationary/old_dock, /<a href="obj.html">obj</a>/<a href="obj/docking_port/mobile.html">docking_port/mobile</a>/moving_dock) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/shuttle/on_move.dm#L260">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/shuttle/on_move.dm#L260">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;shuttle&#x2F;on_move.dm 260"/></a></aside>
         </h3>
         <p>Item move procs
@@ -224,31 +257,31 @@ obj/item/storage/pod/afterShuttleMove(turf/oldT, list/movement_force, shuttle_di
 Mob move procs</p><h3 id="proc/post_buckle_mob">post_buckle_mob<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/M) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L515">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L515">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 515"/></a></aside>
         </h3>
         <p>Call back post buckle to a mob to offset your visual height</p><h3 id="proc/post_unbuckle_mob">post_unbuckle_mob<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/M) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L521">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L521">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 521"/></a></aside>
         </h3>
-        <p>Call back post unbuckle from a mob, (reset your visual height here)</p><h3 id="proc/put_in_active_hand"><aside class="declaration">proc </aside>put_in_active_hand<aside>(/<a href="obj.html">obj</a>/item/W) 
+        <p>Call back post unbuckle from a mob, (reset your visual height here)</p><h3 id="proc/put_in_active_hand"><aside class="declaration">proc </aside>put_in_active_hand<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/W) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L82">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 82"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L86">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 86"/></a></aside>
         </h3>
         <p>Puts the item into our active hand if possible.</p>
 <p>Arguments</p>
 <ul>
 <li>obj/item/W is the item you are trying to equip</li>
 </ul>
-<p>Returns TRUE on success.</p><h3 id="proc/put_in_hands"><aside class="declaration">proc </aside>put_in_hands<aside>(/<a href="obj.html">obj</a>/item/W, del_on_fail) 
+<p>Returns TRUE on success.</p><h3 id="proc/put_in_hands"><aside class="declaration">proc </aside>put_in_hands<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/W, del_on_fail) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L113">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 113"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L117">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 117"/></a></aside>
         </h3>
         <p>Puts the item our active hand if possible. Failing that it tries our inactive hand.
 If both hands fail the item falls to the floor.</p>
@@ -257,21 +290,21 @@ If both hands fail the item falls to the floor.</p>
 <li>obj/item/W is the item you are trying to equip</li>
 <li>del_on_fail if true will delete the item instead of dropping it to the floor</li>
 </ul>
-<p>Returns TURE if it was able to put the thing into one of our hands.</p><h3 id="proc/put_in_inactive_hand"><aside class="declaration">proc </aside>put_in_inactive_hand<aside>(/<a href="obj.html">obj</a>/item/W) 
+<p>Returns TURE if it was able to put the thing into one of our hands.</p><h3 id="proc/put_in_inactive_hand"><aside class="declaration">proc </aside>put_in_inactive_hand<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/W) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L96">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 96"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L100">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 100"/></a></aside>
         </h3>
         <p>Puts the item into our inactive hand if possible.</p>
 <p>Arguments</p>
 <ul>
 <li>obj/item/W is the item you are trying to equip
 Returns TRUE on success.</li>
-</ul><h3 id="proc/put_in_l_hand"><aside class="declaration">proc </aside>put_in_l_hand<aside>(/<a href="obj.html">obj</a>/item/W) 
+</ul><h3 id="proc/put_in_l_hand"><aside class="declaration">proc </aside>put_in_l_hand<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/W) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L32">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L32">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 32"/></a></aside>
         </h3>
         <p>Puts the item into your l_hand if possible and calls all necessary triggers/updates.</p>
@@ -279,11 +312,11 @@ Returns TRUE on success.</li>
 <ul>
 <li>obj/item/W is the item you are trying to equip</li>
 </ul>
-<p>Returns TRUE on success.</p><h3 id="proc/put_in_r_hand"><aside class="declaration">proc </aside>put_in_r_hand<aside>(/<a href="obj.html">obj</a>/item/W) 
+<p>Returns TRUE on success.</p><h3 id="proc/put_in_r_hand"><aside class="declaration">proc </aside>put_in_r_hand<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/W) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/inventory.dm#L57">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 57"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L59">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 59"/></a></aside>
         </h3>
         <p>Puts the item into your r_hand if possible and calls all necessary triggers/updates.</p>
 <p>Arguments</p>
@@ -293,19 +326,19 @@ Returns TRUE on success.</li>
 <p>Returns TRUE on success.</p><h3 id="proc/remove_movespeed_modifier"><aside class="declaration">proc </aside>remove_movespeed_modifier<aside>(id, update) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L55">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L55">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 55"/></a></aside>
         </h3>
         <p>Remove a move speed modifier from a mob</p><h3 id="proc/setGrabState">setGrabState<aside>(newstate) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L845">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 845"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L841">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 841"/></a></aside>
         </h3>
         <p>Updates the grab state of the mob and updates movespeed</p><h3 id="proc/shared_ui_interaction"><aside class="declaration">proc </aside>shared_ui_interaction<aside>(src_object) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/tgui/states.dm#L58">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/tgui/states.dm#L58">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;states.dm 58"/></a></aside>
         </h3>
         <p>public</p>
@@ -313,56 +346,72 @@ Returns TRUE on success.</li>
 <p>return UI_state The state of the UI.</p><h3 id="proc/shuttleRotate"><aside class="parent"><a title="/atom" href="atom.html#proc/shuttleRotate">&uarr;</a></aside>shuttleRotate<aside>(rotation, params) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/shuttle/shuttle_rotate.dm#L37">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/shuttle/shuttle_rotate.dm#L37">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;shuttle&#x2F;shuttle_rotate.dm 37"/></a></aside>
         </h3>
         <p>Mob rotate procs</p><h3 id="proc/sort_movespeed_modlist"><aside class="declaration">proc </aside>sort_movespeed_modlist<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L153">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L153">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 153"/></a></aside>
         </h3>
         <p>Sort the list of move speed modifiers</p>
-<p>Verifies it too. Sorts highest priority (first applied) to lowest priority (last applied)</p><h3 id="proc/total_multiplicative_slowdown"><aside class="declaration">proc </aside>total_multiplicative_slowdown<aside>() 
+<p>Verifies it too. Sorts highest priority (first applied) to lowest priority (last applied)</p><h3 id="proc/temporarilyRemoveItemFromInventory"><aside class="declaration">proc </aside>temporarilyRemoveItemFromInventory<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/I, force) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L136">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L219">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 219"/></a></aside>
+        </h3>
+        <p>Removes an item on a mob's inventory.</p>
+<ul>
+<li>It does not change the item's loc, just unequips it from the mob.</li>
+<li>Used just before you want to delete the item, or moving it afterwards.</li>
+</ul><h3 id="proc/total_multiplicative_slowdown"><aside class="declaration">proc </aside>total_multiplicative_slowdown<aside>() 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L136">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 136"/></a></aside>
         </h3>
-        <p>Calculate the total slowdown of all movespeed modifiers</p><h3 id="proc/update_config_movespeed"><aside class="declaration">proc </aside>update_config_movespeed<aside>() 
+        <p>Calculate the total slowdown of all movespeed modifiers</p><h3 id="proc/transferItemToLoc"><aside class="declaration">proc </aside>transferItemToLoc<aside>(/<a href="obj.html">obj</a>/<a href="obj/item.html">item</a>/I, /<a href="atom.html">atom</a>/newloc, force) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L80">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/inventory.dm#L211">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;inventory.dm 211"/></a></aside>
+        </h3>
+        <p>For when the item will be immediately placed in a loc other than the ground.</p><h3 id="proc/update_config_movespeed"><aside class="declaration">proc </aside>update_config_movespeed<aside>() 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L80">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 80"/></a></aside>
         </h3>
         <p>Set or update the global movespeed config on a mob</p><h3 id="proc/update_mouse_pointer"><aside class="declaration">proc </aside>update_mouse_pointer<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L832">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 832"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L828">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 828"/></a></aside>
         </h3>
         <p>Update the mouse pointer of the attached client in this mob</p><h3 id="proc/update_movespeed"><aside class="declaration">proc </aside>update_movespeed<aside>(resort) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L98">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L98">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 98"/></a></aside>
         </h3>
         <p>Go through the list of movespeed modifiers and calculate a final movespeed</p><h3 id="proc/update_stat"><aside class="declaration">proc </aside>update_stat<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob.dm#L585">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 585"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob.dm#L581">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob.dm 581"/></a></aside>
         </h3>
         <p>Called to update the stat var, returns a boolean to indicate if it has been handled.</p><h3 id="proc/vv_edit_var">vv_edit_var<aside>(var_name, var_value) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/mob_movespeed.dm#L65">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/mob_movespeed.dm#L65">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;mob_movespeed.dm 65"/></a></aside>
         </h3>
         <p>Handles the special case of editing the movement var</p></main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/43da094f3ab794618e8cfa236ac9a7774c09d7b7">43da094</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/741a7feabaf242e71ae087e9d78366fdd98dc44c">741a7fe</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

@@ -16,7 +16,7 @@
 <h1>/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L1">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L1">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 1"/></a></h1>
 
 <table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
@@ -25,12 +25,14 @@
             <tr><th><a href="mob/living.html#var/cloneloss">cloneloss</a></th><td>Damage caused by being cloned or ejected from the cloner early</td></tr>
             <tr><th><a href="mob/living.html#var/drowsyness">drowsyness</a></th><td>Drowsyness amount. Reduces movespeed and if inhaling smoke with a sleep trait <a href="mob/living/carbon.html" title="/mob/living/carbon">/mob/living/carbon/inhale_smoke</a> will cause them to fall asleep.</td></tr>
             <tr><th><a href="mob/living.html#var/fireloss">fireloss</a></th><td>Burn damage caused by being way too hot, too cold or burnt.</td></tr>
+            <tr><th><a href="mob/living.html#var/hard_armor">hard_armor</a></th><td>Flat-damage-reduction-based armor.</td></tr>
             <tr><th><a href="mob/living.html#var/health">health</a></th><td>Mob's current health</td></tr>
             <tr><th><a href="mob/living.html#var/health_threshold_crit">health_threshold_crit</a></th><td>Health at which a mob goes into crit</td></tr>
             <tr><th><a href="mob/living.html#var/health_threshold_dead">health_threshold_dead</a></th><td>Health at which a mob dies</td></tr>
             <tr><th><a href="mob/living.html#var/maxHealth">maxHealth</a></th><td>Maximum health that should be possible.</td></tr>
             <tr><th><a href="mob/living.html#var/oxyloss">oxyloss</a></th><td>Oxygen depravation damage (no air in lungs)</td></tr>
             <tr><th><a href="mob/living.html#var/radiation">radiation</a></th><td>Radition amount. Radiation slowly converts into {toxloss|cloneloss} over time in <a href="mob/living/carbon/human.html" title="/mob/living/carbon/human">/mob/living/carbon/human/handle_mutations_and_radiation</a></td></tr>
+            <tr><th><a href="mob/living.html#var/soft_armor">soft_armor</a></th><td>%-reduction-based armor.</td></tr>
             <tr><th><a href="mob/living.html#var/staminaloss">staminaloss</a></th><td>Stamina damage caused by running to much, or specific toxins</td></tr>
             <tr><th><a href="mob/living.html#var/toxloss">toxloss</a></th><td>Toxic damage caused by being poisoned or radiation</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
             <tr><th><a href="mob/living.html#proc/IsAdminSleeping">IsAdminSleeping</a></th><td>ADMIN SLEEP</td></tr>
@@ -44,8 +46,16 @@
             <tr><th><a href="mob/living.html#proc/add_stun_absorption">add_stun_absorption</a></th><td>STUN ABSORPTION</td></tr>
             <tr><th><a href="mob/living.html#proc/apply_effect">apply_effect</a></th><td>Apply status effect to mob</td></tr>
             <tr><th><a href="mob/living.html#proc/handle_blood">handle_blood</a></th><td>BLOOD SYSTEM</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_fakedeath_trait_gain">on_fakedeath_trait_gain</a></th><td>Called when TRAIT_FAKEDEATH is added to the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_fakedeath_trait_loss">on_fakedeath_trait_loss</a></th><td>Called when TRAIT_FAKEDEATH is removed from the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_floored_trait_gain">on_floored_trait_gain</a></th><td>Called when TRAIT_FLOORED is added to the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_floored_trait_loss">on_floored_trait_loss</a></th><td>Called when TRAIT_FLOORED is removed from the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_immobile_trait_gain">on_immobile_trait_gain</a></th><td>Called when TRAIT_LEGLESS is added to the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_immobile_trait_loss">on_immobile_trait_loss</a></th><td>Called when TRAIT_LEGLESS is removed from the mob.</td></tr>
             <tr><th><a href="mob/living.html#proc/on_knockedout_trait_gain">on_knockedout_trait_gain</a></th><td>Called when TRAIT_KNOCKEDOUT is added to the mob.</td></tr>
             <tr><th><a href="mob/living.html#proc/on_knockedout_trait_loss">on_knockedout_trait_loss</a></th><td>Called when TRAIT_KNOCKEDOUT is removed from the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_legless_trait_gain">on_legless_trait_gain</a></th><td>Called when TRAIT_LEGLESS is added to the mob.</td></tr>
+            <tr><th><a href="mob/living.html#proc/on_legless_trait_loss">on_legless_trait_loss</a></th><td>Called when TRAIT_LEGLESS is removed from the mob.</td></tr>
             <tr><th><a href="mob/living.html#proc/register_init_signals">register_init_signals</a></th><td>Called on /mob/living/Initialize(), for the mob to register to relevant signals.</td></tr>
             <tr><th><a href="mob/living.html#proc/set_lying_angle">set_lying_angle</a></th><td>Changes the inclination angle of a mob, used by humans and others to differentiate between standing up and prone positions.</td></tr>
             <tr><th><a href="mob/living.html#proc/shared_living_ui_distance">shared_living_ui_distance</a></th><td>public</td></tr>
@@ -54,138 +64,150 @@
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L32">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 32"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L37">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 37"/></a></h3>
         <p>Brain damage caused by someone hitting you in the head with a bible or being infected with brainrot.</p><h3 id="var/bruteloss"><aside class="declaration">var </aside>bruteloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L20">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 20"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L25">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 25"/></a></h3>
         <p>Brutal damage caused by brute force (punching, being clubbed by a toolbox ect... this also accounts for pressure damage)</p><h3 id="var/cloneloss"><aside class="declaration">var </aside>cloneloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L30">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 30"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L35">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 35"/></a></h3>
         <p>Damage caused by being cloned or ejected from the cloner early</p><h3 id="var/drowsyness"><aside class="declaration">var </aside>drowsyness
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L36">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 36"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L41">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 41"/></a></h3>
         <p>Drowsyness amount. Reduces movespeed and if inhaling smoke with a sleep trait <a href="mob/living/carbon.html" title="/mob/living/carbon">/mob/living/carbon/inhale_smoke</a> will cause them to fall asleep.</p><h3 id="var/fireloss"><aside class="declaration">var </aside>fireloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L22">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 22"/></a></h3>
-        <p>Burn damage caused by being way too hot, too cold or burnt.</p><h3 id="var/health"><aside class="declaration">var </aside>health
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L27">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 27"/></a></h3>
+        <p>Burn damage caused by being way too hot, too cold or burnt.</p><h3 id="var/hard_armor"><aside class="declaration">var </aside>hard_armor
+            <aside>&ndash; /<a href="datum.html">datum</a>/armor</aside>
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L21">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 21"/></a></h3>
+        <p>Flat-damage-reduction-based armor.</p><h3 id="var/health"><aside class="declaration">var </aside>health
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L12">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L12">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 12"/></a></h3>
         <p>Mob's current health</p><h3 id="var/health_threshold_crit"><aside class="declaration">var </aside>health_threshold_crit
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L16">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L16">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 16"/></a></h3>
         <p>Health at which a mob goes into crit</p><h3 id="var/health_threshold_dead"><aside class="declaration">var </aside>health_threshold_dead
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L14">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L14">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 14"/></a></h3>
         <p>Health at which a mob dies</p><h3 id="var/maxHealth"><aside class="declaration">var </aside>maxHealth
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L10">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L10">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 10"/></a></h3>
         <p>Maximum health that should be possible.</p><h3 id="var/oxyloss"><aside class="declaration">var </aside>oxyloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L24">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 24"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L29">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 29"/></a></h3>
         <p>Oxygen depravation damage (no air in lungs)</p><h3 id="var/radiation"><aside class="declaration">var </aside>radiation
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L34">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 34"/></a></h3>
-        <p>Radition amount. Radiation slowly converts into {toxloss|cloneloss} over time in <a href="mob/living/carbon/human.html" title="/mob/living/carbon/human">/mob/living/carbon/human/handle_mutations_and_radiation</a></p><h3 id="var/staminaloss"><aside class="declaration">var </aside>staminaloss
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L39">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 39"/></a></h3>
+        <p>Radition amount. Radiation slowly converts into {toxloss|cloneloss} over time in <a href="mob/living/carbon/human.html" title="/mob/living/carbon/human">/mob/living/carbon/human/handle_mutations_and_radiation</a></p><h3 id="var/soft_armor"><aside class="declaration">var </aside>soft_armor
+            <aside>&ndash; /<a href="datum.html">datum</a>/armor</aside>
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L19">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 19"/></a></h3>
+        <p>%-reduction-based armor.</p><h3 id="var/staminaloss"><aside class="declaration">var </aside>staminaloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L28">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 28"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L33">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 33"/></a></h3>
         <p>Stamina damage caused by running to much, or specific toxins</p><h3 id="var/toxloss"><aside class="declaration">var </aside>toxloss
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defines.dm#L26">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 26"/></a></h3>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defines.dm#L31">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defines.dm 31"/></a></h3>
         <p>Toxic damage caused by being poisoned or radiation</p><h2 id="proc">Proc Details</h2><h3 id="proc/IsAdminSleeping"><aside class="declaration">proc </aside>IsAdminSleeping<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L221">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 221"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L249">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 249"/></a></aside>
         </h3>
         <p>ADMIN SLEEP</p><h3 id="proc/IsConfused"><aside class="declaration">proc </aside>IsConfused<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L287">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 287"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L321">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 321"/></a></aside>
         </h3>
         <p>CONFUSED</p><h3 id="proc/IsKnockdown"><aside class="declaration">proc </aside>IsKnockdown<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L57">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 57"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L63">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 63"/></a></aside>
         </h3>
         <p>KNOCKDOWN</p><h3 id="proc/IsParalyzed"><aside class="declaration">proc </aside>IsParalyzed<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L115">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 115"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L129">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 129"/></a></aside>
         </h3>
         <p>PARALYZED</p><h3 id="proc/IsSleeping"><aside class="declaration">proc </aside>IsSleeping<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L174">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 174"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L196">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 196"/></a></aside>
         </h3>
         <p>SLEEPING</p><h3 id="proc/IsStun"><aside class="declaration">proc </aside>IsStun<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L3">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L3">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 3"/></a></aside>
         </h3>
         <p>STUN</p><h3 id="proc/IsUnconscious"><aside class="declaration">proc </aside>IsUnconscious<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L241">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 241"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L269">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 269"/></a></aside>
         </h3>
         <p>UNCONSCIOUS</p><h3 id="proc/add_splatter_floor"><aside class="declaration">proc </aside>add_splatter_floor<aside>(/<a href="turf.html">turf</a>/T, small_drip, b_color) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/blood.dm#L340">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/blood.dm#L340">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;blood.dm 340"/></a></aside>
         </h3>
         <p>add_splatter_floor</p><h3 id="proc/add_stun_absorption"><aside class="declaration">proc </aside>add_stun_absorption<aside>(key, duration, priority, message, self_message, examine_message) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/status_procs.dm#L334">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 334"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/status_procs.dm#L374">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;status_procs.dm 374"/></a></aside>
         </h3>
         <p>STUN ABSORPTION</p><h3 id="proc/apply_effect"><aside class="declaration">proc </aside>apply_effect<aside>(effect, effecttype, blocked, updating_health) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/damage_procs.dm#L71">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/damage_procs.dm#L71">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;damage_procs.dm 71"/></a></aside>
         </h3>
         <p>Apply status effect to mob</p>
@@ -196,32 +218,80 @@ blocked {int} an amount of the effect that is blocked
 updating_health {boolean} if we should update health <a href="mob/living.html" title="/mob/living">/mob/living/updatehealth</a></p><h3 id="proc/handle_blood"><aside class="declaration">proc </aside>handle_blood<aside>() 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/blood.dm#L5">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/blood.dm#L5">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;blood.dm 5"/></a></aside>
         </h3>
-        <p>BLOOD SYSTEM</p><h3 id="proc/on_knockedout_trait_gain"><aside class="declaration">proc </aside>on_knockedout_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
+        <p>BLOOD SYSTEM</p><h3 id="proc/on_fakedeath_trait_gain"><aside class="declaration">proc </aside>on_fakedeath_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living.dm#L107">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living.dm 107"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L40">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 40"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_FAKEDEATH is added to the mob.</p><h3 id="proc/on_fakedeath_trait_loss"><aside class="declaration">proc </aside>on_fakedeath_trait_loss<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L44">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 44"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_FAKEDEATH is removed from the mob.</p><h3 id="proc/on_floored_trait_gain"><aside class="declaration">proc </aside>on_floored_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L49">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 49"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_FLOORED is added to the mob.</p><h3 id="proc/on_floored_trait_loss"><aside class="declaration">proc </aside>on_floored_trait_loss<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L57">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 57"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_FLOORED is removed from the mob.</p><h3 id="proc/on_immobile_trait_gain"><aside class="declaration">proc </aside>on_immobile_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L65">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 65"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_LEGLESS is added to the mob.</p><h3 id="proc/on_immobile_trait_loss"><aside class="declaration">proc </aside>on_immobile_trait_loss<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L69">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 69"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_LEGLESS is removed from the mob.</p><h3 id="proc/on_knockedout_trait_gain"><aside class="declaration">proc </aside>on_knockedout_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L20">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 20"/></a></aside>
         </h3>
         <p>Called when TRAIT_KNOCKEDOUT is added to the mob.</p><h3 id="proc/on_knockedout_trait_loss"><aside class="declaration">proc </aside>on_knockedout_trait_loss<aside>(/<a href="datum.html">datum</a>/source) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living.dm#L112">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living.dm 112"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L25">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 25"/></a></aside>
         </h3>
-        <p>Called when TRAIT_KNOCKEDOUT is removed from the mob.</p><h3 id="proc/register_init_signals"><aside class="declaration">proc </aside>register_init_signals<aside>() 
+        <p>Called when TRAIT_KNOCKEDOUT is removed from the mob.</p><h3 id="proc/on_legless_trait_gain"><aside class="declaration">proc </aside>on_legless_trait_gain<aside>(/<a href="datum.html">datum</a>/source) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living.dm#L101">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living.dm 101"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L31">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 31"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_LEGLESS is added to the mob.</p><h3 id="proc/on_legless_trait_loss"><aside class="declaration">proc </aside>on_legless_trait_loss<aside>(/<a href="datum.html">datum</a>/source) 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L35">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 35"/></a></aside>
+        </h3>
+        <p>Called when TRAIT_LEGLESS is removed from the mob.</p><h3 id="proc/register_init_signals"><aside class="declaration">proc </aside>register_init_signals<aside>() 
+        
+    
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/init_signals.dm#L2">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;init_signals.dm 2"/></a></aside>
         </h3>
         <p>Called on /mob/living/Initialize(), for the mob to register to relevant signals.</p><h3 id="proc/set_lying_angle"><aside class="declaration">proc </aside>set_lying_angle<aside>(new_lying) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living.dm#L781">
-        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living.dm 781"/></a></aside>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living.dm#L749">
+        <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living.dm 749"/></a></aside>
         </h3>
         <p>Changes the inclination angle of a mob, used by humans and others to differentiate between standing up and prone positions.</p>
 <p>In BYOND-angles 0 is NORTH, 90 is EAST, 180 is SOUTH and 270 is WEST.
@@ -230,7 +300,7 @@ Mobs that do now follow these conventions due to unusual sprites should require 
 The return of this proc is the previous value of the modified lying_angle if a change was successful (might include zero), or null if no change was made.</p><h3 id="proc/shared_living_ui_distance"><aside class="declaration">proc </aside>shared_living_ui_distance<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/src_object, viewcheck) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/tgui/states.dm#L91">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/tgui/states.dm#L91">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;states.dm 91"/></a></aside>
         </h3>
         <p>public</p>
@@ -239,7 +309,7 @@ The return of this proc is the previous value of the modified lying_angle if a c
 <p>return UI_state The state of the UI.</p><h3 id="proc/stun_effect_act"><aside class="declaration">proc </aside>stun_effect_act<aside>(stun_amount, agony_amount, def_zone) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/43da094f3ab794618e8cfa236ac9a7774c09d7b7/code/modules/mob/living/living_defense.dm#L30">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/741a7feabaf242e71ae087e9d78366fdd98dc44c/code/modules/mob/living/living_defense.dm#L30">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;mob&#x2F;living&#x2F;living_defense.dm 30"/></a></aside>
         </h3>
         <p>stun_effect_act(stun_amount, agony_amount, def_zone)</p>
@@ -250,7 +320,7 @@ agony_amount {int} dealt as HALLOSS damage to the def_zone
 def_zone {enum} which body part to target</p></main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/43da094f3ab794618e8cfa236ac9a7774c09d7b7">43da094</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/741a7feabaf242e71ae087e9d78366fdd98dc44c">741a7fe</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

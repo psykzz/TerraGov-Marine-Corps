@@ -89,7 +89,6 @@
 	name = "polished metal boots"
 	desc = "The perfect size to stomp on the scum of Detroit."
 	icon_state = "robocop_shoes"
-	armor = list("melee" = 87, "bullet" = 87, "laser" = 87, "energy" = 87, "bomb" = 87, "bio" = 50, "rad" = 50, "fire" = 87, "acid" = 87)
 	flags_inventory = CONDUCT|NOSLIPPING
 
 /obj/item/clothing/gloves/gimmick/robocop
@@ -97,7 +96,6 @@
 	desc = "The cold, unfeeling hands of the law."
 	icon_state = "robocop_gloves"
 	flags_atom = CONDUCT
-	armor = list("melee" = 87, "bullet" = 87, "laser" = 87, "energy" = 87, "bomb" = 87, "bio" = 50, "rad" = 50, "fire" = 87, "acid" = 87)
 
 /obj/item/clothing/head/helmet/gimmick/robocop
 	name = "polished metal helm"

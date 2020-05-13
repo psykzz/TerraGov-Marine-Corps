@@ -4,7 +4,7 @@
 	icon_state = "labcoat_open"
 	item_state = "labcoat" //Is this even used for anything?
 	blood_overlay_type = "coat"
-	flags_armor_protection = CHEST|ARMS
+	flags_armor_protection = CHEST|ARMS|HANDS
 	allowed = list(
 		/obj/item/analyzer,
 		/obj/item/stack/medical,

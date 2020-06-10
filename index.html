@@ -30,7 +30,7 @@ General Public License version 3.
 
 <h3 id="modules">Modules
 <aside>(16 modules,
-    72/4196 macros, 1.7%)</aside></h3>
+    72/4203 macros, 1.7%)</aside></h3>
 <ul class="index-tree">
     <li class="has-children"><span title="code">code</span><ul class="index-tree">
     <li class="has-children"><span title="code&#x2F;__DEFINES">__DEFINES</span><ul class="index-tree">
@@ -63,7 +63,7 @@ Thanks to forum_account for saving the day, the library can be found
 
 
 <h3 id="types">Types
-<aside>(81 detailed/196 documented/10986 total, 1.8%)</aside></h3>
+<aside>(94 detailed/217 documented/11049 total, 2%)</aside></h3>
 <ul class="index-tree">
     <li><a href="global.html" title="(global)">(global)</a></li>
     <li class="has-children"><span title="&#x2F;area">area</span><ul class="index-tree">
@@ -118,6 +118,7 @@ Thanks to forum_account for saving the day, the library can be found
     <li class="has-children"><a href="datum/element.html" title="&#x2F;datum&#x2F;element">element</a> - A holder for simple behaviour that can be attached to many different types<ul class="index-tree">
     <li><a href="datum/element/undertile.html" title="&#x2F;datum&#x2F;element&#x2F;undertile">undertile</a> - Add to an object if you want to be able to be hidden under tiles</li>
     </ul></li>
+    <li><a href="datum/hive_status.html" title="&#x2F;datum&#x2F;hive_status">Normal</a></li>
     <li class="has-children"><span class="no-substance" title="&#x2F;datum&#x2F;internal_organ">organ</span> - INTERNAL ORGANS<ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;datum&#x2F;internal_organ&#x2F;heart">heart</span> - INTERNAL ORGANS TYPES</li>
     </ul></li>
@@ -203,6 +204,23 @@ and don't call start() in a loop that will be repeated otherwise it'll get spamm
     </ul></li>
     </ul></li>
     <li class="has-children"><a href="obj/item.html" title="&#x2F;obj&#x2F;item">item</a><ul class="index-tree">
+    <li class="has-children"><a href="obj/item/armor_module.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module">armor module</a> - Core armor module<ul class="index-tree">
+    <li class="has-children"><a href="obj/item/armor_module/armor.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;armor">modular armor - armor module</a> - Modular armor pieces<ul class="index-tree">
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;armor&#x2F;arms">arms</span> - Arms pieces</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;armor&#x2F;chest">chest</span> - Chest pieces</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;armor&#x2F;legs">legs</span> - Legs pieces</li>
+    </ul></li>
+    <li class="has-children"><a href="obj/item/armor_module/attachable.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable">attachable</a><ul class="index-tree">
+    <li><a href="obj/item/armor_module/attachable/better_shoulder_lamp.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable&#x2F;better_shoulder_lamp">Baldur Light Amplification System</a> - Shoulder lamp strength module</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable&#x2F;fire_proof">Surt Pyrotechnical Insulation System</span> - Fire poof module</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable&#x2F;mimir_environment_protection">Mimir Environmental Resistance System</span> - Environment protecttion module</li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable&#x2F;tyr_extra_armor">Tyr Armor Reinforcement</span> - Extra armor module</li>
+    <li><a href="obj/item/armor_module/attachable/valkyrie_autodoc.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;attachable&#x2F;valkyrie_autodoc">Valkyrie Automedical Armor System</a> - Mini autodoc module</li>
+    </ul></li>
+    <li class="has-children"><a href="obj/item/armor_module/storage.html" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;storage">storage</a> - Modular armor storage storage attachments<ul class="index-tree">
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;armor_module&#x2F;storage&#x2F;general">General Purpose Storage module</span> - General storage</li>
+    </ul></li>
+    </ul></li>
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;attachable">attachable</span><ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;attachable&#x2F;attached_gun">attached_gun</span> - Underbarrel Attachments</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;attachable&#x2F;reddot">red-dot sight</span> - Rail attachments</li>
@@ -210,8 +228,12 @@ and don't call start() in a loop that will be repeated otherwise it'll get spamm
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;attachable&#x2F;suppressor">suppressor</span> - Muzzle Attachments</li>
     </ul></li>
     <li><span class="no-substance">book&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;book&#x2F;manual">manual</span> - MANUALS (BOOKS)</li>
-    <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing">clothing</span><ul class="index-tree">
-    <li><span class="no-substance">suit&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;suit&#x2F;apron">apron</span> - Job related clothing</li>
+    <li class="has-children"><a href="obj/item/clothing.html" title="&#x2F;obj&#x2F;item&#x2F;clothing">clothing</a><ul class="index-tree">
+    <li><span class="no-substance">head&#x2F;</span><a href="obj/item/clothing/head/modular.html" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;head&#x2F;modular">Jaeger Pattern Helmet</a> - Core helmet module</li>
+    <li class="has-children"><a href="obj/item/clothing/suit.html" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;suit">suit</a><ul class="index-tree">
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;suit&#x2F;apron">apron</span> - Job related clothing</li>
+    <li><a href="obj/item/clothing/suit/modular.html" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;suit&#x2F;modular">Jaeger XM-02 combat exoskeleton</a> - Modular armor</li>
+    </ul></li>
     <li><span class="no-substance">under&#x2F;</span><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;clothing&#x2F;under&#x2F;pizza">pizza delivery uniform</span> - Civilians</li>
     </ul></li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;coin">Coin</span> - Coin</li>
@@ -224,6 +246,9 @@ and don't call start() in a loop that will be repeated otherwise it'll get spamm
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;flashlight">flashlight</span><ul class="index-tree">
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;flashlight&#x2F;combat">combat flashlight</span> - Marine Gear</li>
     <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;flashlight&#x2F;lantern">lantern</span> - Lantern</li>
+    </ul></li>
+    <li class="has-children"><a href="obj/item/helmet_module.html" title="&#x2F;obj&#x2F;item&#x2F;helmet_module">helmet module</a> - Core helmet module<ul class="index-tree">
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;helmet_module&#x2F;welding">welding thing</span> - Helmet attachments</li>
     </ul></li>
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;mecha_parts">mecha part</span> - Mecha Parts<ul class="index-tree">
     <li class="has-children"><span class="no-substance" title="&#x2F;obj&#x2F;item&#x2F;mecha_parts&#x2F;chassis">chassis</span><ul class="index-tree">
@@ -307,9 +332,10 @@ TO-DO -- Using it as a power measurement tool for cables etc. Nannek.</li>
     <li><a href="obj/machinery/status_display.html" title="&#x2F;obj&#x2F;machinery&#x2F;status_display">status display</a> - Status display which can show images and scrolling text.</li>
     <li class="has-children"><span title="&#x2F;obj&#x2F;machinery&#x2F;vending">vending</span><ul class="index-tree">
     <li><a href="obj/machinery/vending/boozeomat.html" title="&#x2F;obj&#x2F;machinery&#x2F;vending&#x2F;boozeomat">Booze-O-Mat</a></li>
-    <li><span class="no-substance" title="&#x2F;obj&#x2F;machinery&#x2F;vending&#x2F;marine">ColMarTech Automated Weapons rack</span> - <strong><strong><strong>MARINE VENDOR</strong></strong></strong></li>
+    <li><span class="no-substance" title="&#x2F;obj&#x2F;machinery&#x2F;vending&#x2F;marine">\improper Automated Weapons Rack</span> - <strong><strong><strong>MARINE VENDOR</strong></strong></strong></li>
     </ul></li>
     </ul></li>
+    <li><a href="obj/projectile.html" title="&#x2F;obj&#x2F;projectile">projectile</a></li>
     <li class="has-children"><span title="&#x2F;obj&#x2F;structure">structure</span><ul class="index-tree">
     <li><span class="no-substance">alien&#x2F;</span><a href="obj/structure/alien/weeds.html" title="&#x2F;obj&#x2F;structure&#x2F;alien&#x2F;weeds">weeds</a></li>
     <li><span class="no-substance">bed&#x2F;chair&#x2F;</span><a href="obj/structure/bed/chair/janicart.html" title="&#x2F;obj&#x2F;structure&#x2F;bed&#x2F;chair&#x2F;janicart">janicart</a> - old style janicart</li>
@@ -362,7 +388,7 @@ TO-DO -- Using it as a power measurement tool for cables etc. Nannek.</li>
 </main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/ecd6c975d2db44c28bc03b6975535b73b5b01762">ecd6c97</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/199474e9c952f23f10443cbe3d328a452678b69e">199474e</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

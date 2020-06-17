@@ -55,11 +55,11 @@
 #define issynth(H) (is_species(H, /datum/species/synthetic) || is_species(H, /datum/species/early_synthetic))
 #define isspeciessynthetic(H) (H.species.species_flags & IS_SYNTHETIC)
 #define ismoth(H) (is_species(H, /datum/species/moth))
+#define issectoid(H) (is_species(H, /datum/species/sectoid))
 #define ishumanbasic(H) (is_species(H, /datum/species/human))
 
 //Job/role helpers
 #define ismarinefaction(H) (H.faction == "TerraGov")
-#define ispolicejob(J) (istype(J, /datum/job/terragov/police))
 #define ismedicaljob(J) (istype(J, /datum/job/terragov/medical))
 #define isengineeringjob(J) (istype(J, /datum/job/terragov/engineering))
 #define ismarinejob(J) (istype(J, /datum/job/terragov/squad))

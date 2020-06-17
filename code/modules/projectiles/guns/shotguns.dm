@@ -259,6 +259,49 @@ can cause issues with ammo types getting mixed up during the burst.
 		to_chat(user, "It has a chambered round.")
 
 //-------------------------------------------------------
+//T-39 semi automatic shotgun. Used by marines.
+
+/obj/item/weapon/gun/shotgun/combat/standardmarine
+	name = "\improper T-39 combat shotgun"
+	desc = "The T-39 combat shotgun is a semi automatic shotgun used by breachers. Uses 12 gauge shells."
+	force = 20 //Has a stock already
+	flags_equip_slot = ITEM_SLOT_BACK
+	icon = 'icons/Marine/gun64.dmi'
+	icon_state = "t39"
+	item_state = "t39"
+	fire_sound = 'sound/weapons/guns/fire/shotgun_automatic.ogg'
+	flags_gun_features = GUN_CAN_POINTBLANK|GUN_INTERNAL_MAG|GUN_SHOTGUN_CHAMBER|GUN_AMMO_COUNTER
+	current_mag = /obj/item/ammo_magazine/internal/shotgun/combat
+	attachable_allowed = list(
+						/obj/item/attachable/bayonet,
+						/obj/item/attachable/bayonetknife,
+						/obj/item/attachable/reddot,
+						/obj/item/attachable/verticalgrip,
+						/obj/item/attachable/angledgrip,
+						/obj/item/attachable/gyro,
+						/obj/item/attachable/flashlight,
+						/obj/item/attachable/extended_barrel,
+						/obj/item/attachable/heavy_barrel,
+						/obj/item/attachable/compensator,
+						/obj/item/attachable/magnetic_harness,
+						/obj/item/attachable/attached_gun/flamer,
+						/obj/item/attachable/attached_gun/shotgun)
+
+	attachable_offset = list("muzzle_x" = 41, "muzzle_y" = 20,"rail_x" = 18, "rail_y" = 20, "under_x" = 23, "under_y" = 12, "stock_x" = 13, "stock_y" = 14)
+	starting_attachment_types = list(/obj/item/attachable/stock/t39stock)
+
+	fire_delay = 14 //one shot every 1.4 seconds.
+	accuracy_mult = 1.20
+	accuracy_mult_unwielded = 0.65
+	scatter = 10
+	scatter_unwielded = 30
+	damage_mult = 0.7  //30% less damage. Faster firerate.
+	recoil = 0 //It has a stock on the sprite.
+	recoil_unwielded = 2
+	aim_slowdown = 0.6
+	wield_delay = 1 SECONDS
+
+//-------------------------------------------------------
 //DOUBLE SHOTTY
 
 /obj/item/weapon/gun/shotgun/double
@@ -408,6 +451,7 @@ can cause issues with ammo types getting mixed up during the burst.
 	var/pump_lock = FALSE //Modern shotguns normally lock after being pumped; this lock is undone by pumping or operating the slide release i.e. unloading a shell manually.
 	attachable_allowed = list(
 						/obj/item/attachable/bayonet,
+						/obj/item/attachable/bayonetknife,
 						/obj/item/attachable/reddot,
 						/obj/item/attachable/verticalgrip,
 						/obj/item/attachable/angledgrip,
@@ -597,6 +641,7 @@ can cause issues with ammo types getting mixed up during the burst.
 	attachable_allowed = list(
 						/obj/item/attachable/reddot,
 						/obj/item/attachable/scope/mini,
+						/obj/item/attachable/bayonetknife,
 						/obj/item/attachable/scope,
 						/obj/item/attachable/flashlight,
 						/obj/item/attachable/bayonet)
@@ -741,6 +786,7 @@ can cause issues with ammo types getting mixed up during the burst.
 	max_shells = 9
 	attachable_allowed = list(
 						/obj/item/attachable/bayonet,
+						/obj/item/attachable/bayonetknife,
 						/obj/item/attachable/reddot,
 						/obj/item/attachable/verticalgrip,
 						/obj/item/attachable/angledgrip,
@@ -765,6 +811,7 @@ can cause issues with ammo types getting mixed up during the burst.
 	scatter_unwielded = 40
 	recoil = 2
 	recoil_unwielded = 4
+	aim_slowdown = 0.55
 	pump_delay = 14
 
 //buckshot variants

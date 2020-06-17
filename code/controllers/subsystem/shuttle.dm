@@ -17,11 +17,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/obj/docking_port/mobile/crashmode/canterbury = null
 
 	var/obj/docking_port/mobile/supply/supply
-	var/ordernum = 1					//order number given to next order
 
-	var/list/supply_packs = list()
-	var/list/shoppinglist = list()
-	var/list/requestlist = list()
 	var/list/orderhistory = list()
 
 	var/list/crash_targets = list()
@@ -45,16 +41,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/datum/turf_reservation/preview_reservation
 
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
-	ordernum = rand(1, 9000)
-
-	for(var/pack in subtypesof(/datum/supply_packs))
-		var/datum/supply_packs/P = new pack()
-		if(!P.contains)
-			continue
-		supply_packs[P.name] = P
-
 	initial_load()
-
 	return ..()
 
 /datum/controller/subsystem/shuttle/proc/initial_load()
@@ -96,6 +83,7 @@ SUBSYSTEM_DEF(shuttle)
 				else
 					var/obj/docking_port/mobile/M = requester
 					M.transit_failure()
+					log_debug("[M.id] failed to get a transit zone")
 			if(MC_TICK_CHECK)
 				break
 
@@ -199,6 +187,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/datum/turf_reservation/proposal = SSmapping.RequestBlockReservation(transit_width, transit_height, null, /datum/turf_reservation/transit, transit_path)
 
 	if(!istype(proposal))
+		log_debug("generate_transit_dock() failed to get a block reservation from mapping system")
 		return FALSE
 
 	var/turf/bottomleft = locate(proposal.bottom_left_coords[1], proposal.bottom_left_coords[2], proposal.bottom_left_coords[3])
@@ -225,6 +214,7 @@ SUBSYSTEM_DEF(shuttle)
 
 	var/turf/midpoint = locate(transit_x, transit_y, bottomleft.z)
 	if(!midpoint)
+		log_debug("generate_transit_dock() failed to get a midpoint")
 		return FALSE
 	var/area/shuttle/transit/A = new()
 	//A.parallax_movedir = travel_dir
@@ -258,14 +248,8 @@ SUBSYSTEM_DEF(shuttle)
 	if (istype(SSshuttle.canterbury))
 		canterbury = SSshuttle.canterbury
 
-	if (istype(SSshuttle.shoppinglist))
-		shoppinglist = SSshuttle.shoppinglist
-	if (istype(SSshuttle.requestlist))
-		requestlist = SSshuttle.requestlist
 	if (istype(SSshuttle.orderhistory))
 		orderhistory = SSshuttle.orderhistory
-
-	ordernum = SSshuttle.ordernum
 
 	lockdown = SSshuttle.lockdown
 
@@ -456,7 +440,7 @@ SUBSYSTEM_DEF(shuttle)
 /datum/controller/subsystem/shuttle/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "shuttle_manipulator", name, 800, 600, master_ui, state)
+		ui = new(user, src, ui_key, "ShuttleManipulator", name, 800, 600, master_ui, state)
 		ui.open()
 
 

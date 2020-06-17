@@ -14,7 +14,7 @@
  &mdash; <a href="code/__DEFINES/dcs/signals.html#define">Define Details</a></header>
 <main>
 <h1>code/__DEFINES/dcs/signals.dm 
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm"/></a></h1>
 
 <table class="summary" cellspacing="0">
@@ -25,6 +25,7 @@
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_PARENT_PREQDELETED">COMSIG_PARENT_PREQDELETED</a></th><td>before a datum's Destroy() is called: (force), returning a nonzero value will cancel the qdel operation</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_PARENT_QDELETING">COMSIG_PARENT_QDELETING</a></th><td>just before a datum's Destroy() is called: (force), at this point none of the other components chose to interrupt qdel and Destroy will be called</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_TOPIC">COMSIG_TOPIC</a></th><td>generic topic handler (usr, href_list)</td></tr>
+        <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_COMBAT_LOG">COMSIG_COMBAT_LOG</a></th><td>generic topic handler (usr, href_list)</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_ELEMENT_ATTACH">COMSIG_ELEMENT_ATTACH</a></th><td>fires on the target datum when an element is attached to it (/datum/element)</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_ELEMENT_DETACH">COMSIG_ELEMENT_DETACH</a></th><td>fires on the target datum when an element is attached to it  (/datum/element)</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_ATOM_BUMPED">COMSIG_ATOM_BUMPED</a></th><td>from base of atom/Bumped(): (/atom/movable)</td></tr>
@@ -34,69 +35,73 @@
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/COMSIG_XENO_LIVING_THROW_HIT">COMSIG_XENO_LIVING_THROW_HIT</a></th><td>from <a href="mob/living/carbon/xenomorph.html" title="/mob/living/carbon/xenomorph">/mob/living/carbon/xenomorph/throw_impact</a>: (mob/living/target)</td></tr>
         <tr><th><a href="code/__DEFINES/dcs/signals.html#define/REDIRECT_TRANSFER_WITH_TURF">REDIRECT_TRANSFER_WITH_TURF</a></th><td>Non-Signal Component Related Defines</td></tr></table><h2 id="define">Define Details</h2>
 <h3 id="define/COMSIG_ATOM_BUMPED"><aside class="declaration">#define </aside>COMSIG_ATOM_BUMPED
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L99">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 99"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L103">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 103"/></a>
     </h3>
-    <p>from base of atom/Bumped(): (/atom/movable)</p><h3 id="define/COMSIG_COMPONENT_ADDED"><aside class="declaration">#define </aside>COMSIG_COMPONENT_ADDED
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L33">
+    <p>from base of atom/Bumped(): (/atom/movable)</p><h3 id="define/COMSIG_COMBAT_LOG"><aside class="declaration">#define </aside>COMSIG_COMBAT_LOG
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L44">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 44"/></a>
+    </h3>
+    <p>generic topic handler (usr, href_list)</p><h3 id="define/COMSIG_COMPONENT_ADDED"><aside class="declaration">#define </aside>COMSIG_COMPONENT_ADDED
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L33">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 33"/></a>
     </h3>
     <p>when a component is added to a datum: (/datum/component)</p><h3 id="define/COMSIG_COMPONENT_REMOVING"><aside class="declaration">#define </aside>COMSIG_COMPONENT_REMOVING
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L35">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L35">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 35"/></a>
     </h3>
     <p>before a component is removed from a datum because of RemoveComponent: (/datum/component)</p><h3 id="define/COMSIG_ELEMENT_ATTACH"><aside class="declaration">#define </aside>COMSIG_ELEMENT_ATTACH
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L44">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 44"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L48">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 48"/></a>
     </h3>
     <p>fires on the target datum when an element is attached to it (/datum/element)</p><h3 id="define/COMSIG_ELEMENT_DETACH"><aside class="declaration">#define </aside>COMSIG_ELEMENT_DETACH
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L46">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 46"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L50">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 50"/></a>
     </h3>
     <p>fires on the target datum when an element is attached to it  (/datum/element)</p><h3 id="define/COMSIG_GLOB_DROPSHIP_TRANSIT"><aside class="declaration">#define </aside>COMSIG_GLOB_DROPSHIP_TRANSIT
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L27">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L27">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 27"/></a>
     </h3>
     <p>Sent when a marine dropship enters transit level</p><h3 id="define/COMSIG_GLOB_EXPLOSION"><aside class="declaration">#define </aside>COMSIG_GLOB_EXPLOSION
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L19">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L19">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 19"/></a>
     </h3>
     <p>called after an explosion happened : (epicenter, devastation_range, heavy_impact_range, light_impact_range, took, orig_dev_range, orig_heavy_range, orig_light_range)</p><h3 id="define/COMSIG_OBJ_HIDE"><aside class="declaration">#define </aside>COMSIG_OBJ_HIDE
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L156">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 156"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L160">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 160"/></a>
     </h3>
     <p>from base of /turf/proc/levelupdate(). (intact) true to hide and false to unhide</p><h3 id="define/COMSIG_PARENT_PREQDELETED"><aside class="declaration">#define </aside>COMSIG_PARENT_PREQDELETED
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L37">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L37">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 37"/></a>
     </h3>
     <p>before a datum's Destroy() is called: (force), returning a nonzero value will cancel the qdel operation</p><h3 id="define/COMSIG_PARENT_QDELETING"><aside class="declaration">#define </aside>COMSIG_PARENT_QDELETING
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L39">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L39">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 39"/></a>
     </h3>
     <p>just before a datum's Destroy() is called: (force), at this point none of the other components chose to interrupt qdel and Destroy will be called</p><h3 id="define/COMSIG_TOPIC"><aside class="declaration">#define </aside>COMSIG_TOPIC
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L41">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L41">
         <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 41"/></a>
     </h3>
     <p>generic topic handler (usr, href_list)</p><h3 id="define/COMSIG_XENO_LIVING_THROW_HIT"><aside class="declaration">#define </aside>COMSIG_XENO_LIVING_THROW_HIT
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L331">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 331"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L334">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 334"/></a>
     </h3>
     <p>from <a href="mob/living/carbon/xenomorph.html" title="/mob/living/carbon/xenomorph">/mob/living/carbon/xenomorph/throw_impact</a>: (mob/living/target)</p><h3 id="define/COMSIG_XENO_NONE_THROW_HIT"><aside class="declaration">#define </aside>COMSIG_XENO_NONE_THROW_HIT
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L330">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 330"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L333">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 333"/></a>
     </h3>
     <p>from <a href="mob/living/carbon/xenomorph.html" title="/mob/living/carbon/xenomorph">/mob/living/carbon/xenomorph/throw_impact</a>: ()</p><h3 id="define/COMSIG_XENO_OBJ_THROW_HIT"><aside class="declaration">#define </aside>COMSIG_XENO_OBJ_THROW_HIT
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L329">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 329"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L332">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 332"/></a>
     </h3>
     <p>from <a href="mob/living/carbon/xenomorph.html" title="/mob/living/carbon/xenomorph">/mob/living/carbon/xenomorph/throw_impact</a>: (obj/target, speed)</p><h3 id="define/REDIRECT_TRANSFER_WITH_TURF"><aside class="declaration">#define </aside>REDIRECT_TRANSFER_WITH_TURF
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/4eacc77ea653a53b19a3c4849a483dce801ab53f/code/__DEFINES/dcs/signals.dm#L488">
-        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 488"/></a>
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/__DEFINES/dcs/signals.dm#L492">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;dcs&#x2F;signals.dm 492"/></a>
     </h3>
     <p>Non-Signal Component Related Defines</p></main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/4eacc77ea653a53b19a3c4849a483dce801ab53f">4eacc77</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/6956acbb957f44612a0e0587900b9f078aa6e073">6956acb</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

@@ -52,7 +52,7 @@ What you lack alone, you gain standing shoulder to shoulder with the men and wom
 	w_uniform = /obj/item/clothing/under/marine
 	wear_suit = /obj/item/clothing/suit/storage/marine/harness
 	shoes = /obj/item/clothing/shoes/marine
-	gloves =/obj/item/clothing/gloves/marine
+	gloves = /obj/item/clothing/gloves/marine/insulated
 	l_store = /obj/item/storage/pouch/firstaid/full
 	r_hand = /obj/item/portable_vendor/marine/squadmarine
 

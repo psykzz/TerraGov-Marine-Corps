@@ -12,7 +12,7 @@
 	density = TRUE
 	anchored = TRUE
 	use_power = NO_POWER_USE
-	interaction_flags = INTERACT_MACHINE_NANO
+	interaction_flags = INTERACT_MACHINE_TGUI
 	var/capacity = 5e5		//Maximum amount of power it can hold
 	var/charge = 1e5		//Current amount of power it holds
 
@@ -62,6 +62,9 @@
 	if(terminal)
 		disconnect_terminal()
 	. = ..()
+
+/obj/machinery/power/smes/should_have_node()
+	return TRUE
 
 /obj/machinery/power/smes/update_icon()
 	overlays.Cut()
@@ -374,7 +377,7 @@
 			var/datum/effect_system/smoke_spread/smoke = new(src)
 			smoke.set_up(1, loc)
 			smoke.start()
-			explosion(src.loc, -1, 0, 1, 3, 1, 0)
+			explosion(loc, light_impact_range = 2, flash_range = 3)
 			qdel(src)
 			return
 		if(prob(15)) //Power drain

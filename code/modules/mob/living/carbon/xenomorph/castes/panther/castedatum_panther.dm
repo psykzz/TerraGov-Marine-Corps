@@ -20,7 +20,7 @@
 	tackle_damage = 33
 
 	// *** Speed *** //
-	speed = 0.5
+	speed = -0.8
 
 	// *** Plasma *** //
 	plasma_max = 100
@@ -39,7 +39,7 @@
 	caste_flags = CASTE_CAN_BE_QUEEN_HEALED|CASTE_EVOLUTION_ALLOWED|CASTE_CAN_VENT_CRAWL|CASTE_CAN_BE_GIVEN_PLASMA|CASTE_CAN_BE_LEADER
 
 	// *** Defense *** //
-	armor = list("melee" = 10, "bullet" = 10, "laser" = 10, "energy" = 5, "bomb" = XENO_BOMB_RESIST_0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	soft_armor = list("melee" = 10, "bullet" = 10, "laser" = 10, "energy" = 5, "bomb" = XENO_BOMB_RESIST_0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 
 	// *** Ranged Attack *** //
 	charge_type = CHARGE_TYPE_PANTHER
@@ -51,6 +51,7 @@
 		/datum/action/xeno_action/regurgitate,
 		/datum/action/xeno_action/xenohide,
 		/datum/action/xeno_action/activable/pounce/panther,
+		/datum/action/xeno_action/activable/neurotox_sting/panther,
 		)
 
 /datum/xeno_caste/panther/young
@@ -85,7 +86,7 @@
 	upgrade_threshold = 100
 
 	// *** Defense *** //
-	armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = XENO_BOMB_RESIST_0, "bio" = 3, "rad" = 3, "fire" = 3, "acid" = 3)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = XENO_BOMB_RESIST_0, "bio" = 3, "rad" = 3, "fire" = 3, "acid" = 3)
 
 	// *** Ranged Attack *** //
 	pounce_delay = 35.0 SECONDS
@@ -117,7 +118,7 @@
 	upgrade_threshold = 200
 
 	// *** Defense *** //
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = XENO_BOMB_RESIST_0, "bio" = 5, "rad" = 5, "fire" = 5, "acid" = 5)
+	soft_armor = list("melee" = 20, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = XENO_BOMB_RESIST_0, "bio" = 5, "rad" = 5, "fire" = 5, "acid" = 5)
 
 	// *** Ranged Attack *** //
 	pounce_delay = 45.0 SECONDS
@@ -150,7 +151,7 @@
 	upgrade_threshold = 200
 
 	// *** Defense *** //
-	armor = list("melee" = 24, "bullet" = 24, "laser" = 24, "energy" = 124, "bomb" = XENO_BOMB_RESIST_0, "bio" = 7, "rad" = 7, "fire" = 7, "acid" = 7)
+	soft_armor = list("melee" = 24, "bullet" = 24, "laser" = 24, "energy" = 124, "bomb" = XENO_BOMB_RESIST_0, "bio" = 7, "rad" = 7, "fire" = 7, "acid" = 7)
 
 	// *** Ranged Attack *** //
 	pounce_delay = 35.0 SECONDS

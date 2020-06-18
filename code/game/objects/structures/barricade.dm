@@ -179,13 +179,13 @@
 
 /obj/structure/barricade/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			visible_message("<span class='danger'>[src] is blown apart!</span>")
 			deconstruct(FALSE)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(33, 66))
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(10, 33))
 	update_icon()
 
@@ -606,11 +606,11 @@
 
 /obj/structure/barricade/metal/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(rand(400, 600))
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(150, 350))
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(50, 100))
 
 	update_icon()
@@ -861,11 +861,11 @@
 
 /obj/structure/barricade/plasteel/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(rand(450, 650))
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(200, 400))
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(50, 150))
 
 	update_icon()

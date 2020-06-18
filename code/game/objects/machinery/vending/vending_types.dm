@@ -127,12 +127,23 @@
 
 /obj/machinery/vending/cigarette
 	name = "cigarette machine" //OCD had to be uppercase to look nice with the new formating
-	desc = "If you want to get cancer, might as well do it in style!"
-	product_slogans = "L.S./M.F.T.! Lucky Strikes Means Fine Tobacco.;For a classic style that lights up every time, there's always Zippo!;The FDA would like to remind you that tobacco products cause cancer and increased fatigue.;Real men smoke Lucky Strikes!;Serving the US Armed Forces for over two-hundred years!;Life's short, smoke a Lucky!;L.S./M.F.T.!;Lucky Strike is first again!;You just can't beat a Lucky Strike!;The preferred cigarette of Carlos Hathcock!;First again with tobacco-men!"
-	product_ads = "Real men smoke Lucky Strikes!;Serving the US Armed Forces for over two-hundred years!;Life's short, smoke a Lucky!;L.S./M.F.T.!;Lucky Strike is first again!;You just can't beat a Lucky Strike!;The preferred cigarette of Carlos Hathcock!;First again with tobacco-men!"
+	desc = "A specialized vending machine designed to contribute to your slow and uncomfortable death."
+	product_slogans = "There's no better time to start smokin'.;\
+		Smoke now, and win the adoration of your peers.;\
+		They beat cancer centuries ago, so smoke away.;\
+		If you're not smoking, you must be joking."
+	product_ads = "Probably not bad for you!;\
+		Don't believe the scientists!;\
+		It's good for you!;\
+		Don't quit, buy more!;\
+		Smoke!;\
+		Nicotine heaven.;\
+		Best cigarettes since 2150.;\
+		Don't be so hard on yourself, kid. Smoke a Lucky Star!;\
+		Professionals. Better cigarettes for better people. Yes, better people."
 	vend_delay = 14
 	icon_state = "cigs"
-	products = list(/obj/item/storage/fancy/cigarettes/lucky_strikes = 50,
+	products = list(/obj/item/storage/fancy/cigarettes/luckystars = 50,
 					/obj/item/storage/box/matches = 15,
 					/obj/item/tool/lighter/random = 25,
 					/obj/item/tool/lighter/zippo = 10)
@@ -140,7 +151,7 @@
 	contraband = list(/obj/item/clothing/mask/cigarette/cigar/havana = 5)
 
 	premium = list(/obj/item/storage/fancy/cigar = 25)
-	prices = list(/obj/item/storage/fancy/cigarettes/lucky_strikes = 15,
+	prices = list(/obj/item/storage/fancy/cigarettes/luckystars = 15,
 					/obj/item/storage/box/matches = 1,
 					/obj/item/tool/lighter/random = 2,
 					/obj/item/tool/lighter/zippo = 20,
@@ -188,6 +199,7 @@
 					/obj/item/reagent_containers/glass/bottle/oxycodone = 4,
 					/obj/item/reagent_containers/glass/bottle/polyhexanide = 2,
 					/obj/item/reagent_containers/glass/bottle/neurotoxin = 1,
+					/obj/item/reagent_containers/glass/bottle/xeno_growthtoxin = 1,
 					/obj/item/storage/pill_bottle/peridaxon = 2,
 					/obj/item/stack/medical/advanced/bruise_pack = 5,
 					/obj/item/stack/medical/advanced/ointment = 5,
@@ -321,7 +333,7 @@
 	desc = "Tools for tools."
 	icon_state = "tool"
 	icon_deny = "tool-deny"
-	products = list(/obj/item/stack/cable_coil/random = 10,/obj/item/tool/crowbar = 5,/obj/item/tool/weldingtool = 3,/obj/item/tool/wirecutters = 5,
+	products = list(/obj/item/stack/cable_coil = 10,/obj/item/tool/crowbar = 5,/obj/item/tool/weldingtool = 3,/obj/item/tool/wirecutters = 5,
 					/obj/item/tool/wrench = 5,/obj/item/analyzer = 5,/obj/item/t_scanner = 5,/obj/item/tool/screwdriver = 5)
 	contraband = list(/obj/item/tool/weldingtool/hugetank = 2,/obj/item/clothing/gloves/fyellow = 2)
 	premium = list(/obj/item/clothing/gloves/yellow = 1)

@@ -23,7 +23,7 @@
 	plasma_gain = 20
 
 	// *** Health *** //
-	max_health = 260
+	max_health = 240
 
 	// *** Evolution *** //
 	upgrade_threshold = 250
@@ -34,7 +34,7 @@
 	caste_flags = CASTE_CAN_BE_QUEEN_HEALED|CASTE_CAN_BE_GIVEN_PLASMA|CASTE_CAN_BE_LEADER
 
 	// *** Defense *** //
-	armor = list("melee" = 35, "bullet" = 40, "laser" = 30, "energy" = 30, "bomb" = XENO_BOMB_RESIST_1, "bio" = 30, "rad" = 30, "fire" = 15, "acid" = 30)
+	soft_armor = list("melee" = 35, "bullet" = 40, "laser" = 30, "energy" = 30, "bomb" = XENO_BOMB_RESIST_1, "bio" = 30, "rad" = 30, "fire" = 15, "acid" = 30)
 
 	// *** Ranged Attack *** //
 	charge_type = CHARGE_TYPE_LARGE
@@ -65,20 +65,20 @@
 	tackle_damage = 40
 
 	// *** Speed *** //
-	speed = -0.6
+	speed = -0.8
 
 	// *** Plasma *** //
 	plasma_max = 500 //Enables using either both abilities at once or one after another
 	plasma_gain = 30
 
 	// *** Health *** //
-	max_health = 280
+	max_health = 260
 
 	// *** Evolution *** //
 	upgrade_threshold = 500
 
 	// *** Defense *** //
-	armor = list("melee" = 40, "bullet" = 45, "laser" = 40, "energy" = 40, "bomb" = XENO_BOMB_RESIST_1, "bio" = 35, "rad" = 35, "fire" = 20, "acid" = 35)
+	soft_armor = list("melee" = 40, "bullet" = 45, "laser" = 40, "energy" = 40, "bomb" = XENO_BOMB_RESIST_1, "bio" = 35, "rad" = 35, "fire" = 20, "acid" = 35)
 
 /datum/xeno_caste/ravager/elder
 	upgrade_name = "Elder"
@@ -100,13 +100,13 @@
 	plasma_gain = 35
 
 	// *** Health *** //
-	max_health = 310
+	max_health = 280
 
 	// *** Evolution *** //
 	upgrade_threshold = 1000
 
 	// *** Defense *** //
-	armor = list("melee" = 45, "bullet" = 50, "laser" = 45, "energy" = 45, "bomb" = XENO_BOMB_RESIST_1, "bio" = 38, "rad" = 38, "fire" = 25, "acid" = 38)
+	soft_armor = list("melee" = 45, "bullet" = 50, "laser" = 45, "energy" = 45, "bomb" = XENO_BOMB_RESIST_1, "bio" = 38, "rad" = 38, "fire" = 25, "acid" = 38)
 
 /datum/xeno_caste/ravager/ancient
 	upgrade_name = "Ancient"
@@ -121,17 +121,17 @@
 	tackle_damage = 50
 
 	// *** Speed *** //
-	speed = -1.1
+	speed = -1
 
 	// *** Plasma *** //
 	plasma_max = 600
 	plasma_gain = 40
 
 	// *** Health *** //
-	max_health = 330
+	max_health = 300
 
 	// *** Evolution *** //
 	upgrade_threshold = 1000
 
 	// *** Defense *** //
-	armor = list("melee" = 50, "bullet" = 55, "laser" = 50, "energy" = 50, "bomb" = XENO_BOMB_RESIST_1, "bio" = 40, "rad" = 40, "fire" = 30, "acid" = 40)
+	soft_armor = list("melee" = 50, "bullet" = 55, "laser" = 50, "energy" = 50, "bomb" = XENO_BOMB_RESIST_1, "bio" = 40, "rad" = 40, "fire" = 30, "acid" = 40)

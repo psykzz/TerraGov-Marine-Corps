@@ -16,7 +16,7 @@
 <h1>/<a href="datum.html">datum</a>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L11">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L11">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 11"/></a></h1>
 
 <p>The absolute base class for everything</p>
@@ -68,39 +68,39 @@ You only need additional arguments beyond the type if you're using <a href="code
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L21">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L21">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 21"/></a></h3>
         <p>Active timers with this datum as the target</p><h3 id="var/comp_lookup"><aside class="declaration">var </aside>comp_lookup
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L39">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L39">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 39"/></a></h3>
         <p>Any datum registered to receive signals from this datum is in this list</p>
 <p>Lazy associated list in the structure of <code>signal:registree/list of registrees</code></p><h3 id="var/cooldowns"><aside class="declaration">var </aside>cooldowns
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L68">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L68">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 68"/></a></h3>
         <p>Lazy associative list of currently active cooldowns.</p><h3 id="var/datum_components"><aside class="declaration">var </aside>datum_components
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L33">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L33">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 33"/></a></h3>
         <p>Components attached to this datum</p>
 <p>Lazy associated list in the structure of <code>type:component/list of components</code></p><h3 id="var/datum_flags"><aside class="declaration">var </aside>datum_flags
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L50">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L50">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 50"/></a></h3>
         <p>Datum level flags</p><h3 id="var/gc_destroyed"><aside class="declaration">var </aside>gc_destroyed
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L18">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L18">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 18"/></a></h3>
         <p>Tick count time when this object was destroyed.</p>
 <p>If this is non zero then the object has been garbage collected and is awaiting either
@@ -108,26 +108,26 @@ a hard del by the GC subsystme, or to be autocollected (if it has no references)
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L47">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L47">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 47"/></a></h3>
         <p>Is this datum capable of sending signals?</p>
 <p>Set to true when a signal has been registered</p><h3 id="var/signal_procs"><aside class="declaration">var </aside>signal_procs
             <aside>&ndash; /list/list/datum/callback</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L41">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L41">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 41"/></a></h3>
         <p>Lazy associated list in the structure of <code>signals:proctype</code> that are run when the datum receives that signal</p><h3 id="var/status_traits"><aside class="declaration">var </aside>status_traits
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L23">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L23">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 23"/></a></h3>
         <p>Status traits attached to this datum</p><h3 id="var/tgui_shared_states"><aside class="declaration">var </aside>tgui_shared_states
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L116">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L116">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 116"/></a></h3>
         <p>global</p>
 <p>Associative list of JSON-encoded shared states that were set by
@@ -135,12 +135,12 @@ tgui clients.</p><h3 id="var/weak_reference"><aside class="declaration">var </as
             <aside>&ndash; /<a href="datum.html">datum</a>/weakref</aside>
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L53">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L53">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 53"/></a></h3>
         <p>A weak reference to another datum</p><h2 id="proc">Proc Details</h2><h3 id="proc/Destroy"><aside class="declaration">proc </aside>Destroy<aside>(force, ...) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L84">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L84">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 84"/></a></aside>
         </h3>
         <p>Default implementation of clean-up code.</p>
@@ -157,7 +157,7 @@ in most cases this is [QDEL_HINT_QUEUE].</p>
 <p>Returns [QDEL_HINT_QUEUE]</p><h3 id="proc/GetComponent"><aside class="declaration">proc </aside>GetComponent<aside>(/<a href="datum.html">datum</a>/<a href="datum/component.html">component</a>/c_type) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L334">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L334">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 334"/></a></aside>
         </h3>
         <p>Return any component assigned to this datum of the given type</p>
@@ -168,7 +168,7 @@ in most cases this is [QDEL_HINT_QUEUE].</p>
 </ul><h3 id="proc/GetComponents"><aside class="declaration">proc </aside>GetComponents<aside>(c_type) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L375">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L375">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 375"/></a></aside>
         </h3>
         <p>Get all components of a given type that are attached to this datum</p>
@@ -178,7 +178,7 @@ in most cases this is [QDEL_HINT_QUEUE].</p>
 </ul><h3 id="proc/GetExactComponent"><aside class="declaration">proc </aside>GetExactComponent<aside>(/<a href="datum.html">datum</a>/<a href="datum/component.html">component</a>/c_type) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L354">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L354">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 354"/></a></aside>
         </h3>
         <p>Return any component assigned to this datum of the exact given type</p>
@@ -189,7 +189,7 @@ in most cases this is [QDEL_HINT_QUEUE].</p>
 </ul><h3 id="proc/LoadComponent"><aside class="declaration">proc </aside>LoadComponent<aside>(component_type, ...) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L469">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L469">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 469"/></a></aside>
         </h3>
         <p>Get existing component of type, or create it and return a reference to it</p>
@@ -201,7 +201,7 @@ in most cases this is [QDEL_HINT_QUEUE].</p>
 </ul><h3 id="proc/RegisterSignal"><aside class="declaration">proc </aside>RegisterSignal<aside>(/<a href="datum.html">datum</a>/target, sig_type_or_types, proctype, override) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L174">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L174">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 174"/></a></aside>
         </h3>
         <p>Register to listen for a signal from the passed in target</p>
@@ -217,7 +217,7 @@ Return values from procs registered must be a bitfield</p>
 </ul><h3 id="proc/TakeComponent"><aside class="declaration">proc </aside>TakeComponent<aside>(/<a href="datum.html">datum</a>/<a href="datum/component.html">component</a>/target) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L494">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L494">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 494"/></a></aside>
         </h3>
         <p>Transfer this component to another parent</p>
@@ -228,14 +228,14 @@ Return values from procs registered must be a bitfield</p>
 </ul><h3 id="proc/Topic"><aside class="declaration">proc </aside>Topic<aside>(href, /list/href_list) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L231">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L231">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 231"/></a></aside>
         </h3>
         <p>Called when a href for this datum is clicked</p>
 <p>Sends a <a href="code/__DEFINES/dcs/signals.html#define/COMSIG_TOPIC" title="COMSIG_TOPIC">COMSIG_TOPIC</a> signal</p><h3 id="proc/TransferComponents"><aside class="declaration">proc </aside>TransferComponents<aside>(/<a href="datum.html">datum</a>/target) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L518">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L518">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 518"/></a></aside>
         </h3>
         <p>Transfer all components to target</p>
@@ -246,7 +246,7 @@ Return values from procs registered must be a bitfield</p>
 </ul><h3 id="proc/UnregisterSignal"><aside class="declaration">proc </aside>UnregisterSignal<aside>(/<a href="datum.html">datum</a>/target, sig_type_or_types) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L217">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L217">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 217"/></a></aside>
         </h3>
         <p>Stop listening to a given signal from target</p>
@@ -259,7 +259,7 @@ Return values from procs registered must be a bitfield</p>
 </ul><h3 id="proc/_AddComponent"><aside class="declaration">proc </aside>_AddComponent<aside>(/list/raw_args) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L394">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L394">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 394"/></a></aside>
         </h3>
         <p>Creates an instance of <code>new_type</code> in the datum and attaches to it as parent</p>
@@ -269,20 +269,20 @@ Return values from procs registered must be a bitfield</p>
 <p>Properly handles duplicate situations based on the <code>dupe_mode</code> var</p><h3 id="proc/_AddElement"><aside class="declaration">proc </aside>_AddElement<aside>(/list/arguments) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/elements/_element.dm#L43">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/elements/_element.dm#L43">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;elements&#x2F;_element.dm 43"/></a></aside>
         </h3>
         <p>Finds the singleton for the element type given and attaches it to src</p><h3 id="proc/_RemoveElement"><aside class="declaration">proc </aside>_RemoveElement<aside>(/list/arguments) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/elements/_element.dm#L53">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/elements/_element.dm#L53">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;elements&#x2F;_element.dm 53"/></a></aside>
         </h3>
         <p>Finds the singleton for the element type given and detaches it from src
 You only need additional arguments beyond the type if you're using <a href="code/__DEFINES/dcs/flags.html#define/ELEMENT_BESPOKE" title="ELEMENT_BESPOKE">ELEMENT_BESPOKE</a></p><h3 id="proc/_SendSignal"><aside class="declaration">proc </aside>_SendSignal<aside>(sigtype, /list/arguments) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/components/_component.dm#L309">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/components/_component.dm#L309">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;components&#x2F;_component.dm 309"/></a></aside>
         </h3>
         <p>Internal proc to handle most all of the signaling procedure</p>
@@ -290,31 +290,31 @@ You only need additional arguments beyond the type if you're using <a href="code
 <p>Use the <a href="code/__DEFINES/dcs/helpers.html#define/SEND_SIGNAL" title="SEND_SIGNAL">SEND_SIGNAL</a> define instead</p><h3 id="proc/deserialize_json"><aside class="declaration">proc </aside>deserialize_json<aside>(/list/input, /list/options) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L178">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L178">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 178"/></a></aside>
         </h3>
         <p>Deserializes from JSON. Does not parse type.</p><h3 id="proc/deserialize_list"><aside class="declaration">proc </aside>deserialize_list<aside>(json, /list/options) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L166">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L166">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 166"/></a></aside>
         </h3>
         <p>Accepts a LIST from deserialize_datum. Should return src or another datum.</p><h3 id="proc/serialize_json"><aside class="declaration">proc </aside>serialize_json<aside>(/list/options) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L170">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L170">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 170"/></a></aside>
         </h3>
         <p>Serializes into JSON. Does not encode type.</p><h3 id="proc/serialize_list"><aside class="declaration">proc </aside>serialize_list<aside>(/list/options) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/datums/datum.dm#L162">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/datums/datum.dm#L162">
         <img src="git.png" width="16" height="16" title="code&#x2F;datums&#x2F;datum.dm 162"/></a></aside>
         </h3>
         <p>Return a LIST for serialize_datum to encode! Not the actual json!</p><h3 id="proc/ui_act"><aside class="declaration">proc </aside>ui_act<aside>(action, /list/params, /<a href="datum.html">datum</a>/<a href="datum/tgui.html">tgui</a>/ui, /<a href="datum.html">datum</a>/<a href="datum/ui_state.html">ui_state</a>/state) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L79">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L79">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 79"/></a></aside>
         </h3>
         <p>public</p>
@@ -325,7 +325,7 @@ required params list A list of parameters attached to the button.</p>
 <p>return bool If the UI should be updated or not.</p><h3 id="proc/ui_base_html"><aside class="declaration">proc </aside>ui_base_html<aside>(html) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L97">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L97">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 97"/></a></aside>
         </h3>
         <p>public</p>
@@ -338,7 +338,7 @@ with replacetext
 <p>required html the html base text</p><h3 id="proc/ui_close"><aside class="declaration">proc </aside>ui_close<aside>(/<a href="mob.html">mob</a>/user) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L130">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L130">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 130"/></a></aside>
         </h3>
         <p>public</p>
@@ -346,7 +346,7 @@ with replacetext
 client/verb/uiclose(), which closes the ui window</p><h3 id="proc/ui_data"><aside class="declaration">proc </aside>ui_data<aside>(/<a href="mob.html">mob</a>/user) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L33">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L33">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 33"/></a></aside>
         </h3>
         <p>public</p>
@@ -356,7 +356,7 @@ This must be implemented for a UI to work.</p>
 <p>return list Data to be sent to the UI.</p><h3 id="proc/ui_host"><aside class="declaration">proc </aside>ui_host<aside>(/<a href="mob.html">mob</a>/user) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L107">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L107">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 107"/></a></aside>
         </h3>
         <p>private</p>
@@ -365,7 +365,7 @@ This allows modules/datums to have the UI attached to them,
 and be a part of another object.</p><h3 id="proc/ui_interact"><aside class="declaration">proc </aside>ui_interact<aside>(/<a href="mob.html">mob</a>/user, ui_key, /<a href="datum.html">datum</a>/<a href="datum/tgui.html">tgui</a>/ui, force_open, /<a href="datum.html">datum</a>/<a href="datum/tgui.html">tgui</a>/master_ui, /<a href="datum.html">datum</a>/<a href="datum/ui_state.html">ui_state</a>/state) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L20">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L20">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 20"/></a></aside>
         </h3>
         <p>tgui external</p>
@@ -381,7 +381,7 @@ optional master_ui datum/tgui The parent UI.
 optional state datum/ui_state The state used to determine status.</p><h3 id="proc/ui_static_data"><aside class="declaration">proc </aside>ui_static_data<aside>(/<a href="mob.html">mob</a>/user) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L49">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L49">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 49"/></a></aside>
         </h3>
         <p>public</p>
@@ -394,7 +394,7 @@ Gets squished into one object on the frontend side, but the static part is cache
 <p>return list Statuic Data to be sent to the UI.</p><h3 id="proc/ui_status"><aside class="declaration">proc </aside>ui_status<aside>(/<a href="mob.html">mob</a>/user, /<a href="datum.html">datum</a>/<a href="datum/ui_state.html">ui_state</a>/state) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/states.dm#L17">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/states.dm#L17">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;states.dm 17"/></a></aside>
         </h3>
         <p>tgui states</p>
@@ -406,7 +406,7 @@ required state datum/ui_state The state to check.</p>
 <p>return UI_state The state of the UI.</p><h3 id="proc/update_static_data"><aside class="declaration">proc </aside>update_static_data<aside>(/<a href="mob.html">mob</a>/user, /<a href="datum.html">datum</a>/<a href="datum/tgui.html">tgui</a>/ui, ui_key) 
         
     
-            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/6956acbb957f44612a0e0587900b9f078aa6e073/code/modules/tgui/external.dm#L61">
+            <a href="https://github.com/psykzz/TerraGov-Marine-Corps/blob/90fa3cb8ff622eb3178af95f67a511c6af47b623/code/modules/tgui/external.dm#L61">
         <img src="git.png" width="16" height="16" title="code&#x2F;modules&#x2F;tgui&#x2F;external.dm 61"/></a></aside>
         </h3>
         <p>public</p>
@@ -416,7 +416,7 @@ optional ui ui to be updated
 optional ui_key ui key of ui to be updated</p></main>
 <footer>
     tgmc.dme
-    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/6956acbb957f44612a0e0587900b9f078aa6e073">6956acb</a>
+    <a href="https://github.com/psykzz/TerraGov-Marine-Corps/tree/90fa3cb8ff622eb3178af95f67a511c6af47b623">90fa3cb</a>
         (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.2.1</a></footer>
 </body>
 </html>

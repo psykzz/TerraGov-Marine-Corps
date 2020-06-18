@@ -70,17 +70,21 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/turret_icon = 'icons/obj/tinytank_gun.dmi'
 	///Iconstate for the rotating turret
 	var/turret_icon_state = "turret"
+	///Icon for the secondary rotating turret
+	var/secondary_turret_icon = null
 	///Damage overlay for when the vehicle gets damaged
 	var/obj/effect/damage_overlay
 	///The mob in the drivers seat
 	var/mob/living/carbon/human/pilot
-	///The mob in th egunner seat
+	///The mob in the gunner seat
 	var/mob/living/carbon/human/gunner
 	///Who's in this tank? Prevents you from entering the tank again
 	var/list/operators = list()
 	//////////Health and combat shit\\\\\\\\\\\\\\
 	///Cool and good turret overlay that allows independently swiveling guns
 	var/obj/turret_overlay/turret_overlay
+
+	var/obj/turret_overlay/secondary_weapon_overlay/secondary_weapon_overlay
 	///What weapon we have in our primary slot
 	var/obj/item/tank_weapon/primary_weapon //What we use to shoot big shells
 	///What weapon we have in our secondary slot
@@ -89,10 +93,10 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/primary_weapon_type = /obj/item/tank_weapon
 	//What kind of secondary tank weaponry we start with. Default minigun as standard.
 	var/secondary_weapon_type = /obj/item/tank_weapon/secondary_weapon
+	///Icon pathing for the secondary turret
+	var/secondary_turret_name = "m56cupola"
 	///Tracks the primary gun swivel
 	var/primary_weapon_dir = null //So that the guns swivel independantly
-	///Tracks the secondary gun swivel
-	var/secondary_weapon_dir = null
 	///Shooting code, at whom are we firing?
 	var/atom/firing_target = null
 	///Bool for whether the primary weapon is currently in-use
@@ -115,10 +119,11 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/door_location = null	//If you want multiple doors then add more of these
 
 /obj/vehicle/armored/multitile
-	name = "MK-1 'friendly fire' prototype tank"
+	name = "TAV - Rhino"
 	desc = "A gigantic wall of metal designed for maximum Xeno destruction. Click it with an open hand to enter as a pilot or a gunner."
-	icon = 'icons/obj/tank.dmi'
-	turret_icon = 'icons/obj/tank_gun.dmi'
+	icon = 'icons/obj/tank/tank.dmi'
+	turret_icon = 'icons/obj/tank/tank_gun.dmi'
+	secondary_turret_icon = 'icons/obj/tank/tank_secondary_gun.dmi'
 	icon_state = "tank"
 	pixel_x = -48
 	pixel_y = -48
@@ -136,7 +141,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	door_location = get_step_away(get_step(src,turn(src.dir, 180)), src, 2)
 
 /obj/vehicle/armored/apc //smol apc
-	name = "M157 Replica Armoured Personnel Carrier"
+	name = "TAV - Nike"
 	desc = "A miniaturized replica of a popular personnel carrier. For ages 5 and up."
 	icon = 'icons/obj/tinytank.dmi'
 	turret_icon = 'icons/obj/tinytank_gun.dmi'
@@ -150,11 +155,12 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	secondary_weapon_type = null
 
 /obj/vehicle/armored/multitile/medium //Its a smaller tank, we had sprites for it so whoo
-	name = "M74A4 'Baker Street' Heavy Tank"
+	name = "THV - Hades"
 	desc = "A metal behemoth which is designed to cleave through enemy lines. It comes pre installed with a main tank cannon capable of deploying heavy payloads, as well as a minigun which can tear through multiple targets in quick succession."
 	icon = 'icons/obj/medium_vehicles.dmi'
 	turret_icon = 'icons/obj/medium_vehicles.dmi'
 	turret_icon_state = "tank_turret"
+	secondary_turret_icon = null
 	icon_state = "tank"
 	pixel_x = -16
 	pixel_y = -32
@@ -171,7 +177,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 		door_location = get_step_away(get_step(src,turn(src.dir, 180)), src, 3)	//Because haha funny byond sprite rotations funny
 
 /obj/vehicle/armored/multitile/medium/apc //BIG APC
-	name = "M557 Armoured Personnel Carrier"
+	name = "TAV - Athena"
 	desc = "A heavily armoured vehicle with light armaments designed to ferry troops around the battle field, or assist with search and rescue (SAR) operations."
 	icon = 'icons/obj/medium_vehicles.dmi'
 	turret_icon = 'icons/obj/medium_vehicles.dmi'
@@ -185,18 +191,25 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 
 /obj/vehicle/armored/examine(mob/user)
 	. = ..()
-	to_chat(user, "<b><span class='notice'>To fire its main cannon, <i>ctrl</i> click a tile.</b></span> \n <span class='notice'><b>To fire its secondary weapon, click a tile.</b></span>")
+	to_chat(user, "<b><span class='notice'>To fire its main cannon, <i>middle</i> click a tile.</b></span> \n <span class='notice'><b>To fire its secondary weapon, click a tile.</b></span>")
 	to_chat(user, "<b><span class='notice'>To forcibly remove someone from it, use grab intent.</b></span> \n <i><span class='notice'>It's currently holding [passengers.len] / [max_passengers] passengers (excluding its gunner and pilot).</i></span>")
 	to_chat(user, "<i><span class='notice'>There is [isnull(primary_weapon) ? "nothing" : "[primary_weapon]"] in the primary attachment point and [isnull(primary_weapon) ? "nothing" : "[secondary_weapon]"] installed in the secondary slot.</i></span>")
 
 /obj/turret_overlay
 	name = "Tank gun turret"
 	desc = "The shooty bit on a tank."
-	icon = 'icons/obj/tank_gun.dmi'
+	icon = 'icons/obj/tank/tank_gun.dmi'
 	icon_state = "turret"
 	layer = ABOVE_ALL_MOB_LAYER
 	animate_movement = TRUE //So it doesnt just ping back and forth and look all stupid
-	mouse_opacity = FALSE //It's an overlay
+	//mouse_opacity = FALSE //It's an overlay
+
+/obj/turret_overlay/secondary_weapon_overlay
+	name = "Tank gun secondary turret"
+	desc = "The shooty bit on a tank."
+	icon = 'icons/obj/tank/tank_secondary_gun.dmi'
+	icon_state = "m56cupola_2"
+
 
 /*
 \\\\\\\\TANK HITBOX////////
@@ -244,16 +257,18 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 
 /obj/vehicle/armored/Initialize()
 	. = ..()
-	turret_overlay = new()
-	turret_overlay.icon = turret_icon
-	turret_overlay.icon_state = turret_icon_state
-	update_icon()
 	if(primary_weapon_type)
 		primary_weapon = new primary_weapon_type(src) //Make our guns
 		primary_weapon.owner = src
+		turret_overlay = new()
+		turret_overlay.icon = turret_icon
+		turret_overlay.icon_state = turret_icon_state
 	if(secondary_weapon_type)
 		secondary_weapon = new secondary_weapon_type(src)
 		secondary_weapon.owner = src
+		secondary_weapon_overlay = new()
+		secondary_weapon_overlay.icon = secondary_turret_icon
+	update_icon()
 	GLOB.tank_list += src
 
 ///Proc to get the location of the door of the vehicle
@@ -277,6 +292,7 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 	obj_integrity = 10000 //Prevents this from being called over and over and over while we chuck the mobs out
 	remove_mobs()
 	QDEL_NULL(turret_overlay)
+	QDEL_NULL(secondary_weapon_overlay)
 	QDEL_NULL(primary_weapon)
 	QDEL_NULL(secondary_weapon)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_cannon1.ogg', 100, TRUE) //Explosion sound
@@ -332,7 +348,10 @@ Removing mobs, move and icon tuff.
 	if(primary_weapon_dir)
 		turret_overlay.setDir(primary_weapon_dir)
 		turret_overlay.pixel_x = 0
-	vis_contents += turret_overlay
+	vis_contents |= secondary_weapon_overlay
+	vis_contents |= turret_overlay
+	primary_weapon.layer = layer+0.2
+	secondary_weapon_overlay.layer = layer+1
 	if(!damage_overlay)
 		damage_overlay = new(src)
 	cut_overlays()

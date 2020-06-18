@@ -20,15 +20,20 @@
 
 /datum/component/automatic_fire/Initialize(autofire_shot_delay, burstfire_shot_delay, shots_to_fire, firemode, parent_loc)
 	. = ..()
-	if(!isgun(parent) && !istankweapon(parent))
+	if(isgun(parent))
+		RegisterSignal(parent, COMSIG_GUN_FIREMODE_TOGGLE, .proc/wake_up)
+		RegisterSignal(parent, COMSIG_GUN_FIREDELAY_MODIFIED, .proc/modify_firedelay)
+		RegisterSignal(parent, COMSIG_GUN_BURSTDELAY_MODIFIED, .proc/modify_burst_delay)
+		RegisterSignal(parent, COMSIG_GUN_BURSTAMOUNT_MODIFIED, .proc/modify_burst_amount)
+	else if(istankweapon(parent))
+		RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/wake_up)
+		RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/sleep_up)
+		// RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/autofire_on)
+		// RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/autofire_off)
+		// RegisterSignal(parent, COMSIG_TANK_ATTACHED, .proc/wake_up)
+		// RegisterSignal(parent, COMSIG_TANK_DETACHED, .proc/sleep_up)
+	else
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_GUN_FIREMODE_TOGGLE, .proc/wake_up)
-	RegisterSignal(parent, COMSIG_GUN_FIREDELAY_MODIFIED, .proc/modify_firedelay)
-	RegisterSignal(parent, COMSIG_GUN_BURSTDELAY_MODIFIED, .proc/modify_burst_delay)
-	RegisterSignal(parent, COMSIG_GUN_BURSTAMOUNT_MODIFIED, .proc/modify_burst_amount)
-
-	RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/wake_up)
-	RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/sleep_up)
 
 	src.autofire_shot_delay = autofire_shot_delay
 	src.burstfire_shot_delay = burstfire_shot_delay
@@ -50,11 +55,10 @@
 
 /datum/component/automatic_fire/proc/wake_up(datum/source, fire_mode, client/usercli)
 	if(isgun(parent))
-		switch(fire_mode)
-			if(GUN_FIREMODE_SEMIAUTO, GUN_FIREMODE_BURSTFIRE)
-				if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
-					sleep_up()
-				return	//No need for autofire on other modes.
+		if(fire_mode == GUN_FIREMODE_SEMIAUTO|fire_mode == GUN_FIREMODE_BURSTFIRE)
+			if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT|AUTOFIRE_STAT_FIRING))
+				sleep_up()
+			return	//No need for autofire on other modes.
 	component_fire_mode = fire_mode
 	if(autofire_stat & (AUTOFIRE_STAT_IDLE|AUTOFIRE_STAT_ALERT))
 		return //We've updated the firemode. No need for more.

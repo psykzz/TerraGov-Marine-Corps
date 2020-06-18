@@ -15,6 +15,7 @@
 			return
 		playsound(get_turf(src), 'sound/weapons/guns/interact/working_the_bolt.ogg', 100, 1)
 		primary_weapon.ammo.forceMove(get_turf(user))
+		primary_weapon.ammo.update_icon()
 		primary_weapon.ammo = I
 		to_chat(user, "You load [I] into [primary_weapon] with a satisfying click.")
 		user.transferItemToLoc(I,src)
@@ -28,12 +29,14 @@
 			return
 		playsound(get_turf(src), 'sound/weapons/guns/interact/working_the_bolt.ogg', 100, 1)
 		secondary_weapon.ammo.forceMove(get_turf(user))
+		secondary_weapon.ammo.update_icon()
 		secondary_weapon.ammo = I
 		to_chat(user, "You load [I] into [secondary_weapon] with a satisfying click.")
 		user.transferItemToLoc(I,src)
 		return
 	
 	if(istype(I, /obj/item/tank_weapon))
+		var/obj/item/tank_weapon/W = I
 		var/mob/living/M = user
 		var/slotchoice = alert("What weapon would you like to attach?.", name, MODULE_PRIMARY, MODULE_SECONDARY, "Cancel")
 		if(!slotchoice || slotchoice == "Cancel")
@@ -42,14 +45,19 @@
 		if(!do_after(M, time, TRUE, src, BUSY_ICON_BUILD))
 			return
 		if(slotchoice == MODULE_PRIMARY)
-			primary_weapon = I
+			primary_weapon = W
+			turret_overlay.icon = turret_icon
 		if(slotchoice == MODULE_SECONDARY)
 			if(!istype(I, /obj/item/tank_weapon/secondary_weapon))
 				to_chat(user, "<span class='warning'>You can't attach non-secondary weapons to secondary weapon slots!</span>")
 				return
-			secondary_weapon = I
-		to_chat(user, "You attach [I] to the tank.")
-		user.transferItemToLoc(I,src)
+			secondary_turret_icon = W.secondary_equipped_icon
+			secondary_turret_name = W.secondary_icon_name
+			secondary_weapon = W
+			secondary_weapon_overlay.icon = secondary_turret_icon
+			secondary_weapon_overlay.icon_state = "[secondary_turret_name]" + "_" + "[primary_weapon.dir]"
+		to_chat(user, "You attach [W] to the tank.")
+		user.transferItemToLoc(W,src)
 		return
 
 /obj/vehicle/armored/welder_act(mob/living/user, obj/item/I)
@@ -91,6 +99,8 @@
 			return
 		primary_weapon.forceMove(get_turf(user))
 		to_chat(user, "You detach \the [primary_weapon].")
+		turret_overlay.icon = null
+		turret_overlay.icon_state = null
 		primary_weapon = null
 		return
 	if(position == MODULE_SECONDARY)
@@ -99,5 +109,7 @@
 			return
 		secondary_weapon.forceMove(get_turf(user))
 		to_chat(user, "You detach \the [secondary_weapon]")
+		secondary_weapon_overlay.icon = null
+		secondary_weapon_overlay.icon_state = null
 		secondary_weapon = null
-		return TRUE
+		return

@@ -21,6 +21,10 @@
 	var/lastfired = 0
 	///Explosion safety check range to stop bald TCs from blowing themselves into orbit trying to kill a runner
 	var/range_safety_check = 3
+	///The turret icon if we equip the weapon in a secondary slot, you should null this if its unequippable as such
+	var/secondary_equipped_icon = null
+
+	var/secondary_icon_name
 
 /obj/item/tank_weapon/Initialize()
 	. = ..()
@@ -42,6 +46,8 @@
 	)
 	cooldown = 0.3 SECONDS //Minimal cooldown
 	range_safety_check = 0
+	secondary_equipped_icon = 'icons/obj/tank/tank_secondary_gun.dmi'
+	secondary_icon_name = "m56cupola"
 
 /obj/item/tank_weapon/secondary_weapon/Initialize()
 	. = ..()
@@ -77,6 +83,7 @@
 	playsound(src, pick(fire_sounds), 50)	//yatatatatata
 	lastfired = world.time
 	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
+	owner.secondary_weapon_overlay.setDir(angle2dir_cardinal(Get_Angle(src, target)))
 	ammo.current_rounds--
 	return COMPONENT_AUTOFIRE_SHOT_SUCCESS
 
@@ -145,9 +152,7 @@ This handles stuff like rotating turrets and shooting.
 		to_chat(gunner, "[src]'s secondary weapon hardpoint spins pathetically. Maybe you should install a secondary weapon on this tank?")
 		return FALSE
 	firing_target = A
-	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_minigun_start.ogg', 60, 1)
 	firing_secondary_weapon = TRUE
-	to_chat(world, "started processing handlefire")
 	START_PROCESSING(SSfastprocess, src)
 
 ///starts handling fire for the main weapon
@@ -158,12 +163,11 @@ This handles stuff like rotating turrets and shooting.
 	swivel_gun(A) //Special FX, makes the tank cannon visibly swivel round to aim at the target.
 	firing_target = A
 	firing_primary_weapon = TRUE
-	to_chat(world, "started processing mainfire")
 	START_PROCESSING(SSfastprocess, src)
 
 ///Rotates the cannon overlay
 /obj/vehicle/armored/proc/swivel_gun(atom/A)
-	var/new_weapon_dir = get_dir(src, A) //Check that we're not already facing this way to avoid a double swivel when you fire.
+	var/new_weapon_dir = angle2dir_cardinal(Get_Angle(src, A)) //Check that we're not already facing this way to avoid a double swivel when you fire.
 	if(new_weapon_dir == primary_weapon_dir)
 		return FALSE
 	if(world.time > lastsound + 2 SECONDS) //Slight cooldown to avoid spam
@@ -171,18 +175,18 @@ This handles stuff like rotating turrets and shooting.
 		playsound(src, 'sound/effects/tankswivel.ogg', 80,1)
 		lastsound = world.time
 		primary_weapon_dir = new_weapon_dir
+		secondary_weapon_overlay.icon_state = "[secondary_turret_name]" + "_" + "[new_weapon_dir]"
 		return TRUE
 
 /obj/vehicle/armored/process()
 	if(firing_primary_weapon && firing_target)
 		if(primary_weapon.fire(firing_target, gunner))
-			primary_weapon_dir = get_dir(src, firing_target) //For those instances when you've swivelled your gun round a lot when your main gun wasn't ready to fire. This ensures the gun always faces the desired target.
+			primary_weapon_dir = angle2dir_cardinal(Get_Angle(src, firing_target)) //For those instances when you've swivelled your gun round a lot when your main gun wasn't ready to fire. This ensures the gun always faces the desired target.
 			update_icon()
 		else
 			stop_firing()
 	if(firing_secondary_weapon)
 		if(secondary_weapon.fire(firing_target, gunner))
-			secondary_weapon_dir = get_dir(src, firing_target) //Set the gun dir
 			update_icon()
 
 /obj/vehicle/armored/proc/onMouseUp(atom/A, mob/user)

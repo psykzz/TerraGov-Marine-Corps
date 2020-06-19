@@ -1,5 +1,6 @@
 #define MODULE_PRIMARY "Primary weapon"
 #define MODULE_SECONDARY "Secondary weapon"
+#define MODULE_UTILITY "Utility Module"
 
 /obj/vehicle/armored/attackby(obj/item/I, mob/user) //This handles reloading weapons, or changing what kind of mags they'll accept
 	. = ..()
@@ -34,7 +35,7 @@
 		to_chat(user, "You load [I] into [secondary_weapon] with a satisfying click.")
 		user.transferItemToLoc(I,src)
 		return
-	
+
 	if(istype(I, /obj/item/tank_weapon))
 		var/obj/item/tank_weapon/W = I
 		var/mob/living/M = user
@@ -59,6 +60,16 @@
 		to_chat(user, "You attach [W] to the tank.")
 		user.transferItemToLoc(W,src)
 		return
+
+	if(istype(I, /obj/item/tank_module))
+		var/obj/item/tank_module/M = I
+		if(utility_module)
+			to_chat(user, "There's already a Utility Module attached, remove it with a crowbar first!")
+			return
+		utility_module = M
+		to_chat(user, "You attach [M] to the tank.")
+		utility_module.on_equip(src)
+		user.transferItemToLoc(M,src)
 
 /obj/vehicle/armored/welder_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -89,7 +100,7 @@
 
 /obj/vehicle/armored/crowbar_act(mob/living/user, obj/item/I)
 	. = ..()
-	var/position = alert("What module would you like to remove?", name, MODULE_PRIMARY, MODULE_SECONDARY, "Cancel")
+	var/position = alert("What module would you like to remove?", name, MODULE_PRIMARY, MODULE_SECONDARY, MODULE_UTILITY, "Cancel")
 	if(!position || position == "Cancel")
 		return
 	var/time = 5 SECONDS - (1 SECONDS * user.skills.getRating("large_vehicle"))
@@ -112,4 +123,13 @@
 		secondary_weapon_overlay.icon = null
 		secondary_weapon_overlay.icon_state = null
 		secondary_weapon = null
+		return
+	if(position == MODULE_UTILITY)
+		to_chat(user, "You begin detaching \the [utility_module]")
+		if(!do_after(user, time, TRUE, src, BUSY_ICON_BUILD))
+			return
+		utility_module.forceMove(get_turf(user))
+		utility_module.on_unequip(src)
+		to_chat(user, "You detach \the [utility_module]")
+		utility_module = null
 		return

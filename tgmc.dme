@@ -1486,6 +1486,7 @@
 #include "code\modules\vehicles\armored\armored.dm"
 #include "code\modules\vehicles\armored\collision.dm"
 #include "code\modules\vehicles\armored\interactions.dm"
+#include "code\modules\vehicles\armored\tank_modules.dm"
 #include "code\modules\vehicles\armored\tank_weapons.dm"
 #include "code\modules\vehicles\armored\vehicle_vendor.dm"
 #include "code\modules\xenomorph\xeno_structures.dm"

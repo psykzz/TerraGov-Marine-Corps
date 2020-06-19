@@ -30,14 +30,14 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
  */
 
  /* TIVIS GUIDE TO MAKING VEHICLES, OR THE DUMMIES GUIDE TO TANK MAKING
-  * 
+  *
   * First get your sprites in
   * You must manually set the offsets for your tank subtypes so that they move correctly, VV them in game to find the perfect values for it
   * add default weapons and decide whether it should move diagonally or not
   * add a doorpoint for where you want people to get in from using get_door_location()
   *
   * MULTITILE EXTRAS:
-  * Set the hitbox_type to your hitbox, /hitbox is 3x3 and /hitbox medium is 2x2 so make custom ones as required
+  * Set the hitbox_type to your hitbox, /hitbox is 3x3 and /hitbox/medium is 2x2 so make custom ones as required
   * set size to the range you want xenos to be able to slash from
   * you can also layer multiple hitboxes to make ... special shapes
   * REMEMBER, USE ONLY BOUNDS DIVISIBLE BY 32 OR GLIDING WILL BREAK
@@ -83,12 +83,14 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	//////////Health and combat shit\\\\\\\\\\\\\\
 	///Cool and good turret overlay that allows independently swiveling guns
 	var/obj/turret_overlay/turret_overlay
-
+	///secondary independently rotating overlay
 	var/obj/turret_overlay/secondary_weapon_overlay/secondary_weapon_overlay
 	///What weapon we have in our primary slot
 	var/obj/item/tank_weapon/primary_weapon //What we use to shoot big shells
 	///What weapon we have in our secondary slot
 	var/obj/item/tank_weapon/secondary_weapon
+	///Our utility module
+	var/obj/item/tank_module/utility_module
 	//What kind of primary tank weaponry we start with. Defaults to a tank gun.
 	var/primary_weapon_type = /obj/item/tank_weapon
 	//What kind of secondary tank weaponry we start with. Default minigun as standard.
@@ -96,7 +98,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	///Icon pathing for the secondary turret
 	var/secondary_turret_name = "m56cupola"
 	///Tracks the primary gun swivel
-	var/primary_weapon_dir = null //So that the guns swivel independantly
+	var/primary_weapon_dir = SOUTH //So that the guns swivel independently
 	///Shooting code, at whom are we firing?
 	var/atom/firing_target = null
 	///Bool for whether the primary weapon is currently in-use
@@ -193,7 +195,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	. = ..()
 	to_chat(user, "<b><span class='notice'>To fire its main cannon, <i>middle</i> click a tile.</b></span> \n <span class='notice'><b>To fire its secondary weapon, click a tile.</b></span>")
 	to_chat(user, "<b><span class='notice'>To forcibly remove someone from it, use grab intent.</b></span> \n <i><span class='notice'>It's currently holding [passengers.len] / [max_passengers] passengers (excluding its gunner and pilot).</i></span>")
-	to_chat(user, "<i><span class='notice'>There is [isnull(primary_weapon) ? "nothing" : "[primary_weapon]"] in the primary attachment point and [isnull(primary_weapon) ? "nothing" : "[secondary_weapon]"] installed in the secondary slot.</i></span>")
+	to_chat(user, "<i><span class='notice'>There is [isnull(primary_weapon) ? "nothing" : "[primary_weapon]"] in the primary attachment point, [isnull(secondary_weapon) ? "nothing" : "[secondary_weapon]"] installed in the secondary slot and [isnull(utility_module) ? "nothing" : "[utility_module]"] in the utility slot.</i></span>")
 
 /obj/turret_overlay
 	name = "Tank gun turret"
@@ -445,7 +447,7 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 		to_chat(user, "[src] is full! There isn't enough space for you")
 		return
 	if(!can_enter(user, position)) //OWO can they enter us????	//what the fuck kmc
-		return 
+		return
 	to_chat(user, "You climb into [src] as a [position]!")
 	enter(user, position) //Yeah i could do this with a define, but this way we're not using multiple things
 
@@ -492,7 +494,7 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 /obj/vehicle/armored/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	if(!istype(L))
 		return
-	
+
 	var/turf/T = get_step_away(get_step(L,turn(src.dir, 180)), L, 5)
 	if(!istype(src, /obj/vehicle/armored/multitile))
 		T = get_step(src,turn(src.dir, 180))

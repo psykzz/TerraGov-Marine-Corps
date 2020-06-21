@@ -134,8 +134,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	move_delay = 0.8 SECONDS
 	///The hitbox default type(size) for this vehicle
 	var/hitbox_type = /obj/vehicle/hitbox
-	///How wide our vehicle is, used to determine xeno slash range
-	var/size = 3
 	///List of doors and hitboxes we need to be moved when we move
 	var/list/linked_objs = list()
 
@@ -171,7 +169,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	max_passengers = 1 //Seats 3 total. It's designed to cut through enemy lines with 1 gunner, 1 pilot and 1 commander to oversee operations
 	has_underlay = TRUE
 	hitbox_type = /obj/vehicle/hitbox/medium
-	size = 2
 
 /obj/vehicle/armored/multitile/medium/get_door_location()
 	door_location = get_step(src,turn(src.dir, 180))
@@ -219,9 +216,11 @@ The core of multitile. Acts as a relay for damage and stops people from walking 
 */
 
 /obj/vehicle/hitbox
-	density = TRUE
+	///How wide our vehicle is, used to determine xeno slash range
+	var/size = 3
 	///The "parent" that this hitbox is attached to and to whom it will relay damage
 	var/obj/vehicle/armored/multitile/root = null
+	density = TRUE
 	invisibility = INVISIBILITY_MAXIMUM
 	bound_width = 96
 	bound_height = 96
@@ -234,6 +233,7 @@ The core of multitile. Acts as a relay for damage and stops people from walking 
 	bound_height = 64
 	bound_x = 0
 	bound_y = -32
+	size = 2
 
 /obj/vehicle/hitbox/projectile_hit(obj/projectile/proj)
 	. = ..()

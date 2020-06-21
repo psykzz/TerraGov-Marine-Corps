@@ -165,8 +165,13 @@
 	return T.Adjacent(neighbor, target = neighbor, mover = src)
 
 /obj/vehicle/armored/multitile/Adjacent(atom/neighbor)
-	if(isxeno(neighbor) && (get_dist(src, neighbor) < size))	//Xenos stand next to it and slash
-		return TRUE
+	if(isxeno(neighbor))//Xenos stand next to it and slash
+		for(var/obj/vehicle/hitbox/i in linked_objs)
+			var/obj/vehicle/hitbox/H = i
+			for(var/X in H.locs)
+				var/turf/T = X
+				if(T.Adjacent(neighbor, target = neighbor, mover = src))
+					return TRUE
 	for(var/obj/effect/doorpoint/door in neighbor.loc)	//Humans need to be in a doorpoint to be able to access the vehicle
 		if(door.root == src)
 			return TRUE

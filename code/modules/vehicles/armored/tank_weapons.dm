@@ -1,6 +1,6 @@
 /obj/item/tank_weapon
 	name = "TGS 4 main tank cannon"
-	desc = "A gun that works about 50% of the time, but at least it's open source! It fires tank shells."
+	desc = "A TGMC vehicle's main turret cannon. It fires 86mm rocket propelled shells"
 	icon = 'icons/obj/vehicles/hardpoint_modules.dmi'
 	icon_state = "ltb_cannon"
 	///Who this weapon is attached to
@@ -51,7 +51,6 @@
 
 /obj/item/tank_weapon/secondary_weapon/Initialize()
 	. = ..()
-
 	AddComponent(/datum/component/automatic_fire, 3, 1, 3, GUN_FIREMODE_AUTOMATIC, owner)
 
 /obj/item/tank_weapon/secondary_weapon/proc/on_autofire_start(mob/living/shooter)

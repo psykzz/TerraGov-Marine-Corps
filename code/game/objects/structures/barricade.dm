@@ -74,7 +74,7 @@
 				return FALSE
 		return TRUE
 
-	if(istype(mover, /obj/vehicle))
+	if(iisarmoredvehicle(mover))
 		var/obj/vehicle/veh = mover
 		if(!veh.demolish_on_ram)
 			return FALSE

@@ -139,7 +139,7 @@
 		shot_from = source
 	permutated[src] = TRUE
 	if(!isturf(loc))
-		forceMove(get_turf(shooter)) //If the bulllets not in a turf over it to the shooters turf
+		forceMove(get_turf(shooter)) //If the bulllets not in a turf move it to the shooters turf
 	starting_turf = loc
 
 	if(target)

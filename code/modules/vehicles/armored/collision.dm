@@ -1,5 +1,5 @@
 /**
-  *This proc is called when a atom is crashed into by a [armored vehicle][/obj/vehicle/armored]. Damage is then dealth to both the vehicle and atom
+  *This proc is called when a atom is crashed into by a [armored vehicle][/obj/vehicle/armored]. Damage is then dealt to both the vehicle and atom
   *
   * * Arguments:
   * * veh is the vehicle that is ramming
@@ -59,7 +59,7 @@
 		T = get_step(T, target_dir)
 		face_atom(T)
 		throw_at(T, 3, 2, veh, 1)
-		apply_damage(rand(5, 7.5), BRUTE)
+		apply_damage(rand(20, 30), BRUTE)
 		return
 
 	temp = get_step(T, facing)
@@ -70,8 +70,8 @@
 	else
 		throw_at(T, 3, 2, veh, 1)
 	if(!IsKnockdown())
-		Knockdown(1)
-	apply_damage(rand(10, 15), BRUTE)
+		Knockdown(1 SECOND)
+	apply_damage(rand(40, 55), BRUTE)
 	visible_message("<span class='danger'>[veh] bumps into [src], throwing [p_them()] away!</span>", "<span class='danger'>[veh] violently bumps into you!</span>")
 
 /mob/living/carbon/Xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)

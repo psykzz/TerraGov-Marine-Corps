@@ -204,8 +204,6 @@
 
 #define COMSIG_TANK_ENTERED "tank turret entered"
 #define COMSIG_TANK_EXITED "tank turret exited"
-#define COMSIG_TANK_ATTACHED "tank weapon attached"
-#define COMSIG_TANK_DETACHED "tank weapon detached"
 
 // /obj/item/clothing signals
 #define COMSIG_SHOES_STEP_ACTION "shoes_step_action"			//from base of obj/item/clothing/shoes/proc/step_action(): ()

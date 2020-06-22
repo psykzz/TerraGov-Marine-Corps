@@ -56,7 +56,7 @@
 		return ..()
 	return TRUE
 
-GLOBAL_LIST_INIT(acid_spray_hit, typecacheof(list(/obj/structure/barricade, /obj/vehicle, /obj/structure/razorwire)))
+GLOBAL_LIST_INIT(acid_spray_hit, typecacheof(list(/obj/structure/barricade, /obj/vehicle/armored, /obj/structure/razorwire)))
 
 /datum/action/xeno_action/activable/spray_acid/cone/proc/do_acid_spray_cone(turf/T, range)
 	set waitfor = FALSE

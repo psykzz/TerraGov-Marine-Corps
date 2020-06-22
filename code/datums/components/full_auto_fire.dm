@@ -28,10 +28,6 @@
 	else if(istankweapon(parent))
 		RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/wake_up)
 		RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/sleep_up)
-		// RegisterSignal(parent, COMSIG_TANK_ENTERED, .proc/autofire_on)
-		// RegisterSignal(parent, COMSIG_TANK_EXITED, .proc/autofire_off)
-		// RegisterSignal(parent, COMSIG_TANK_ATTACHED, .proc/wake_up)
-		// RegisterSignal(parent, COMSIG_TANK_DETACHED, .proc/sleep_up)
 	else
 		return COMPONENT_INCOMPATIBLE
 

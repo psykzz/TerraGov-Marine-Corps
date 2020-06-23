@@ -38,7 +38,6 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
   *
   * MULTITILE EXTRAS:
   * Set the hitbox_type to your hitbox, /hitbox is 3x3 and /hitbox/medium is 2x2 so make custom ones as required
-  * set size to the range you want xenos to be able to slash from
   * you can also layer multiple hitboxes to make ... special shapes
   * REMEMBER, USE ONLY BOUNDS DIVISIBLE BY 32 OR GLIDING WILL BREAK
   * Set doorpoints for where you want access from, set this in the get_door_location() proc
@@ -216,8 +215,6 @@ The core of multitile. Acts as a relay for damage and stops people from walking 
 */
 
 /obj/vehicle/hitbox
-	///How wide our vehicle is, used to determine xeno slash range
-	var/size = 3
 	///The "parent" that this hitbox is attached to and to whom it will relay damage
 	var/obj/vehicle/armored/multitile/root = null
 	density = TRUE
@@ -233,7 +230,6 @@ The core of multitile. Acts as a relay for damage and stops people from walking 
 	bound_height = 64
 	bound_x = 0
 	bound_y = -32
-	size = 2
 
 /obj/vehicle/hitbox/projectile_hit(obj/projectile/proj)
 	. = ..()
@@ -376,11 +372,11 @@ Removing mobs, move and icon tuff.
 			damage_overlay.icon_state = "damage_minor"
 	add_overlay(damage_overlay)
 	add_overlay(underlay)
+
 /*
 \\\\\\\\ATTACKHAND STUFF////////
 This handles stuff like getting in, pulling people out of the tank, all that stuff.
 */
-
 /obj/vehicle/armored/attack_hand(mob/living/user)
 	if(!ishuman(user)) // Aliens can't get in a tank...as hilarious as that would be
 		return

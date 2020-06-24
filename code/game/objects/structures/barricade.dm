@@ -74,7 +74,7 @@
 				return FALSE
 		return TRUE
 
-	if(iisarmoredvehicle(mover))
+	if(isarmoredvehicle(mover))
 		var/obj/vehicle/veh = mover
 		if(!veh.demolish_on_ram)
 			return FALSE
@@ -127,7 +127,7 @@
 
 		B.use(1)
 		wire()
-		
+
 
 /obj/structure/barricade/proc/wire()
 	if(!closed)

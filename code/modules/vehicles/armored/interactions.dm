@@ -133,3 +133,7 @@
 		to_chat(user, "You detach \the [utility_module]")
 		utility_module = null
 		return
+
+#undef MODULE_PRIMARY
+#undef MODULE_SECONDARY
+#undef MODULE_UTILITY

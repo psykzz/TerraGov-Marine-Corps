@@ -116,6 +116,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	var/has_underlay = FALSE
 	///Overlay for larger vehicles that need under parts
 	var/obj/effect/underlay = null
+	var/list/linked_doors
 	///Location for the door of the vehicle, calculated on init because it uses src calculations
 	var/door_location = null	//If you want multiple doors then add more of these
 
@@ -134,7 +135,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	///The hitbox default type(size) for this vehicle
 	var/hitbox_type = /obj/vehicle/hitbox
 	///List of doors and hitboxes we need to be moved when we move
-	var/list/linked_objs = list()
+	var/list/linked_hitboxes
 
 /obj/vehicle/armored/multitile/get_door_location()
 	door_location = get_step_away(get_step(src,turn(src.dir, 180)), src, 2)
@@ -200,7 +201,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
 	icon_state = "turret"
 	layer = ABOVE_ALL_MOB_LAYER
 	animate_movement = TRUE //So it doesnt just ping back and forth and look all stupid
-	//mouse_opacity = FALSE //It's an overlay
+	mouse_opacity = FALSE //It's an overlay
 
 /obj/turret_overlay/secondary_weapon_overlay
 	name = "Tank gun secondary turret"
@@ -276,14 +277,14 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 /obj/vehicle/armored/multitile/Initialize()
 	. = ..()
 	get_door_location()
-	linked_objs += new hitbox_type(src.loc)
-	linked_objs += new /obj/effect/doorpoint(door_location)
+	LAZYADD(linked_doors, new /obj/effect/doorpoint(door_location))
+	LAZYADD(linked_hitboxes, new hitbox_type(src.loc))
 	relink_objs()
 
 /obj/vehicle/armored/multitile/proc/relink_objs()
-	for(var/obj/vehicle/hitbox/hitbox in linked_objs)	//We can have multiple different sized hitboxes if we wanna be funky and make a Tshaped tank
+	for(var/obj/vehicle/hitbox/hitbox in linked_hitboxes)	//We can have multiple different sized hitboxes if we wanna be funky and make a Tshaped tank
 		hitbox.root = src
-	for(var/obj/effect/doorpoint/door in linked_objs)	//Drake? Where are the doors?
+	for(var/obj/effect/doorpoint/door in linked_doors)	//Drake? Where are the doors?
 		door.root = src
 
 /obj/vehicle/armored/Destroy()
@@ -298,7 +299,9 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 	return ..()
 
 /obj/vehicle/armored/multitile/Destroy()
-	for(var/k in linked_objs)
+	for(var/k in linked_doors)
+		QDEL_NULL(k)
+	for(var/k in linked_hitboxes)
 		QDEL_NULL(k)
 	return ..()
 
@@ -329,13 +332,11 @@ Removing mobs, move and icon tuff.
 
 /obj/vehicle/armored/multitile/Move()
 	. = ..()
-	for(var/obj/vehicle/hitbox/i in linked_objs)
-		var/obj/vehicle/hitbox/A = i
-		A.forceMove(src.loc)
-	for(var/obj/effect/doorpoint/k in linked_objs)
-		var/obj/effect/doorpoint/B = k
+	for(var/obj/vehicle/hitbox/H in linked_hitboxes)
+		H.forceMove(src.loc)
+	for(var/obj/effect/doorpoint/D in linked_doors)
 		get_door_location()	//Update the location
-		B.forceMove(door_location)
+		D.forceMove(door_location)
 
 /obj/vehicle/armored/update_icon() //To show damage, gun firing, whatever. We need to re apply the gun turret overlay.
 	if(!turret_overlay)
@@ -349,7 +350,7 @@ Removing mobs, move and icon tuff.
 	vis_contents |= secondary_weapon_overlay
 	vis_contents |= turret_overlay
 	primary_weapon.layer = layer+0.2
-	secondary_weapon_overlay.layer = layer+1
+	secondary_weapon_overlay.layer = layer+0.5
 	if(!damage_overlay)
 		damage_overlay = new(src)
 	cut_overlays()
@@ -490,10 +491,9 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 /obj/vehicle/armored/proc/exit_tank(mob/living/L) //By this point, we've checked that the seats are actually empty, so we won't need to do that again HOPEFULLY
 	if(!istype(L))
 		return
-
-	var/turf/T = get_step_away(get_step(L,turn(src.dir, 180)), L, 5)
-	if(!istype(src, /obj/vehicle/armored/multitile))
-		T = get_step(src,turn(src.dir, 180))
+	var/turf/T = get_step(src,turn(src.dir, 180))
+	if(istype(src, /obj/vehicle/armored/multitile))
+		T = get_turf(pick(linked_doors))
 	if(!T.CanPass(L, T))
 		to_chat(L, "<span class='warning'>You can't exit right now, there is something blocking the exit.</span>")
 		return

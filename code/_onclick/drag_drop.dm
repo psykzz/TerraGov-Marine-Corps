@@ -37,7 +37,7 @@
 	if(mouse_down_icon)
 		mouse_pointer_icon = mouse_down_icon
 
-	if(iisarmoredvehicle(mob.loc)) //This code is related to tank + vehicle autofire code, as seen in armored.dm
+	if(isarmoredvehicle(mob.loc)) //This code is related to tank + vehicle autofire code, as seen in armored.dm
 		var/obj/vehicle/armored/our_tank = mob.loc
 		our_tank.onMouseDown(object, mob, params)
 
@@ -50,7 +50,7 @@
 		click_intercepted = world.time
 	if(mouse_up_icon)
 		mouse_pointer_icon = mouse_up_icon
-	
+
 	if(istype(mob.loc, /obj/vehicle/armored)) //This code is related to tank + vehicle autofire code, as seen in armoured.dm
 		var/obj/vehicle/armored/our_tank = mob.loc
 		our_tank.onMouseUp(object,mob,params)

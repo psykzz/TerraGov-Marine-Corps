@@ -70,7 +70,7 @@
 	else
 		throw_at(T, 3, 2, veh, 1)
 	if(!IsKnockdown())
-		Knockdown(1 SECOND)
+		Knockdown(1 SECONDS)
 	apply_damage(rand(40, 55), BRUTE)
 	visible_message("<span class='danger'>[veh] bumps into [src], throwing [p_them()] away!</span>", "<span class='danger'>[veh] violently bumps into you!</span>")
 

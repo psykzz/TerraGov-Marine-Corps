@@ -23,7 +23,7 @@
 	var/range_safety_check = 3
 	///The turret icon if we equip the weapon in a secondary slot, you should null this if its unequippable as such
 	var/secondary_equipped_icon = null
-
+	///Used to build the icon name for the turret overlay, null if its unequipable as a secondary
 	var/secondary_icon_name
 
 /obj/item/tank_weapon/Initialize()
@@ -93,7 +93,7 @@
 	fire_sounds = list('sound/weapons/guns/fire/shotgun_automatic.ogg', 'sound/weapons/guns/fire/shotgun_light.ogg', 'sound/weapons/guns/fire/shotgun_heavy.ogg')
 	default_ammo = /obj/item/ammo_magazine/tank/tank_slauncher
 	accepted_ammo = list(
-		/obj/item/ammo_magazine/tank/towlauncher, 
+		/obj/item/ammo_magazine/tank/towlauncher,
 		/obj/item/ammo_magazine/tank/flamer,
 		/obj/item/ammo_magazine/tank/tank_glauncher
 	)

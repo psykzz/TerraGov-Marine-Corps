@@ -44,7 +44,7 @@ WHOEVER MADE CM TANKS: YOU ARE A BAD CODER!!!!!
   * Set relaymove like this:
   * First do checkmove, this checks whether the vehicle is ready to move
   * Then calculate centerturf and the rest of the tiles that need to be rammed using get_steps() and turns()
-  * Then do do_move(), hich handles ramming of the actual turfs
+  * Then do do_move(), which handles ramming of the actual turfs
   */
 
 

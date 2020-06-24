@@ -466,7 +466,7 @@
 /obj/structure/acid_spray_act(mob/living/carbon/xenomorph/X)
 	if(!is_type_in_typecache(src, GLOB.acid_spray_hit))
 		return TRUE // normal density flag
-	take_damage(rand(40,60) + SPRAY_STRUCTURE_UPGRADE_BONUS(X))
+	take_damage(45 + SPRAY_STRUCTURE_UPGRADE_BONUS(X), "acid", "acid")
 	return TRUE // normal density flag
 
 /obj/vehicle/acid_spray_act(mob/living/carbon/xenomorph/X)
@@ -644,13 +644,13 @@
 	. = ..()
 	if(.)
 		return
-	sunder = CLAMP(sunder + adjustment, 0, xeno_caste.sunder_max)
+	sunder = clamp(sunder + adjustment, 0, xeno_caste.sunder_max)
 
 /mob/living/carbon/xenomorph/set_sunder(new_sunder)
 	. = ..()
 	if(.)
 		return
-	sunder = CLAMP(new_sunder, 0, xeno_caste.sunder_max)
+	sunder = clamp(new_sunder, 0, xeno_caste.sunder_max)
 
 /mob/living/carbon/xenomorph/get_sunder()
 	. = ..()

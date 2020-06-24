@@ -294,6 +294,7 @@ Init and destroy procs for both multitile and 1x1 vehicles.
 	QDEL_NULL(secondary_weapon_overlay)
 	QDEL_NULL(primary_weapon)
 	QDEL_NULL(secondary_weapon)
+	QDEL_NULL(utility_module)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_cannon1.ogg', 100, TRUE) //Explosion sound
 	GLOB.tank_list -= src
 	return ..()

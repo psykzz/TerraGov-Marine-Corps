@@ -42,7 +42,7 @@
 		/obj/item/ammo_magazine/tank/towlauncher,
 		/obj/item/ammo_magazine/tank/m56_cupola,
 		/obj/item/ammo_magazine/tank/flamer,
-		/obj/item/ammo_magazine/tank/tank_slauncher
+		/obj/item/ammo_magazine/tank/tank_slauncher,
 	)
 	cooldown = 0.3 SECONDS //Minimal cooldown
 	range_safety_check = 0
@@ -79,7 +79,7 @@
 	log_combat(shooter, target, "fired the [src].")
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(target, owner, src, P.ammo.max_range, P.ammo.shell_speed)
-	playsound(src, pick(fire_sounds), 50)	//yatatatatata
+	playsound(src, pick(fire_sounds), 50, TRUE)	//yatatatatata
 	lastfired = world.time
 	SEND_SIGNAL(src, COMSIG_MOB_GUN_AUTOFIRED, target, src, shooter)
 	owner.secondary_weapon_overlay.setDir(angle2dir_cardinal(Get_Angle(src, target)))
@@ -119,7 +119,7 @@
 	if(!owner.gunner)
 		return FALSE
 	if(ammo.current_rounds <= 0)
-		playsound(get_turf(src), 'sound/weapons/guns/fire/empty.ogg', 100, 1)
+		playsound(get_turf(src), 'sound/weapons/guns/fire/empty.ogg', 100, TRUE)
 		to_chat(owner.gunner, "<span class='warning'>[src] has no ammo left!</span>")
 		return FALSE
 	if(istype(T) && get_dist(T, src) <= range_safety_check)

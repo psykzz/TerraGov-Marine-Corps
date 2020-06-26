@@ -14,7 +14,7 @@
 		to_chat(user, "You start to swap out [primary_weapon]'s magazine...")
 		if(!do_after(M, time, TRUE, src, BUSY_ICON_BUILD))
 			return
-		playsound(get_turf(src), 'sound/weapons/guns/interact/working_the_bolt.ogg', 100, 1)
+		playsound(get_turf(src), 'sound/weapons/guns/interact/working_the_bolt.ogg', 100, TRUE)
 		primary_weapon.ammo.forceMove(get_turf(user))
 		primary_weapon.ammo.update_icon()
 		primary_weapon.ammo = I

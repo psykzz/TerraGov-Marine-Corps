@@ -38,5 +38,5 @@
 				take_damage(I.force * fire_dam_coeff)
 			if("brute")
 				take_damage(I.force * brute_dam_coeff)
-		playsound(loc, "smash.ogg", 25, 1)
+		playsound(loc, "smash.ogg", 25, TRUE)
 		user.visible_message("<span class='danger'>[user] hits [src] with [I].</span>","<span class='danger'>You hit [src] with [I].</span>")

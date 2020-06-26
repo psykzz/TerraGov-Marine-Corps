@@ -74,7 +74,7 @@
 	apply_damage(rand(40, 55), BRUTE)
 	visible_message("<span class='danger'>[veh] bumps into [src], throwing [p_them()] away!</span>", "<span class='danger'>[veh] violently bumps into you!</span>")
 
-/mob/living/carbon/Xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
+/mob/living/carbon/xenomorph/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	. = ..()
 	if(lying_angle || loc == veh.loc)
 		return
@@ -84,7 +84,7 @@
 	throw_at(T, 2, 2, veh, 0)
 	visible_message("<span class='danger'>[veh] bumps into [src], pushing [p_them()] away!</span>", "<span class='danger'>[veh] bumps into you!</span>")
 
-/mob/living/carbon/Xenomorph/Larva/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
+/mob/living/carbon/Xenomorph/larva/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)
 	gib() //fuck you
 
 /obj/effect/alien/vehicle_collision(obj/vehicle/veh, facing, turf/T, turf/temp)

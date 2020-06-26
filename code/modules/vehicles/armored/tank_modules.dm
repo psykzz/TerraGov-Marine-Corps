@@ -10,9 +10,9 @@
 	icon_state = "ltb_cannon"
 
 ///Called to apply modules to a vehicle
-/obj/item/tank_module/proc/on_equip(target)
-	if(isarmoredvehicle(target))
-		return
+/obj/item/tank_module/proc/on_equip(obj/vehicle/armored/vehicle)
+	if(!istype(vehicle))
+		return TRUE
 
 /obj/item/tank_module/proc/on_unequip(target)
 	if(isarmoredvehicle(target))

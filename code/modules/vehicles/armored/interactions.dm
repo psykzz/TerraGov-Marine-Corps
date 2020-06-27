@@ -37,6 +37,9 @@
 		return
 
 	if(istype(I, /obj/item/tank_weapon))
+		if(operators.len)
+			to_chat(user, "<span class = 'warning'> You cannot attach modules when there are crewmembers inside!</span>")
+			return
 		var/obj/item/tank_weapon/W = I
 		var/mob/living/M = user
 		var/slotchoice = alert("What weapon would you like to attach?.", name, MODULE_PRIMARY, MODULE_SECONDARY, "Cancel")
@@ -100,6 +103,9 @@
 
 /obj/vehicle/armored/crowbar_act(mob/living/user, obj/item/I)
 	. = ..()
+	if(operators.len)
+		to_chat(user, "<span class = 'warning'> You cannot remove modules when there are crewmembers inside!</span>")
+		return
 	var/position = alert("What module would you like to remove?", name, MODULE_PRIMARY, MODULE_SECONDARY, MODULE_UTILITY, "Cancel")
 	if(!position || position == "Cancel")
 		return

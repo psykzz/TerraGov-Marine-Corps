@@ -75,11 +75,6 @@
 		return TRUE
 
 	if(isarmoredvehicle(mover))
-		var/obj/vehicle/veh = mover
-		if(!veh.demolish_on_ram)
-			return FALSE
-		visible_message("<span class='danger'>[mover] drives over and destroys [src]!</span>")
-		deconstruct(FALSE)
 		return FALSE
 
 	var/obj/structure/S = locate(/obj/structure) in get_turf(mover)

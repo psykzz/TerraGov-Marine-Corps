@@ -14,9 +14,9 @@
 	if(!istype(vehicle))
 		return TRUE
 
-/obj/item/tank_module/proc/on_unequip(target)
-	if(isarmoredvehicle(target))
-		return
+/obj/item/tank_module/proc/on_unequip(obj/vehicle/armored/vehicle)
+	if(!istype(vehicle))
+		return TRUE
 
 /obj/item/tank_module/overdrive
 	name = "Overdrive Module"
@@ -47,9 +47,3 @@
 	. = ..()
 	var/obj/vehicle/armored/vehicle = target
 	vehicle.max_passengers -= 4
-	if(vehicle.max_passengers < vehicle.passengers.len)
-		for(var/m in vehicle.passengers)
-			var/mob/living/carbon/human/H
-			vehicle.exit_tank(H)
-			if(vehicle.max_passengers > vehicle.passengers.len)//Kick people out till the cap is reached again
-				return

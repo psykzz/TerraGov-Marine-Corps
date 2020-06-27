@@ -477,6 +477,8 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 		if(POSITION_DRIVER)
 			pilot = user
 		if(POSITION_GUNNER)
+			RegisterSignal(user, COMSIG_MOB_MOUSEDOWN, /obj/vehicle/armored.proc/onMouseDown)
+			RegisterSignal(user, COMSIG_MOB_MOUSEUP, /obj/vehicle/armored.proc/onMouseUp)
 			gunner = user
 			if(secondary_weapon)
 				SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
@@ -503,6 +505,8 @@ This handles stuff like getting in, pulling people out of the tank, all that stu
 		pilot = null
 		operators -= L
 	else if(L == gunner)
+		UnregisterSignal(gunner, COMSIG_MOB_MOUSEDOWN)
+		UnregisterSignal(gunner, COMSIG_MOB_MOUSEUP)
 		if(secondary_weapon)
 			SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
 		gunner = null
@@ -673,9 +677,13 @@ This handles stuff like swapping seats, pulling people out of the tank, all that
 		return
 	if(pilot)
 		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_EXITED)
+		UnregisterSignal(user, COMSIG_MOB_MOUSEDOWN)
+		UnregisterSignal(user, COMSIG_MOB_MOUSEUP)
 		return
 	if(gunner)
 		SEND_SIGNAL(src.secondary_weapon, COMSIG_TANK_ENTERED, GUN_FIREMODE_AUTOMATIC, user.client)
+		RegisterSignal(user, COMSIG_MOB_MOUSEDOWN, /obj/vehicle/armored.proc/onMouseDown)
+		RegisterSignal(user, COMSIG_MOB_MOUSEUP, /obj/vehicle/armored.proc/onMouseUp)
 
 /obj/vehicle/armored/bullet_act(obj/projectile/Proj)
 	. = ..()

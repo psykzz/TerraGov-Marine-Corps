@@ -20,7 +20,7 @@
 	///When we last shot
 	var/lastfired = 0
 	///Explosion safety check range to stop bald TCs from blowing themselves into orbit trying to kill a runner
-	var/range_safety_check = 3
+	var/range_safety_check = 4
 	///The turret icon if we equip the weapon in a secondary slot, you should null this if its unequippable as such
 	var/secondary_equipped_icon = null
 	///Used to build the icon name for the turret overlay, null if its unequipable as a secondary
@@ -131,7 +131,7 @@
 \\\\\\\\TANK WEAPON PROCS////////
 This handles stuff like rotating turrets and shooting.
 */
-/obj/vehicle/armored/proc/onMouseDown(atom/A, mob/user, params)
+/obj/vehicle/armored/proc/onMouseDown(mob/user, atom/A, targetturf, control, params)
 	if(user != gunner) //Only the gunner can fire!
 		return
 	var/list/modifiers = params2list(params) //If they're CTRL clicking, for example, let's not have them accidentally shoot.
@@ -188,7 +188,7 @@ This handles stuff like rotating turrets and shooting.
 		if(secondary_weapon.fire(firing_target, gunner))
 			update_icon()
 
-/obj/vehicle/armored/proc/onMouseUp(atom/A, mob/user)
+/obj/vehicle/armored/proc/onMouseUp(mob/user, atom/A, targetturf, control, params)
 	stop_firing()
 
 ///Cleans up after we stop shooting

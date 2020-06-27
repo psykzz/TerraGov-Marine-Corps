@@ -37,10 +37,6 @@
 	if(mouse_down_icon)
 		mouse_pointer_icon = mouse_down_icon
 
-	if(isarmoredvehicle(mob.loc)) //This code is related to tank + vehicle autofire code, as seen in armored.dm
-		var/obj/vehicle/armored/our_tank = mob.loc
-		our_tank.onMouseDown(object, mob, params)
-
 /client/MouseUp(atom/object, turf/location, control, params)
 	if(!control)
 		return
@@ -50,11 +46,6 @@
 		click_intercepted = world.time
 	if(mouse_up_icon)
 		mouse_pointer_icon = mouse_up_icon
-
-	if(istype(mob.loc, /obj/vehicle/armored)) //This code is related to tank + vehicle autofire code, as seen in armoured.dm
-		var/obj/vehicle/armored/our_tank = mob.loc
-		our_tank.onMouseUp(object,mob,params)
-
 
 /client/MouseDrag(atom/src_object, atom/over_object, turf/src_location, turf/over_location, src_control, over_control, params) //The order seems to be wrong in the reference.
 	if(over_control != "mapwindow.map") //You can drag the mouse to the stat panel, in which case this variable will be "statwindow.stat"

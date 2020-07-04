@@ -86,7 +86,7 @@
 	icon_vend = "synth-vend"
 	icon_deny = "synth-deny"
 	wrenchable = FALSE
-	req_one_access = list(ACCESS_MARINE_CARGO)
+	req_one_access = list(ACCESS_MARINE_CARGO, ACCESS_MARINE_LOGISTICS)
 	products = list(
 					/obj/item/storage/box/ammo = 30,
 					/obj/item/storage/box/nade_box = 2,
@@ -525,7 +525,7 @@
 
 	premium = list(
 					/obj/item/storage/box/sentry = 1,
-					/obj/item/storage/box/m56d_hmg = 1
+					/obj/item/storage/box/standard_hmg = 1
 					)
 	shared = list(
 				/obj/structure/closet/crate/mortar_ammo/mortar_kit = 1,

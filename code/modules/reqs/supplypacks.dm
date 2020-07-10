@@ -4,7 +4,7 @@
 //NOTE: Don't add living things to crates, that's bad, it will break the shuttle.
 //NOTE: Do NOT set the price of any crates below 7 points. Doing so allows infinite points.
 
-GLOBAL_LIST_INIT(all_supply_groups, list("Operations", "Weapons", "Hardpoint Modules", "Attachments", "Ammo", "Armor", "Clothing", "Medical", "Engineering", "Supplies", "Imports"))
+GLOBAL_LIST_INIT(all_supply_groups, list("Operations", "Weapons", "Attachments", "Ammo", "Armor", "Clothing", "Medical", "Engineering", "Supplies", "Imports"))
 
 /datum/supply_packs
 	var/name
@@ -319,34 +319,6 @@ WEAPONS
 		/obj/item/assembly/signaler,
 	)
 	cost = 16
-
-/*******************************************************************************
-HARDPOINT MODULES (and their ammo)
-*******************************************************************************/
-/datum/supply_packs/hardpoints/tank_glauncher_ammo
-	name = "Grenade Launcher Magazine"
-	contains = list(/obj/item/ammo_magazine/tank/tank_glauncher)
-	cost = 3
-
-/datum/supply_packs/hardpoints/tank_slauncher_ammo
-	name = "Smoke Launcher Magazine"
-	contains = list(/obj/item/ammo_magazine/tank/tank_slauncher)
-	cost = 3
-
-/datum/supply_packs/hardpoints/tank_towlauncher_ammo
-	name = "TOW Launcher Magazine"
-	contains = list(/obj/item/ammo_magazine/tank/towlauncher)
-	cost = 7
-
-/datum/supply_packs/hardpoints/tank_cupola_ammo
-	name = "M56 Cupola Magazine"
-	contains = list(/obj/item/ammo_magazine/tank/m56_cupola)
-	cost = 15
-
-/datum/supply_packs/hardpoints/tank_flamer_ammo
-	name = "Flamer Magazine"
-	contains = list(/obj/item/ammo_magazine/tank/flamer)
-	cost = 6
 
 /*******************************************************************************
 ATTACHMENTS

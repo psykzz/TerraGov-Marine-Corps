@@ -478,6 +478,7 @@
 	return FALSE // not normal density flag
 
 /mob/living/carbon/acid_spray_act(mob/living/carbon/xenomorph/X)
+	ExtinguishMob()
 	if(isnestedhost(src))
 		return
 
@@ -505,8 +506,10 @@
 	Paralyze(20)
 
 /mob/living/carbon/xenomorph/acid_spray_act(mob/living/carbon/xenomorph/X)
-	return
+	ExtinguishMob()
 
+/obj/flamer_fire/acid_spray_act(mob/living/carbon/xenomorph/X)
+	Destroy()
 
 // Vent Crawl
 /mob/living/carbon/xenomorph/proc/vent_crawl()

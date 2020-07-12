@@ -189,9 +189,6 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/obj/machinery/standard_hmg/deconstruct(disassembled = TRUE)
-	return ..()
-
 /obj/machinery/standard_hmg/examine(mob/user) //Let us see how much ammo we got in this thing.
 	..()
 	if(rounds)
@@ -212,10 +209,9 @@
 	if(!ishuman(user))
 		return
 
-	for(var/obj/effect/xenomorph/acid/A in loc)
-		if(A.acid_t == src)
-			to_chat(user, "You can't get near that, it's melting!")
-			return
+	if(current_acid)
+		to_chat(user, "You can't get near that, it's melting!")
+		return
 
 	if(istype(I, /obj/item/ammo_magazine/standard_hmg)) // RELOADING DOCTOR FREEMAN.
 		var/obj/item/ammo_magazine/standard_hmg/M = I
@@ -231,8 +227,8 @@
 			return
 		if(!do_after(user, 25, TRUE, src, BUSY_ICON_FRIENDLY))
 			return
-		user.visible_message("<span class='notice'> [user] loads [src]! </span>","<span class='notice'> You load [src]!</span>")
-		playsound(loc, 'sound/weapons/guns/interact/minigun_cocked.ogg', 25, 1)
+		user.visible_message("<span class='notice'>[user] loads [src]! </span>", "<span class='notice'>You load [src]!</span>")
+		playsound(loc, 'sound/weapons/guns/interact/minigun_cocked.ogg', 25, TRUE)
 		user.temporarilyRemoveItemFromInventory(I)
 		var/obj/item/ammo_magazine/standard_hmg/D = new()
 		if(rounds)
@@ -329,7 +325,7 @@
 
 
 /obj/machinery/standard_hmg/proc/create_bullet()
-	in_chamber = new /obj/projectile(src) //New bullet!
+	in_chamber = new (src) //New bullet!
 	in_chamber.generate_bullet(ammo)
 
 
@@ -390,14 +386,14 @@
 	in_chamber = null //Projectiles live and die fast. It's better to null the reference early so the GC can handle it immediately.
 	var/mob/living/L = locate() in U
 	var/atom/A
-	if(L !=null)
+	if(L != null)
 		proj_to_fire.original_target = L
 		A = L
 	else
 		proj_to_fire.original_target = target
 		A = target
 	proj_to_fire.setDir(dir)
-	proj_to_fire.def_zone = pick("chest","chest","chest","head")
+	proj_to_fire.def_zone = pick(300;"chest","head")
 	playsound(loc, 'sound/weapons/guns/fire/hmg2.ogg', 65, TRUE)
 	if(!QDELETED(target))
 		var/angle = round(Get_Angle(src,target))
@@ -553,7 +549,7 @@
 	user.verbs -= /mob/living/proc/toogle_mg_burst_fire
 
 /obj/machinery/standard_hmg/check_eye(mob/user)
-	if(user.lying_angle || !Adjacent(user) || user.incapacitated() || !user.client)
+	if(user.lying_angle || !Adjacent(user) || user.incapacitated() || !user.client || get_step(src, REVERSE_DIR(dir)) != user.loc)
 		user.unset_interaction()
 
 /mob/living/proc/toogle_mg_burst_fire(obj/machinery/standard_hmg/MG in list(interactee))

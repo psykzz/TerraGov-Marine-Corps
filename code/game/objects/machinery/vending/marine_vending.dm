@@ -618,7 +618,6 @@
 						/obj/item/attachable/verticalgrip = 25,
 
 						/obj/item/attachable/stock/t19stock = 25,
-						/obj/item/attachable/stock/revolver = 25,
 						/obj/item/attachable/stock/t35stock = 25,
 						/obj/item/attachable/stock/tactical = 25,
 
@@ -727,7 +726,7 @@
 					/obj/item/clothing/head/modular/heavy = 20,
 					/obj/item/clothing/head/modular/medium = 20,
 					/obj/item/clothing/head/modular/light = 20,
-					/obj/item/facepaint/ = 20
+					/obj/item/facepaint/green = 20
 					)
 
 	prices = list()

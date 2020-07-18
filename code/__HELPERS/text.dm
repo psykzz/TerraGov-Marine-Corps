@@ -46,6 +46,15 @@
 /proc/sanitize(t, list/repl_chars)
 	return html_encode(sanitize_simple(t, repl_chars))
 
+/proc/sanitize_name(t, list/repl_chars = null)
+	if(CHAT_FILTER_CHECK(t))
+		alert("You cannot set a name that contains a word prohibited in IC chat!")
+		return ""
+	if(t == "space" || t == "floor" || t == "wall" || t == "r-wall" || t == "monkey" || t == "unknown" || t == "inactive ai")	//prevents these common metagamey names
+		alert("Invalid name.")
+		return ""
+	return sanitize(t, repl_chars)
+
 
 //Runs sanitize and strip_html_simple
 //I believe strip_html_simple() is required to run first to prevent '<' from displaying as '&lt;' after sanitize() calls byond's html_encode()

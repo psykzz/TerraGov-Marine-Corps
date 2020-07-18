@@ -1,3 +1,4 @@
+#define COOLDOWN_SAY 		"say"
 #define COOLDOWN_CHEW 		"chew"
 #define COOLDOWN_PUKE 		"puke"
 #define COOLDOWN_POINT 		"point"

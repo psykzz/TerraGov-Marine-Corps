@@ -78,12 +78,6 @@
 		overlays_standing[X_L_HAND_LAYER]	= image("icon" = spritesheet_used, "icon_state" = t_state, "layer" =-X_L_HAND_LAYER)
 		apply_overlay(X_L_HAND_LAYER)
 
-/mob/living/carbon/xenomorph/update_inv_legcuffed()
-	remove_overlay(X_LEGCUFF_LAYER)
-	if(legcuffed)
-		overlays_standing[X_LEGCUFF_LAYER]	= image("icon" = 'icons/Xeno/Effects.dmi', "icon_state" = "legcuff", "layer" =-X_LEGCUFF_LAYER)
-		apply_overlay(X_LEGCUFF_LAYER)
-
 /mob/living/carbon/xenomorph/proc/create_shriekwave()
 	overlays_standing[X_SUIT_LAYER] = image("icon"='icons/Xeno/2x2_Xenos.dmi', "icon_state" = "shriek_waves") //Ehh, suit layer's not being used.
 	apply_temp_overlay(X_SUIT_LAYER, 3 SECONDS)
@@ -111,22 +105,52 @@
 	return I
 
 /mob/living/carbon/xenomorph/proc/update_wounds()
-	remove_overlay(X_WOUND_LAYER)
-	if(health < maxHealth * 0.5) //Injuries appear at less than 50% health
-		var/image/I
-		if(lying_angle)
-			if((resting || IsSleeping()) && (!IsParalyzed() && !IsUnconscious() && health > 0))
-				I = image("icon"='icons/Xeno/wound_overlays.dmi', "icon_state"="[xeno_caste.wound_type]_wounded_resting", "layer"=-X_WOUND_LAYER)
-			else
-				I = image("icon"='icons/Xeno/wound_overlays.dmi', "icon_state"="[xeno_caste.wound_type]_wounded_sleeping", "layer"=-X_WOUND_LAYER)
-		else if(!handle_special_state())
-			I = image("icon"='icons/Xeno/wound_overlays.dmi', "icon_state"="[xeno_caste.wound_type]_wounded", "layer"=-X_WOUND_LAYER)
+	var/health_thresholds
+	wound_overlay.layer = src.layer + 0.3
+	if(health > health_threshold_crit)
+		health_thresholds = CEILING((health * 4) / (maxHealth), 1) //From 1 to 4, in 25% chunks
+		if(health_thresholds > 3)
+			wound_overlay.icon_state = "none"
+			return //Injuries appear at less than 75% health
+	else if(health_threshold_dead)
+		switch(CEILING((health * 3) / health_threshold_dead, 1)) //Negative health divided by a negative threshold, positive result.
+			if(0 to 1)
+				health_thresholds = 1
+			if(2)
+				health_thresholds = 2
+			if(3 to INFINITY)
+				health_thresholds = 3
+	if(lying_angle)
+		if((resting || IsSleeping()) && (!IsParalyzed() && !IsUnconscious() && health > 0))
+			wound_overlay.icon_state = "[xeno_caste.wound_type]_wounded_resting_[health_thresholds]"
 		else
-			I = handle_special_wound_states()
-		I = apply_alpha_channel(I)
-		overlays_standing[X_WOUND_LAYER] = I
-		apply_overlay(X_WOUND_LAYER)
+			wound_overlay.icon_state = "[xeno_caste.wound_type]_wounded_stunned_[health_thresholds]"
+	else if(!handle_special_state())
+		wound_overlay.icon_state = "[xeno_caste.wound_type]_wounded_[health_thresholds]"
+	else
+		wound_overlay.icon_state = handle_special_wound_states(health_thresholds)
 
 /mob/living/carbon/xenomorph/update_transform()
 	..()
 	return update_icons()
+
+///Used to display the xeno wounds without rapidly switching overlays
+/atom/movable/vis_obj/xeno_wounds
+	icon = 'icons/Xeno/wound_overlays.dmi'
+	var/mob/living/carbon/xenomorph/wound_owner
+
+/atom/movable/vis_obj/xeno_wounds/Initialize(mapload, mob/living/carbon/xenomorph/owner)
+	. = ..()
+	if(owner)
+		wound_owner = owner
+		RegisterSignal(owner, COMSIG_ATOM_DIR_CHANGE, .proc/on_dir_change)
+
+/atom/movable/vis_obj/xeno_wounds/Destroy()
+	if(wound_owner)
+		UnregisterSignal(wound_owner, COMSIG_ATOM_DIR_CHANGE)
+		wound_owner = null
+	return ..()
+
+/atom/movable/vis_obj/xeno_wounds/proc/on_dir_change(mob/living/carbon/xenomorph/source, olddir, newdir)
+	if(newdir != dir)
+		dir = newdir

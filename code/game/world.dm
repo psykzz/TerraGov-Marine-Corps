@@ -12,6 +12,9 @@ GLOBAL_VAR(restart_counter)
 	if(fexists(extools))
 		call(extools, "maptick_initialize")()
 	enable_debugger()
+#ifdef REFERENCE_TRACKING
+	enable_reference_tracking()
+#endif
 
 	log_world("World loaded at [time_stamp()]!")
 
@@ -238,6 +241,27 @@ GLOBAL_VAR(restart_counter)
 		FinishTestRun()
 		return
 
+	if(TgsAvailable())
+		var/do_hard_reboot
+		// check the hard reboot counter
+		var/ruhr = CONFIG_GET(number/rounds_until_hard_restart)
+		switch(ruhr)
+			if(-1)
+				do_hard_reboot = FALSE
+			if(0)
+				do_hard_reboot = TRUE
+			else
+				if(GLOB.restart_counter >= ruhr)
+					do_hard_reboot = TRUE
+				else
+					text2file("[++GLOB.restart_counter]", RESTART_COUNTER_PATH)
+					do_hard_reboot = FALSE
+
+		if(do_hard_reboot)
+			log_world("World rebooted at [time_stamp()]")
+			shutdown_logging() // Past this point, no logging procs can be used, at risk of data loss.
+			TgsEndProcess()
+
 	var/linkylink = CONFIG_GET(string/server)
 	if(linkylink)
 		for(var/cli in GLOB.clients)
@@ -278,14 +302,12 @@ GLOBAL_VAR(restart_counter)
 	*/
 	var/discord_url = CONFIG_GET(string/discordurl)
 	var/webmap_host = CONFIG_GET(string/webmap_host)
-	var/full_server_name = discord_url ? "<a href='[discord_url]'>[server_name]</a>" : "[server_name]"
 	var/shipname = length(SSmapping?.configs) && SSmapping.configs[SHIP_MAP] ? SSmapping.configs[SHIP_MAP].map_name : "Lost in space..."
-	var/ship_map_file = length(SSmapping?.configs) && SSmapping.configs[SHIP_MAP] ? SSmapping.configs[SHIP_MAP].map_file : ""
 	var/map_name = length(SSmapping.configs) && SSmapping.configs[GROUND_MAP] ? SSmapping.configs[GROUND_MAP].map_name : "Loading..."
 	var/ground_map_file = length(SSmapping.configs) && SSmapping.configs[GROUND_MAP] ? SSmapping.configs[GROUND_MAP].map_file : ""
 
 	var/new_status = ""
-	new_status += "<b>[full_server_name] &#8212; <a href='[webmap_host][ship_map_file]'>[shipname]</a></b>"
+	new_status += "<b><a href='[discord_url ? discord_url : "#"]'>[server_name] &#8212; [shipname]</a></b>"
 	new_status += "<br>Map: <a href='[webmap_host][ground_map_file]'><b>[map_name]</a></b>"
 	new_status += "<br>Mode: <b>[SSticker.mode ? SSticker.mode.name : "Lobby"]</b>"
 	new_status += "<br>Round time: <b>[gameTimestamp("hh:mm")]</b>"

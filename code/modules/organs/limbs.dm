@@ -541,7 +541,11 @@ Note that amputating the affected organ does in fact remove the infection from t
 				W.open_wound(0.1 * wound_update_accuracy)
 			if(bicardose >= 30)	//overdose of bicaridine begins healing IB
 				W.damage = max(0, W.damage - 0.2)
-
+			
+			if(W.damage <= 0)
+				wounds -= W // otherwise we are stuck with a 0 damage IB for a while
+				continue
+			
 			if(!owner.reagents.get_reagent_amount(/datum/reagent/medicine/quickclot)) //Quickclot stops bleeding, magic!
 				owner.blood_volume = max(0, owner.blood_volume - wound_update_accuracy * W.damage/40) //line should possibly be moved to handle_blood, so all the bleeding stuff is in one place.
 				if(prob(1 * wound_update_accuracy))
@@ -854,12 +858,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 		owner.dropItemToGround(owner.handcuffed)
 
-	if (owner.legcuffed && (body_part in list(FOOT_LEFT, FOOT_RIGHT, LEG_LEFT, LEG_RIGHT)))
-		owner.visible_message(\
-			"\The [owner.legcuffed.name] falls off of [owner.name].",\
-			"\The [owner.legcuffed.name] falls off you.")
-
-		owner.dropItemToGround(owner.legcuffed)
 
 /datum/limb/proc/bandage()
 	var/rval = 0
@@ -952,6 +950,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 /datum/limb/proc/robotize()
 	rejuvenate()
+	add_limb_flags(LIMB_ROBOT)
 	for(var/c in children)
 		var/datum/limb/child_limb = c
 		child_limb.robotize()
@@ -1217,7 +1216,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	name = "head"
 	icon_name = "head"
 	display_name = "head"
-	max_damage = 150
+	max_damage = 100
 	min_broken_damage = 40
 	body_part = HEAD
 	vital = TRUE

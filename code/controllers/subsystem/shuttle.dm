@@ -1,4 +1,5 @@
 #define MAX_TRANSIT_REQUEST_RETRIES 10
+#define SHUTTLE_SPAWN_BUFFER SSshuttle.wait * 10 /// Give a shuttle 10 "fires" (~10 seconds) to spawn before it can be cleaned up.
 
 SUBSYSTEM_DEF(shuttle)
 	name = "Shuttle"
@@ -40,6 +41,9 @@ SUBSYSTEM_DEF(shuttle)
 
 	var/datum/turf_reservation/preview_reservation
 
+	/// safety to stop shuttles loading over each other
+	var/loading_shuttle = FALSE
+
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	initial_load()
 	return ..()
@@ -65,7 +69,7 @@ SUBSYSTEM_DEF(shuttle)
 		// immediately being used. This will mean that the zone creation
 		// code will be running a lot.
 		var/obj/docking_port/mobile/owner = T.owner
-		if(owner)
+		if(owner && (world.time > T.spawn_time + SHUTTLE_SPAWN_BUFFER))
 			var/idle = owner.mode == SHUTTLE_IDLE
 			var/not_centcom_evac = owner.launch_status == NOLAUNCH
 			var/not_in_use = (!T.get_docked())
@@ -332,12 +336,48 @@ SUBSYSTEM_DEF(shuttle)
 
 	QDEL_LIST(remove_images)
 
+
+/datum/controller/subsystem/shuttle/proc/load_template_to_transit(datum/map_template/shuttle/template)
+	UNTIL(!loading_shuttle)
+	loading_shuttle = TRUE
+
+	var/obj/docking_port/mobile/shuttle = action_load(template)
+
+	if(!istype(shuttle))
+		message_admins("Shuttle loading: [name] couldn't load a shuttle template")
+		loading_shuttle = FALSE
+		CRASH("Shuttle loading: ert shuttle failed to load")
+
+	if(!shuttle.assigned_transit)
+		generate_transit_dock(shuttle)
+
+	if(!shuttle.assigned_transit)
+		message_admins("Shuttle loading: shuttle failed to get an assigned transit dock.")
+		shuttle.intoTheSunset()
+		loading_shuttle = FALSE
+		CRASH("Shuttle loading: ert shuttle failed to get an assigned transit dock")
+
+	shuttle.initiate_docking(shuttle.assigned_transit)
+
+	loading_shuttle = FALSE
+
+	if(!shuttle.assigned_transit)
+		message_admins("Shuttle loading: shuttle no longer has an assigned transit, trying to get it a new one")
+		generate_transit_dock(shuttle)
+		if(!shuttle.assigned_transit)
+			message_admins("Shuttle loading: shuttle possibly failed because it no longer has an assigned transit, deleting it.")
+			shuttle.intoTheSunset()
+			CRASH("Shuttle loading: shuttle possibly failed because it no longer has an assigned transit, deleting it.")
+
+	return shuttle
+
 /datum/controller/subsystem/shuttle/proc/action_load(datum/map_template/shuttle/loading_template, obj/docking_port/stationary/destination_port)
 	// Check for an existing preview
 	if(preview_shuttle && (loading_template != preview_template))
 		preview_shuttle.jumpToNullSpace()
 		preview_shuttle = null
 		preview_template = null
+		QDEL_NULL(preview_reservation)
 
 	if(!preview_shuttle)
 		if(load_template(loading_template))
@@ -357,6 +397,10 @@ SUBSYSTEM_DEF(shuttle)
 		D = existing_shuttle.get_docked()
 
 	if(!D)
+		D = generate_transit_dock(preview_shuttle)
+
+	if(!D)
+		preview_shuttle.jumpToNullSpace()
 		CRASH("No dock found for preview shuttle ([preview_template.name]), aborting.")
 
 	var/result = preview_shuttle.canDock(D)
@@ -389,17 +433,19 @@ SUBSYSTEM_DEF(shuttle)
 	preview_shuttle = null
 	preview_template = null
 	existing_shuttle = null
+	selected = null
+	QDEL_NULL(preview_reservation)
 
 /datum/controller/subsystem/shuttle/proc/load_template(datum/map_template/shuttle/S)
 	. = FALSE
 	// load shuttle template, centred at shuttle import landmark,
-	var/turf/landmark_turf = get_turf(locate(/obj/effect/landmark/shuttle_import) in GLOB.landmarks_list)
-	if(!landmark_turf)
-		to_chat(world, "no shuttle import landmark")
-		CRASH("no shuttle import landmark")
-	S.load(landmark_turf, centered = TRUE, register = FALSE)
+	preview_reservation = SSmapping.RequestBlockReservation(S.width, S.height, SSmapping.transit.z_value, /datum/turf_reservation/transit)
+	if(!preview_reservation)
+		CRASH("failed to reserve an area for shuttle template loading")
+	var/turf/BL = TURF_FROM_COORDS_LIST(preview_reservation.bottom_left_coords)
+	S.load(BL, centered = FALSE, register = FALSE)
 
-	var/affected = S.get_affected_turfs(landmark_turf, centered=TRUE)
+	var/affected = S.get_affected_turfs(BL, centered=FALSE)
 
 	var/found = 0
 	// Search the turfs for docking ports
@@ -573,3 +619,6 @@ SUBSYSTEM_DEF(shuttle)
 					message_admins("[key_name_admin(usr)] loaded [mdp] with the shuttle manipulator.")
 					log_admin("[key_name(usr)] loaded [mdp] with the shuttle manipulator.</span>")
 					SSblackbox.record_feedback("text", "shuttle_manipulator", 1, "[mdp.name]")
+
+
+#undef SHUTTLE_SPAWN_BUFFER

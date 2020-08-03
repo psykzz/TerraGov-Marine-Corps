@@ -22,7 +22,9 @@
 #undef DELTA_CALC
 
 #define UNTIL(X) while(!(X)) stoplag()
-#define SIGN(x) (x < 0 ? -1  : 1)
+
+/// Gets the sign of x, returns -1 if negative, 0 if 0, 1 if positive
+#define SIGN(x) ( ((x) > 0) - ((x) < 0) )
 
 //datum may be null, but it does need to be a typed var
 #define NAMEOF(datum, X) (#X || ##datum.##X)
@@ -232,9 +234,9 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 /proc/sanitize_frequency(frequency, free = FALSE)
 	. = round(frequency)
 	if(free)
-		. = CLAMP(frequency, MIN_FREE_FREQ, MAX_FREE_FREQ)
+		. = clamp(frequency, MIN_FREE_FREQ, MAX_FREE_FREQ)
 	else
-		. = CLAMP(frequency, MIN_FREQ, MAX_FREQ)
+		. = clamp(frequency, MIN_FREQ, MAX_FREQ)
 	if(!(. % 2)) // Ensure the last digit is an odd number
 		. += 1
 
@@ -456,11 +458,6 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 //Makes sure MIDDLE is between LOW and HIGH. If not, it adjusts it. Returns the adjusted value.
 /proc/between(low, middle, high)
 	return max(min(middle, high), low)
-
-#if DM_VERSION < 513
-/proc/arctan(x)
-	return arcsin(x / sqrt(1 + x * x))
-#endif
 
 //returns random gauss number
 /proc/GaussRand(sigma)
@@ -988,8 +985,8 @@ GLOBAL_LIST_INIT(common_tools, typecacheof(list(
 	tX = splittext(tX[1], ":")
 	tX = tX[1]
 	var/list/actual_view = getviewsize(C ? C.view : WORLD_VIEW)
-	tX = CLAMP(origin.x + text2num(tX) - round(actual_view[1] * 0.5) + (round(C?.pixel_x / 32)) - 1, 1, world.maxx)
-	tY = CLAMP(origin.y + text2num(tY) - round(actual_view[2] * 0.5) + (round(C?.pixel_y / 32)) - 1, 1, world.maxy)
+	tX = clamp(origin.x + text2num(tX) - round(actual_view[1] * 0.5) + (round(C?.pixel_x / 32)) - 1, 1, world.maxx)
+	tY = clamp(origin.y + text2num(tY) - round(actual_view[2] * 0.5) + (round(C?.pixel_y / 32)) - 1, 1, world.maxy)
 	return locate(tX, tY, tZ)
 
 
@@ -1364,3 +1361,5 @@ will handle it, but:
 /proc/CallAsync(datum/source, proctype, list/arguments)
 	set waitfor = FALSE
 	return call(source, proctype)(arglist(arguments))
+
+#define TURF_FROM_COORDS_LIST(List) (locate(List[1], List[2], List[3]))

@@ -46,7 +46,7 @@
 #define CARBON_BREATH_DELAY 2 // The interval in life ticks between breathe()
 
 #define CARBON_MAX_OXYLOSS 3 //Defines how much oxyloss humans can get per breath tick. A tile with no air at all (such as space) applies this value, otherwise it's a percentage of it.
-#define CARBON_CRIT_MAX_OXYLOSS (round(SSmobs.wait/30, 0.1)) //The amount of damage you'll get when in critical condition.
+#define CARBON_CRIT_MAX_OXYLOSS (round(SSmobs.wait/5, 0.1)) //The amount of damage you'll get when in critical condition.
 #define CARBON_RECOVERY_OXYLOSS -5 //the amount of oxyloss recovery per successful breath tick.
 
 #define CARBON_KO_OXYLOSS 50
@@ -82,7 +82,7 @@
 #define UNCONSCIOUS	1
 #define DEAD		2
 
-#define check_tod(H) ((!H.undefibbable && world.time <= H.timeofdeath + CONFIG_GET(number/revive_grace_period)))
+#define check_tod(H) ((!H.undefibbable && world.time <= H.timeofdeath + CONFIG_GET(number/revive_grace_period) + H.revive_grace_time))
 
 //Damage things
 //Way to waste perfectly good damagetype names (BRUTE) on this... If you were really worried about case sensitivity, you could have just used lowertext(damagetype) in the proc...
@@ -397,7 +397,6 @@ GLOBAL_LIST_INIT(xenoupgradetiers, list(XENO_UPGRADE_BASETYPE, XENO_UPGRADE_INVA
 #define HEAD_LAYER				10
 #define COLLAR_LAYER			9
 #define HANDCUFF_LAYER			8
-#define LEGCUFF_LAYER			7
 #define L_HAND_LAYER			6
 #define R_HAND_LAYER			5
 #define BURST_LAYER				4 //Chestburst overlay

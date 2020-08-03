@@ -5,6 +5,9 @@
 // global signals
 // These are signals which can be listened to by any component on any parent
 // start global signals with "!", this used to be necessary but now it's just a formatting choice
+
+///from base of datum/controller/subsystem/mapping/proc/add_new_zlevel(): (list/args)
+#define COMSIG_GLOB_NEW_Z "!new_z"
 #define COMSIG_GLOB_OPEN_TIMED_SHUTTERS_LATE "!open_timed_shutters_late"
 #define COMSIG_GLOB_OPEN_TIMED_SHUTTERS_XENO_HIVEMIND "!open_timed_shutters_xeno_hivemind"
 #define COMSIG_GLOB_OPEN_TIMED_SHUTTERS_CRASH "!open_timed_shutters_crash"
@@ -39,6 +42,10 @@
 #define COMSIG_PARENT_QDELETING "parent_qdeleting"
 /// generic topic handler (usr, href_list)
 #define COMSIG_TOPIC "handle_topic"
+
+/// generic topic handler (usr, href_list)
+#define COMSIG_COMBAT_LOG "combat_log"
+	#define DONT_LOG (1<<0)
 
 /// fires on the target datum when an element is attached to it (/datum/element)
 #define COMSIG_ELEMENT_ATTACH "element_attach"
@@ -119,6 +126,7 @@
 // /atom/movable signals
 #define COMSIG_MOVABLE_PRE_MOVE "movable_pre_move"					//from base of atom/movable/Moved(): (/atom)
 #define COMSIG_MOVABLE_MOVED "movable_moved"					//from base of atom/movable/Moved(): (/atom, dir)
+	#define COMSIG_MOVABLE_PULL_MOVED "movable_pull_moved"		//base base of atom/movable/Moved() (/atom, dir)
 #define COMSIG_MOVABLE_CROSSED_BY "movable_crossed_by"			//from base of atom/movable/Crossed(): (/atom/movable, oldloc)
 #define COMSIG_MOVABLE_CROSSED "movable_crossed"				//from base of atom/movable/Crossed(): (/atom/movable, oldloc)
 #define COMSIG_MOVABLE_BUMP "movable_bump"						//from base of atom/movable/Bump(): (/atom)
@@ -145,6 +153,8 @@
 	#define COMPONENT_MOVABLE_PREBUMP_ENTANGLED		(1<<2)
 #define COMSIG_MOVABLE_PREBUMP_EXIT_MOVABLE "movable_prebump_exit_movable" //from base of /turf/Exit(): (/atom/movable)
 #define COMSIG_MOVABLE_UPDATE_GLIDE_SIZE "movable_glide_size"	//from base of /atom/movable/proc/set_glide_size(): (target)
+/// sent before a thing is crushed by a shuttle
+#define COMSIG_MOVABLE_SHUTTLE_CRUSH "movable_shuttle_crush"
 
 // /turf signals
 #define COMSIG_TURF_CHANGE "turf_change"						//from base of turf/ChangeTurf(): (path, list/new_baseturfs, flags, list/transferring_comps)
@@ -169,6 +179,8 @@
 #define COMSIG_ITEM_AFTERATTACK "item_afterattack"				//from base of obj/item/afterattack(): (atom/target, mob/user, proximity_flag, click_parameters)
 #define COMSIG_ITEM_ATTACK_OBJ "item_attack_obj"				//from base of obj/item/attack_obj(): (/obj, /mob)
 	#define COMPONENT_NO_ATTACK_OBJ 1
+#define COMSIG_ITEM_ATTACK_TURF "item_attack_turf"				//from base of obj/item/attack_turf(): (/turf, /mob)
+	#define COMPONENT_NO_ATTACK_TURF 1
 #define COMSIG_ITEM_TOGGLE_ACTION "item_toggle_action"			//from base of obj/item/ui_interact(): (/mob/user)
 #define COMSIG_ITEM_TOGGLE_ACTIVE "item_toggle_active"			//from base of /obj/item/toggle_active(): (new_state)
 
@@ -211,7 +223,7 @@
 	#define COMPONENT_PROJ_SCANTURF_TARGETFOUND (1<<1)
 
 // /mob signals
-#define COMSIG_MOB_DEATH "mob_death"							//from base of mob/death(): (gibbed)
+#define COMSIG_MOB_DEATH "mob_death"							//from base of mob/death(): (gibbing)
 #define COMSIG_MOB_REVIVE "mob_revive"							//from base of mob/on_revive(): ()
 #define COMSIG_MOB_MOUSEDOWN "mob_mousedown"					//from /client/MouseDown(): (atom/object, turf/location, control, params)
 #define COMSIG_MOB_MOUSEUP "mob_mouseup"						//from /client/MouseUp(): (atom/object, turf/location, control, params)
@@ -242,7 +254,6 @@
 #define COMSIG_LIVING_DO_RESIST			"living_do_resist"		//from the base of /mob/living/do_resist()
 #define COMSIG_LIVING_DO_MOVE_RESIST "living_do_move_resist"			//from the base of /client/Move()
 	#define COMSIG_LIVING_RESIST_SUCCESSFUL (1<<0)
-#define COMSIG_LIVING_LEGCUFFED "living_legcuffed"	//from the base of /mob/living/carbon/proc/update_legcuffed(): (obj/item/restraints/legcuffs/restraints)
 #define COMSIG_LIVING_SET_CANMOVE "living_set_canmove"			//from base of /mob/living/set_canmove(): (canmove)
 #define COMSIG_LIVING_MELEE_ALIEN_DISARMED "living_melee_alien_disarmed"	//from /mob/living/proc/attack_alien_disarm(): (mob/living/carbon/xenomorph/X)
 #define COMSIG_LIVING_SHIELDCALL "living_shieldcall"
@@ -346,6 +357,7 @@
 #define COMSIG_KB_CARBON_HOLDRUNMOVEINTENT_DOWN "keybinding_carbon_holdrunmoveintent_down"
 #define COMSIG_KB_ADMIN_TOGGLEBUILDMODE_DOWN "keybinding_admin_togglebuildmode_down"
 #define COMSIG_KB_CARBON_TOGGLETHROWMODE_DOWN "keybinding_carbon_togglethrowmode_down"
+#define COMSIG_KB_CARBON_TOGGLEREST_DOWN "kebinding_carbon_togglerest_down"
 #define COMSIG_KB_CARBON_SELECTHELPINTENT_DOWN "keybinding_carbon_selecthelpintent_down"
 #define COMSIG_KB_CARBON_SELECTDISARMINTENT_DOWN "keybinding_carbon_selectdisarmintent_down"
 #define COMSIG_KB_CARBON_SELECTGRABINTENT_DOWN "keybinding_carbon_selectgrabintent_down"
@@ -428,6 +440,7 @@
 #define COMSIG_XENOABILITY_FORWARD_CHARGE "xenoability_forward_charge"
 #define COMSIG_XENOABILITY_CREST_DEFENSE "xenoability_crest_defense"
 #define COMSIG_XENOABILITY_FORTIFY "xenoability_fortify"
+#define COMSIG_XENOABILITY_REGENERATE_SKIN "xenoability_regenerate_skin"
 
 #define COMSIG_XENOABILITY_EMIT_NEUROGAS "xenoability_emit_neurogas"
 
@@ -460,9 +473,11 @@
 #define COMSIG_XENOABILITY_RAVAGER_CHARGE "xenoability_ravager_charge"
 #define COMSIG_XENOABILITY_RAVAGE "xenoability_ravage"
 #define COMSIG_XENOABILITY_SECOND_WIND "xenoability_second_wind"
+#define COMSIG_XENOABILITY_IGNORE_PAIN "xenoability_ignore_pain"
 
 #define COMSIG_XENOABILITY_TOGGLE_SAVAGE "xenoability_toggle_savage"
 #define COMSIG_XENOABILITY_POUNCE "xenoability_pounce"
+#define COMSIG_XENOABILITY_HAUNT "xenoability_haunt"
 
 #define COMSIG_XENOABILITY_TOGGLE_AGILITY "xenoability_toggle_agility"
 #define COMSIG_XENOABILITY_LUNGE "xenoability_lunge"

@@ -28,3 +28,6 @@ endmap
 
 map sulaco
 endmap
+
+map nyx
+endmap

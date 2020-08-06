@@ -373,6 +373,7 @@
 #include "code\game\area\lava_outpost.dm"
 #include "code\game\area\lv624.dm"
 #include "code\game\area\mainship.dm"
+#include "code\game\area\nyx.dm"
 #include "code\game\area\port_hamburg.dm"
 #include "code\game\area\prison.dm"
 #include "code\game\area\research_outpost.dm"

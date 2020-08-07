@@ -964,7 +964,7 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(/obj/item/clothing/mask/faceh
 	name = "small caliber autocannon bullet"
 	damage = 35
 	penetration = 10
-	sundering = 0
+	sundering = 3
 
 
 /datum/ammo/bullet/machinegun //Adding this for the MG Nests (~Art)

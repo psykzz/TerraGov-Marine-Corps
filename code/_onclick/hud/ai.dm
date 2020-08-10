@@ -86,6 +86,24 @@
 	AI.drop_new_multicam()
 
 
+
+/obj/screen/ai/req_console
+	name = "View Req Console"
+	icon_state = "req_console"
+
+	var/datum/supply_ui/SU
+
+
+/obj/screen/ai/req_console/Click()
+	. = ..()
+	if(.)
+		return
+	var/mob/living/silicon/ai/AI = usr
+	if(!SU)
+		SU = new(src)
+	return SU.interact(AI)
+
+
 /datum/hud/ai/New(mob/owner, ui_style, ui_color, ui_alpha = 230)
 	. = ..()
 	var/obj/screen/using
@@ -118,4 +136,9 @@
 //Add multicamera camera
 	using = new /obj/screen/ai/add_multicam()
 	using.screen_loc = ui_ai_add_multicam
+	static_inventory += using
+
+//Add multicamera camera
+	using = new /obj/screen/ai/req_console()
+	using.screen_loc = ui_ai_add_req_console
 	static_inventory += using

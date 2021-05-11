@@ -1,15 +1,48 @@
----
-name: Bug report
-about: Create a report to help reproduce and fix the issue
----
-<!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable -->
+name: "Bug Report"
+description: Create a report to help reproduce and fix the issue
+labels: 'Bug'
+body:
+- type: markdown
+  attributes:
+    value: |
+      Please [search for existing issues](https://github.com/tgstation/TerraGov-Marine-Corps/issues) before creating a new one.
 
-## Testmerges:
+- type: textarea
+  attributes:
+    label: Description
+    description: What did you expect to happen and what happened instead?
+  validations:
+    required: true
 
-<!-- If you're certain the issue is to be caused by a test merge, go on the TGMC discord (preferabily the #bot-abuse channel) and type '!tgs prs' (without the brackets), and then copy and paste the bot's output here. If no testmerges are active, feel free to remove this section. -->
+- type: textarea
+  attributes:
+    label: Test Merges
+    description: What did you expect to happen and what happened instead?
+    placeholder: |
+      1. Within the server 
+      2. Goto the OOC Tab
+      3. Click Show server revision
+      4. Copy text here
+  validations:
+    required: true
 
-## Reproduction:
+- type: textarea
+  attributes:
+    label: Reproduction Steps
+    description: Please list out the steps to reproduce your bug.
+    placeholder: |
+      1. Go to '...'
+      2. Click on '....'
+      3. Scroll down to '....'
+      4. See error
+  validations:
+    required: true
 
-<!-- Explain your issue in detail, including the steps to reproduce it. Issues without proper reproduction steps or explanation are open to being ignored/closed by maintainers.-->
-
-<!-- **For Admins:** Oddities induced by var-edits and other admin tools are not necessarily bugs. Verify that your issues occur under regular circumstances before reporting them. -->
+- type: textarea
+  attributes:
+    label: Screenshots
+    description: If applicable, add screenshots to help explain your problem.
+    placeholder: Click here to attach your screenshots via the editor button in the top right.
+  validations:
+    required: false
+    
